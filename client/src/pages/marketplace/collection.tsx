@@ -1,21 +1,16 @@
+import NavigationTrail from "../../components/ui/navigation-trail";
 import Tabs from "../../components/marketplace/collection/tabs";
 import AvatarUI from "../../components/ui/avatar-ui";
-import { Link } from "react-router";
 
 export default function Collection() {
   return (
     <section>
-      <div className="flex items-center gap-x-2 text-sm font-display mb-16">
-        <Link
-          to="/marketplace"
-          className="text-text-secondary hover:text-text-primary transition-all hover:underline"
-        >
-          Marketplace
-        </Link>
-        <span className="text-text-secondary">/</span>
-        <p className="text-accent">Collection</p>
-      </div>
-
+      <NavigationTrail
+        items={[
+          { href: "/marketplace", label: "Marketplace" },
+          { label: "Collection" },
+        ]}
+      />
       <section className="flex flex-col">
         <div className="flex flex-col gap-y-2 items-center mb-10">
           <AvatarUI

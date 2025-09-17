@@ -2,8 +2,10 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
 import useCreate from "../../../hooks/create/useCreate";
 import GeneratePXL from "./tabs/generate-pxl";
 import { Fragment } from "react/jsx-runtime";
+import Customize from "./tabs/customize";
 import { cn } from "../../../lib/cn";
 import Artwork from "./tabs/artwork";
+import Save from "./tabs/save";
 
 const widthProccess: Record<number, string> = {
   0: "0",
@@ -16,7 +18,7 @@ const tabs = [
   {
     id: 1,
     label: "Generate",
-    position: " left-0",
+    position: "left-0",
   },
   {
     id: 2,
@@ -26,12 +28,12 @@ const tabs = [
   {
     id: 3,
     label: "Customize",
-    position: " right-7 -translate-x-1/2 ",
+    position: "right-7 -translate-x-1/2 ",
   },
   {
     id: 4,
     label: "Save & Publish",
-    position: " right-0",
+    position: "right-0",
   },
 ];
 
@@ -95,8 +97,12 @@ export default function Tabs() {
             <TabPanel>
               <Artwork onNextStep={goToNextStep} />
             </TabPanel>
-            <TabPanel>Customize</TabPanel>
-            <TabPanel>Save & Publish</TabPanel>
+            <TabPanel>
+              <Customize onNextStep={goToNextStep} />
+            </TabPanel>
+            <TabPanel>
+              <Save />
+            </TabPanel>
           </TabPanels>
         </>
       )}

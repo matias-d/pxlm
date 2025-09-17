@@ -106,14 +106,28 @@
 }
 
 @layer components {
+  .btn {
+    @apply flex items-center justify-center font-semibold hover:ring-2 w-auto p-4 h-12 lg:h-16 overflow-hidden transition-all duration-300 disabled:cursor-default  cursor-pointer ease-in-out  rounded-md  text-lg relative hover:ring-offset-2;
+  }
+
   .btn-primary {
-    @apply font-semibold bg-accent   shadow shadow-accent/20 text-bg rounded-md w-auto p-4 h-12 lg:h-16 text-lg relative overflow-hidden  transition-all duration-300  hover:ring-2 hover:ring-accent hover:ring-offset-3 hover:ring-offset-card;
-    @apply disabled:bg-accent/80 disabled:cursor-default  transition-all cursor-pointer ease-in-out duration-300;
+    @apply bg-accent   shadow shadow-accent/20 text-bg     hover:ring-accent hover:ring-offset-3 hover:ring-offset-card;
+    @apply disabled:bg-accent/80;
   }
 
   .btn-secondary {
-    @apply font-semibold bg-card font-display border border-accent-fifthy/40 shadow shadow-card/20  text-text-primary rounded-md w-auto p-4 h-12 lg:h-16 text-lg relative overflow-hidden  transition-all duration-300  hover:ring-2  hover:ring-card hover:ring-offset-2 hover:ring-offset-text-primary/10;
-    @apply disabled:bg-card/80 disabled:cursor-default  transition-all cursor-pointer ease-in-out;
+    @apply bg-card border-accent-fifthy/40 shadow shadow-card/20  text-text-primary        hover:ring-card hover:ring-offset-text-primary/10;
+    @apply disabled:bg-card/80;
+  }
+
+  .btn-tertiary {
+    @apply bg-accent-fifthy   border-accent-fifthy shadow shadow-card/20  text-card        hover:ring-accent-fifthy hover:ring-offset-card;
+    @apply disabled:bg-card/80;
+  }
+
+  .btn-display {
+    @apply bg-transparent hover:bg-card-super-light  border-0 shadow shadow-card/20   text-white hover:ring-0 hover:ring-offset-0;
+    @apply disabled:bg-card/80;
   }
 }
 

@@ -1,4 +1,4 @@
-import PxlCard from "../ui/pxl-card";
+import PxlCard from "./pxl-card";
 
 const pxlItems = [1, 2, 3, 5];
 

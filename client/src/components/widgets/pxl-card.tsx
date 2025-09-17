@@ -1,12 +1,17 @@
-import AvatarUI from "./avatar-ui";
+import AvatarUI from "../ui/avatar-ui";
+import PXLImage from "../ui/pxl-image";
 import { cn } from "../../lib/cn";
-import Button from "./button";
-import Card from "./card";
+import Button from "../ui/button";
+import Card from "../ui/card";
 
 export default function PxlCard() {
   return (
     <Card className="group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out ">
-      <img src="/pxl-examples/6.svg" className="w-full rounded-md mb-4" />
+      <PXLImage
+        src="/pxl-examples/6.svg"
+        alt="PXL ART"
+        className="w-full rounded-md mb-4 h-auto"
+      />
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-x-1 font-semibold ">
           <h2 className="text-text-primary  ">PXL ART</h2>

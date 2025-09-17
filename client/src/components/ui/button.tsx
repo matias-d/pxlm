@@ -15,7 +15,7 @@ export default function Button({
   classNameContainer,
   ...props
 }: ButtonProps) {
-  const classes = cn("btn-primary", className);
+  const classes = cn("btn btn-primary", className);
 
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children, {

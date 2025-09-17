@@ -1,7 +1,9 @@
+import { Tooltip } from "../../../ui/tooltip";
+import PXLImage from "../../../ui/pxl-image";
 import { RotateCcw } from "lucide-react";
 import Button from "../../../ui/button";
 import Card from "../../../ui/card";
-import { Tooltip } from "../../../ui/tooltip";
+import CardDark from "../card-dark";
 
 interface Props {
   onNextStep: () => void;
@@ -9,12 +11,10 @@ interface Props {
 
 export default function Artwork({ onNextStep }: Props) {
   return (
-    <section className="  w-3xl ">
-      <Card className="flex items-start gap-x-4 w-full">
-        <img
-          src="/pxl-examples/6.svg"
-          className="w-80 h-[25rem] object-cover rounded-md shadow "
-        />
+    <section>
+      <Card className="flex items-start gap-x-4 w-full p-6">
+        <PXLImage src="/pxl-examples/6.svg" alt="PXL ART" />
+
         <div className=" p-2 flex flex-col justify-between h-[25rem] ">
           <div className="flex items-center justify-between ">
             <h2 className=" font-accent tracking-wide text-2xl font-bold">
@@ -32,30 +32,10 @@ export default function Artwork({ onNextStep }: Props) {
                 TRAITS <span className="text-text-secondary">4</span>
               </h4>
               <div className="grid grid-cols-2 gap-3 mb-3">
-                <Card className="bg-card-dark w-44">
-                  <p className="text-xs text-text-secondary font-display font-semibold">
-                    HAT
-                  </p>
-                  <p className="text-sm">Beani</p>
-                </Card>
-                <Card className="bg-card-dark w-44">
-                  <p className="text-xs text-text-secondary font-display font-semibold">
-                    ACCESORY
-                  </p>
-                  <p className="text-sm">Pearcing small</p>
-                </Card>
-                <Card className="bg-card-dark w-44">
-                  <p className="text-xs text-text-secondary font-display font-semibold">
-                    GLASSES
-                  </p>
-                  <p className="text-sm">Dark glasses</p>
-                </Card>
-                <Card className="bg-card-dark w-44">
-                  <p className="text-xs text-text-secondary font-display font-semibold">
-                    BEARD
-                  </p>
-                  <p className="text-sm">Low beard</p>
-                </Card>
+                <CardDark title="hat" value="Beani" />
+                <CardDark title="accesory" value="Drilling small" />
+                <CardDark title="glasses" value="Dark glasses" />
+                <CardDark title="beard" value="Low beard" />
               </div>
             </div>
             <Card className="p-3 bg-card-dark">
@@ -72,16 +52,13 @@ export default function Artwork({ onNextStep }: Props) {
                 2 attempts
               </span>
               <Tooltip content="Generate again">
-                <Button className="h-1 w-1 rounded-full flex items-center justify-center">
+                <Button className="btn-display h-1 w-1 rounded-full">
                   <RotateCcw size={18} />
                 </Button>
               </Tooltip>
             </div>
-            <Button
-              onClick={onNextStep}
-              className="text-base h-12 flex items-center justify-center"
-            >
-              Customize data
+            <Button onClick={onNextStep} className="text-base h-12">
+              Next
             </Button>
           </div>
         </div>

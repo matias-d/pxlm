@@ -19,14 +19,14 @@ export default function GeneratePXL({ onNextStep }: Props) {
       <Button
         onClick={onNextStep}
         className="mb-24"
-        classNameContainer="flex items-center gap-x-2 font-accent px-4 text-xl "
+        classNameContainer=" gap-x-2 font-accent px-4 text-xl "
       >
         Generate PXL
       </Button>
 
       <div className="max-w-2xl  text-text-secondary/80 text-center flex flex-col gap-y-1 items-center">
         <span className="text-[10px] bg-yellow-300/10 text-yellow-500 px-2 py-1 rounded-md">
-          Important
+          Warning
         </span>
         <p>
           You have only <b className="text-accent/60">3</b> chances to generate
