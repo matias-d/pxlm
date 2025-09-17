@@ -1,0 +1,140 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  /* ===== PRIMARY FONT FAMILIES ===== */
+
+  /* Inter - Main UI Font (Clean, modern, highly readable) */
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", roboto,
+    sans-serif;
+
+  /* JetBrains Mono - Code/Technical elements (Addresses, hashes, etc.) */
+  --font-mono: "JetBrains Mono", "SF Mono", Monaco, "Cascadia Code",
+    "Roboto Mono", Consolas, "Courier New", monospace;
+
+  /* Space Grotesk - Headings/Display (Futuristic, tech-forward) */
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Orbitron - Special/Logo text (Sci-fi, cyberpunk feel) */
+  --font-accent: "Orbitron", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* ===== BACKGROUND COLORS ===== */
+  --color-bg: #0e0c15;
+  --color-card: #15131d;
+  --color-card-light: #16141f;
+  --color-card-super-light: #1a1825;
+  --color-card-dark: #111018;
+
+  /* ===== TEXT COLORS ===== */
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #757185;
+  --color-text-muted: #3f3a52;
+  --color-text-accent: #3f3a52;
+
+  /* ===== ACCENT COLORS ===== */
+  --color-accent: #ff98e2;
+  --color-accent-secondary: #ffc876ff;
+  --color-accent-tertiary: #ff776f;
+  --color-accent-firthy: #858dff;
+  --color-accent-fifthy: #ac6aff;
+
+  --color-border: #26242c;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --space-xs: 0.5rem; /* 8px */
+  --space-sm: 1rem; /* 16px */
+  --space-md: 1.5rem; /* 24px */
+  --space-lg: 2rem; /* 32px */
+  --space-xl: 3rem; /* 48px */
+
+  --breakpoint-dt: 1440px;
+
+  /* Enhanced Typography Scale */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+  --font-size-3xl: 1.875rem; /* 30px */
+  --font-size-4xl: 2.25rem; /* 36px */
+  --font-size-5xl: 3rem; /* 48px */
+  --font-size-6xl: 3.75rem; /* 60px */
+  --font-size-7xl: 4.5rem; /* 72px */
+  --font-size-8xl: 6rem; /* 96px */
+}
+
+@layer utilities {
+  /* Font Family Classes */
+  .font-primary {
+    font-family: var(--font-primary);
+  }
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .font-accent {
+    font-family: var(--font-accent);
+  }
+
+  .max-container {
+    @apply max-w-screen-xl mx-auto w-full px-4 lg:px-12 2xl:px-0;
+  }
+
+  .tansition-cube {
+    transition: all 0.5s cubic-bezier(0.15, 0.85, 0.45, 1);
+  }
+
+  .bg-detail-container {
+    background: radial-gradient(
+        158.59% 100% at 50% 0,
+        hsla(0, 0%, 5%, 0.6) 0,
+        rgba(30, 30, 30, 0.6) 100%
+      ),
+      #1b1b1b;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply font-semibold bg-accent   shadow shadow-accent/20 text-bg rounded-md w-auto p-4 h-12 lg:h-16 text-lg relative overflow-hidden  transition-all duration-300  hover:ring-2 hover:ring-accent hover:ring-offset-3 hover:ring-offset-card;
+    @apply disabled:bg-accent/80 disabled:cursor-default  transition-all cursor-pointer ease-in-out duration-300;
+  }
+
+  .btn-secondary {
+    @apply font-semibold bg-card font-display border border-accent-fifthy/40 shadow shadow-card/20  text-text-primary rounded-md w-auto p-4 h-12 lg:h-16 text-lg relative overflow-hidden  transition-all duration-300  hover:ring-2  hover:ring-card hover:ring-offset-2 hover:ring-offset-text-primary/10;
+    @apply disabled:bg-card/80 disabled:cursor-default  transition-all cursor-pointer ease-in-out;
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-primary);
+    font-style: normal;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --font-size-8xl: 4rem;
+    --font-size-7xl: 3rem;
+    --font-size-6xl: 2.5rem;
+    --font-size-5xl: 2rem;
+    --font-size-4xl: 1.75rem;
+  }
+}
