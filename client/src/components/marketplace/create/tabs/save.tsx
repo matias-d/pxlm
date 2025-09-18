@@ -3,7 +3,9 @@ import { ArrowLeftToLine } from "lucide-react";
 import { Tooltip } from "../../../ui/tooltip";
 import PXLImage from "../../../ui/pxl-image";
 import Button from "../../../ui/button";
+import { cn } from "../../../../lib/cn";
 import confetti from "canvas-confetti";
+import Error from "../../../ui/error";
 import Modal from "../../../ui/modal";
 import Card from "../../../ui/card";
 import CardDark from "../card-dark";
@@ -11,6 +13,8 @@ import { Link } from "react-router";
 import { useState } from "react";
 
 export default function Save() {
+  const loading = false;
+  const error = false;
   const [open, setOpen] = useState(false);
 
   const onOpen = () => {
@@ -25,11 +29,23 @@ export default function Save() {
     setOpen(!open);
   };
 
+  if (error)
+    return (
+      <Error
+        action={() => (
+          <Button asChild className="h-12 text-sm ">
+            Try again
+          </Button>
+        )}
+        title="505 | A network error has occurred"
+      />
+    );
+
   return (
     <>
       <section>
         <Card className="p-6">
-          <h2 className="font-accent font-semibold text-xl text-accent mb-2">
+          <h2 className="font-accent font-semibold text-xl text-accent mb-4">
             Resume
           </h2>
           <div className="flex items-start gap-x-6">
@@ -66,12 +82,17 @@ export default function Save() {
                 </div>
               </div>
               <div className="w-full flex justify-between">
-                <Tooltip content="Back">
-                  <Button className="  h-12  flex items-center justify-center px-4 text-base ">
+                <Tooltip content="Back" contentClassName="bg-card-super-light">
+                  <Button
+                    disabled={loading}
+                    className="h-12  flex items-center justify-center px-4 text-base "
+                  >
                     <ArrowLeftToLine />
                   </Button>
                 </Tooltip>
                 <Button
+                  disabled={loading}
+                  loading={loading}
                   onClick={onOpen}
                   className="h-12 flex items-center justify-center"
                 >
@@ -82,16 +103,26 @@ export default function Save() {
           </div>
         </Card>
       </section>
-      <Modal isOpen={open} onOpen={onOpen} classNameCard="bg-card-light">
+      <Modal
+        isOpen={open}
+        onOpen={onOpen}
+        classNameCard="bg-card-light flex flex-col justify-between p-6"
+      >
         <PxlCard />
-        <div className="flex justify-between mt-4">
-          <Button
-            asChild
-            className="btn-display text-base h-12 "
-            onClick={onOpen}
-          >
-            <Link to="/marketplace">Try again</Link>
-          </Button>
+
+        <div
+          className={cn("flex justify-between mt-4", error && "justify-end")}
+        >
+          {!error && (
+            <Button
+              asChild
+              className="btn-display text-base h-12 "
+              onClick={onOpen}
+            >
+              <Link to="/marketplace/create">Try again</Link>
+            </Button>
+          )}
+
           <Button asChild className="text-base h-12 " onClick={onOpen}>
             <Link to="/marketplace">Home</Link>
           </Button>

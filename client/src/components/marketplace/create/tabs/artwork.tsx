@@ -1,7 +1,9 @@
+import TabArtworkSkeleton from "../skeletons/tab-artwork-skeleton";
 import { Tooltip } from "../../../ui/tooltip";
 import PXLImage from "../../../ui/pxl-image";
 import { RotateCcw } from "lucide-react";
 import Button from "../../../ui/button";
+import Error from "../../../ui/error";
 import Card from "../../../ui/card";
 import CardDark from "../card-dark";
 
@@ -10,6 +12,23 @@ interface Props {
 }
 
 export default function Artwork({ onNextStep }: Props) {
+  const loading = false;
+  const error = false;
+
+  if (loading) return <TabArtworkSkeleton />;
+
+  if (error)
+    return (
+      <Error
+        action={() => (
+          <Button asChild className="h-12 text-sm ">
+            Try again
+          </Button>
+        )}
+        title="505 | A network error has occurred"
+      />
+    );
+
   return (
     <section>
       <Card className="flex items-start gap-x-4 w-full p-6">
@@ -51,7 +70,10 @@ export default function Artwork({ onNextStep }: Props) {
               <span className="text-[10px] bg-yellow-300/10 text-yellow-500 px-2 py-1 rounded-md">
                 2 attempts
               </span>
-              <Tooltip content="Generate again">
+              <Tooltip
+                content="Generate again"
+                contentClassName="bg-card-super-light text-xs"
+              >
                 <Button className="btn-display h-1 w-1 rounded-full">
                   <RotateCcw size={18} />
                 </Button>

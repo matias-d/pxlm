@@ -1,14 +1,38 @@
 import Avatar from "boring-avatars";
 import { cn } from "../../lib/cn";
+import { Frown } from "lucide-react";
 
 interface Props {
   username: string;
   size?: number;
   className?: string;
+  loading: boolean;
+  error: boolean;
 }
 
-export default function AvatarUI({ username, size = 32, className }: Props) {
-  return (
+export default function AvatarUI({
+  username,
+  size = 32,
+  className,
+  loading,
+  error,
+}: Props) {
+  if (error)
+    return (
+      <div className="bg-card-super-light rounded-full opacity-40">
+        <Frown size={size} />{" "}
+      </div>
+    );
+
+  return loading ? (
+    <div className=" bg-card-super-light rounded-full opacity-40">
+      <img
+        src="/pxl-examples/8.svg"
+        style={{ width: size, height: size }}
+        className="animate-pulse"
+      />
+    </div>
+  ) : (
     <Avatar
       name={username}
       size={size}

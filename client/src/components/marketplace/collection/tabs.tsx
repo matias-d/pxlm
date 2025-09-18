@@ -1,4 +1,4 @@
-import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
 import { cn } from "../../../lib/cn";
 import TabsPanelUI from "./tabs-panel-ui";

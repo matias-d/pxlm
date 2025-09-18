@@ -1,3 +1,4 @@
+import { LoaderCircle } from "lucide-react";
 import { cn } from "../../lib/cn";
 import React from "react";
 
@@ -6,12 +7,14 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   children: React.ReactNode;
   classNameContainer?: string;
+  loading?: boolean;
 }
 
 export default function Button({
   asChild,
   className,
   children,
+  loading,
   classNameContainer,
   ...props
 }: ButtonProps) {
@@ -26,7 +29,20 @@ export default function Button({
 
   return (
     <button className={classes} {...props}>
-      <span className={cn("relative", classNameContainer)}>{children}</span>
+      {loading && (
+        <span className="absolute -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2 animate-spin">
+          <LoaderCircle className="size-7" />
+        </span>
+      )}
+      <span
+        className={cn(
+          "opacity-100 transition-opacity",
+          classNameContainer,
+          loading && "opacity-0"
+        )}
+      >
+        {children}
+      </span>
     </button>
   );
 }

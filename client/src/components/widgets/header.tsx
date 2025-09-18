@@ -22,6 +22,8 @@ const links = [
 ];
 
 export default function Header() {
+  const loading = false;
+
   return (
     <header className="rounded-md p-5 flex items-center justify-between bg-card shadow">
       <Logo />
@@ -62,7 +64,7 @@ export default function Header() {
           <img src="/bnb-logo.svg" className="size-4" />
         </div>
 
-        <AvatarUI username="Matias" />
+        <AvatarUI username="Matias" loading={loading} />
       </div>
     </header>
   );
