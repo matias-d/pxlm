@@ -1,25 +1,28 @@
+import ButtonConnect from "@/components/auth/button-connect";
+import useMarketplace from "@/hooks/useMarketplace";
+import Footer from "@/components/ui/footer";
+import Button from "@/components/ui/button";
+import Card from "@/components/ui/card";
+import Logo from "@/components/ui/logo";
+
 import { LoaderCircle } from "lucide-react";
-import ButtonConnect from "../components/auth/button-connect";
-import Card from "../components/ui/card";
-import Footer from "../components/ui/footer";
-import Logo from "../components/ui/logo";
-import { useState } from "react";
-import Button from "../components/ui/button";
+import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 export default function Auth() {
-  const error = false;
+  const { account, error, loading, getAccount } = useMarketplace();
 
-  const [account, setAccount] = useState(false);
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!loading && account !== null) {
+      const timer = setTimeout(() => {
+        navigate("/marketplace");
+      }, 3000);
 
-  const test = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setAccount(true);
-      setLoading(false);
-    }, 2000);
-  };
+      return () => clearTimeout(timer);
+    }
+  }, [loading, account, navigate]);
 
   return (
     <>
@@ -28,7 +31,7 @@ export default function Auth() {
 
         {!account && !error && (
           <>
-            <ButtonConnect loading={loading} onLoading={test} />
+            <ButtonConnect onGetAccount={getAccount} loading={loading} />
 
             {loading && (
               <p className="relative text-text-secondary after:content-[''] after:absolute after:ml-1 after:animate-dots">
@@ -44,9 +47,7 @@ export default function Auth() {
               <h3 className="font-display font-semibold">
                 Connected wallet<span className="font-normal">:</span>
               </h3>
-              <p className="text-sm text-accent">
-                0x4e60C4f2b6C987562e8529a103824EE4ab14a94C
-              </p>
+              <p className="text-sm text-accent">{account.address}</p>
             </Card>
             <div className="text-text-secondary flex items-center justify-center text-sm gap-x-1">
               <p>Redirecting to PXLM</p>

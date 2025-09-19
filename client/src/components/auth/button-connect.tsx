@@ -2,14 +2,14 @@ import { LoaderCircle } from "lucide-react";
 import { cn } from "../../lib/cn";
 
 interface Props {
+  onGetAccount: () => void;
   loading: boolean;
-  onLoading: () => void;
 }
 
-export default function ButtonConnect({ loading, onLoading }: Props) {
+export default function ButtonConnect({ loading, onGetAccount }: Props) {
   return (
     <button
-      onClick={onLoading}
+      onClick={onGetAccount}
       disabled={loading}
       className={cn(
         "btn relative inline-flex h-14 w-[4.7rem] items-center justify-center btn-primary outline-none",

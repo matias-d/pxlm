@@ -1,7 +1,7 @@
 import AvatarUI from "../ui/avatar-ui";
 import PXLImage from "../ui/pxl-image";
-import { cn } from "../../lib/cn";
 import Button from "../ui/button";
+import { cn } from "@/lib/cn";
 import Card from "../ui/card";
 
 export default function PxlCard() {
@@ -20,7 +20,12 @@ export default function PxlCard() {
 
         <div className="flex items-center gap-x-1">
           <p className="text-xs text-text-secondary font-display">Creator:</p>
-          <AvatarUI username="Ezequiel" size={20} />
+          <AvatarUI
+            username="Ezequiel"
+            size={20}
+            error={false}
+            loading={false}
+          />
         </div>
       </div>
 

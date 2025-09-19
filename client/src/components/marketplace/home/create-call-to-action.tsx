@@ -1,6 +1,6 @@
-import { Link } from "react-router";
-import Button from "../../ui/button";
 import { ChevronRight } from "lucide-react";
+import Button from "../../ui/button";
+import { Link } from "react-router";
 
 export default function CreateCallToAction() {
   return (

@@ -1,17 +1,18 @@
+import { Tooltip } from "@/components/ui/tooltip";
+import PXLImage from "@/components/ui/pxl-image";
+import Textarea from "@/components/ui/textarea";
 import { ArrowLeftToLine } from "lucide-react";
-import { Tooltip } from "../../../ui/tooltip";
-import PXLImage from "../../../ui/pxl-image";
-import Textarea from "../../../ui/textarea";
-import Button from "../../../ui/button";
-import Card from "../../../ui/card";
-import Input from "../../../ui/input";
-import CardDark from "../card-dark";
+import Button from "@/components/ui/button";
+import Input from "@/components/ui/input";
+import Card from "@/components/ui/card";
+import CardDark from "../../card-dark";
 
 interface Props {
   onNextStep: () => void;
+  onPrevStep: () => void;
 }
 
-export default function Customize({ onNextStep }: Props) {
+export default function Customize({ onNextStep, onPrevStep }: Props) {
   return (
     <section className="w-3xl">
       <Card className=" grid grid-cols-2 p-6 ">
@@ -79,13 +80,18 @@ export default function Customize({ onNextStep }: Props) {
               />
             </div>
           </div>
+
           <div className="w-full flex justify-between items-center">
             <Tooltip content="Back">
-              <Button className=" h-12 px-4 text-base ">
+              <Button
+                onClick={onPrevStep}
+                type="button"
+                className=" h-12 px-4 text-base "
+              >
                 <ArrowLeftToLine />
               </Button>
             </Tooltip>
-            <Button onClick={onNextStep} className="h-12 text-base">
+            <Button className="h-12 text-base" onClick={onNextStep}>
               Next
             </Button>
           </div>

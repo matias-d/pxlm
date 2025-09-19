@@ -1,9 +1,9 @@
-import Avatar from "boring-avatars";
-import { cn } from "../../lib/cn";
 import { Frown } from "lucide-react";
+import Avatar from "boring-avatars";
+import { cn } from "@/lib/cn";
 
 interface Props {
-  username: string;
+  username: string | undefined;
   size?: number;
   className?: string;
   loading: boolean;
@@ -34,7 +34,7 @@ export default function AvatarUI({
     </div>
   ) : (
     <Avatar
-      name={username}
+      name={username || "Uknowed name"}
       size={size}
       variant="pixel"
       className={cn("", className)}

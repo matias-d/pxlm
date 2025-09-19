@@ -1,7 +1,7 @@
 import Button from "../ui/button";
-import { cn } from "../../lib/cn";
 import PxlCard from "./pxl-card";
 import Error from "../ui/error";
+import { cn } from "@/lib/cn";
 
 interface Props {
   items: number[];

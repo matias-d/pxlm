@@ -1,5 +1,5 @@
-import SelectUI from "../../ui/select-ui";
 import { Tooltip } from "../../ui/tooltip";
+import SelectUI from "../../ui/select-ui";
 import ButtonGrid from "./button-grid";
 
 const selects1 = [

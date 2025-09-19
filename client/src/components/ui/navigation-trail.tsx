@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { cn } from "../../lib/cn";
+import { cn } from "@/lib/cn";
 import React from "react";
 
 interface Props {

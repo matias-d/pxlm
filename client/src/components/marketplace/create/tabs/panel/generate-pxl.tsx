@@ -1,10 +1,10 @@
-import Button from "../../../ui/button";
+import Button from "@/components/ui/button";
 
 interface Props {
-  onNextStep: () => void;
+  onGeneratePXL: (isTry: boolean) => void;
 }
 
-export default function GeneratePXL({ onNextStep }: Props) {
+export default function GeneratePXL({ onGeneratePXL }: Props) {
   return (
     <section className="flex items-center flex-col ">
       <div className="flex flex-col items-center gap-y-1 mb-6">
@@ -17,7 +17,7 @@ export default function GeneratePXL({ onNextStep }: Props) {
         </p>
       </div>
       <Button
-        onClick={onNextStep}
+        onClick={() => onGeneratePXL(false)}
         className="mb-24"
         classNameContainer=" gap-x-2 font-accent px-4 text-xl "
       >

@@ -1,10 +1,13 @@
+import { fileURLToPath } from "url";
 import { network } from "hardhat";
-import { Contract } from "ethers";
 import path from "path";
 import fs from "fs";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const { ethers } = await network.connect({
-  network: "hardhatMainnet",
+  network: "ganache",
   chainType: "l1",
 });
 
@@ -33,7 +36,7 @@ async function main() {
 
 async function saveClientFiles(contract: any, name: string) {
   const contractAddress = await contract.getAddress();
-  const abiDir = path.join(__dirname, "../client/public/abi");
+  const abiDir = path.join(__dirname, "../../client/public/abi");
 
   if (!fs.existsSync(abiDir)) {
     fs.mkdirSync(abiDir, { recursive: true });

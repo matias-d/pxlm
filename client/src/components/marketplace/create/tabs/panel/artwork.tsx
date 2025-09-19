@@ -1,19 +1,30 @@
-import TabArtworkSkeleton from "../skeletons/tab-artwork-skeleton";
-import { Tooltip } from "../../../ui/tooltip";
-import PXLImage from "../../../ui/pxl-image";
+import TabArtworkSkeleton from "../../skeletons/tab-artwork-skeleton";
+import PXLImage from "@/components/ui/pxl-image";
+import Button from "@/components/ui/button";
+import Error from "@/components/ui/error";
+import Card from "@/components/ui/card";
+import CardDark from "../../card-dark";
+import type { IAttributes } from "@/interfaces/attributes";
+import { Tooltip } from "@/components/ui/tooltip";
 import { RotateCcw } from "lucide-react";
-import Button from "../../../ui/button";
-import Error from "../../../ui/error";
-import Card from "../../../ui/card";
-import CardDark from "../card-dark";
 
 interface Props {
+  loading: boolean;
+  image: string;
+  attributes: IAttributes[];
+
   onNextStep: () => void;
 }
 
-export default function Artwork({ onNextStep }: Props) {
-  const loading = false;
+export default function Artwork({
+  attributes,
+  image,
+  loading,
+  onNextStep,
+}: Props) {
   const error = false;
+
+  console.log("Attributes", attributes);
 
   if (loading) return <TabArtworkSkeleton />;
 
@@ -32,7 +43,7 @@ export default function Artwork({ onNextStep }: Props) {
   return (
     <section>
       <Card className="flex items-start gap-x-4 w-full p-6">
-        <PXLImage src="/pxl-examples/6.svg" alt="PXL ART" />
+        <PXLImage src={image} alt="PXL ART" />
 
         <div className=" p-2 flex flex-col justify-between h-[25rem] ">
           <div className="flex items-center justify-between ">
@@ -51,10 +62,13 @@ export default function Artwork({ onNextStep }: Props) {
                 TRAITS <span className="text-text-secondary">4</span>
               </h4>
               <div className="grid grid-cols-2 gap-3 mb-3">
-                <CardDark title="hat" value="Beani" />
-                <CardDark title="accesory" value="Drilling small" />
-                <CardDark title="glasses" value="Dark glasses" />
-                <CardDark title="beard" value="Low beard" />
+                {attributes.map((trait) => (
+                  <CardDark
+                    key={trait.trait_type}
+                    title={trait.trait_type}
+                    value={trait.value}
+                  />
+                ))}
               </div>
             </div>
             <Card className="p-3 bg-card-dark">
@@ -79,7 +93,7 @@ export default function Artwork({ onNextStep }: Props) {
                 </Button>
               </Tooltip>
             </div>
-            <Button onClick={onNextStep} className="text-base h-12">
+            <Button className="text-base h-12" onClick={onNextStep}>
               Next
             </Button>
           </div>

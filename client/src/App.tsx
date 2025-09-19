@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router";
 
-// Layout
+// Layouts
+import MarketplaceProvider from "./context/marketplace-provider";
 import MarketplaceLayout from "./layouts/marketplace.layout";
 
 // Pages
@@ -12,17 +13,19 @@ import Auth from "./pages/auth";
 export default function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Auth />} />
+      <MarketplaceProvider>
+        <Routes>
+          <Route path="/" element={<Auth />} />
 
-        {/* Marketplace */}
-        <Route path="/marketplace" element={<MarketplaceLayout />}>
-          <Route index element={<Home />} />
+          {/* Marketplace */}
+          <Route path="/marketplace" element={<MarketplaceLayout />}>
+            <Route index element={<Home />} />
 
-          <Route path="create" element={<Create />} />
-          <Route path="collection" element={<Collection />} />
-        </Route>
-      </Routes>
+            <Route path="create" element={<Create />} />
+            <Route path="collection" element={<Collection />} />
+          </Route>
+        </Routes>
+      </MarketplaceProvider>
     </>
   );
 }

@@ -1,19 +1,22 @@
-import PxlCard from "../../../widgets/pxl-card";
+import PxlCard from "@/components/widgets/pxl-card";
+import { Tooltip } from "@/components/ui/tooltip";
+import PXLImage from "@/components/ui/pxl-image";
 import { ArrowLeftToLine } from "lucide-react";
-import { Tooltip } from "../../../ui/tooltip";
-import PXLImage from "../../../ui/pxl-image";
-import Button from "../../../ui/button";
-import { cn } from "../../../../lib/cn";
+import Button from "@/components/ui/button";
+import Error from "@/components/ui/error";
+import Modal from "@/components/ui/modal";
+import Card from "@/components/ui/card";
+import CardDark from "../../card-dark";
 import confetti from "canvas-confetti";
-import Error from "../../../ui/error";
-import Modal from "../../../ui/modal";
-import Card from "../../../ui/card";
-import CardDark from "../card-dark";
 import { Link } from "react-router";
 import { useState } from "react";
+import { cn } from "@/lib/cn";
 
-export default function Save() {
-  const loading = false;
+interface Props {
+  onPrevStep: () => void;
+}
+
+export default function Save({ onPrevStep }: Props) {
   const error = false;
   const [open, setOpen] = useState(false);
 
@@ -84,15 +87,13 @@ export default function Save() {
               <div className="w-full flex justify-between">
                 <Tooltip content="Back" contentClassName="bg-card-super-light">
                   <Button
-                    disabled={loading}
+                    onClick={onPrevStep}
                     className="h-12  flex items-center justify-center px-4 text-base "
                   >
                     <ArrowLeftToLine />
                   </Button>
                 </Tooltip>
                 <Button
-                  disabled={loading}
-                  loading={loading}
                   onClick={onOpen}
                   className="h-12 flex items-center justify-center"
                 >
@@ -103,31 +104,44 @@ export default function Save() {
           </div>
         </Card>
       </section>
-      <Modal
-        isOpen={open}
-        onOpen={onOpen}
-        classNameCard="bg-card-light flex flex-col justify-between p-6"
-      >
-        <PxlCard />
-
-        <div
-          className={cn("flex justify-between mt-4", error && "justify-end")}
-        >
-          {!error && (
-            <Button
-              asChild
-              className="btn-display text-base h-12 "
-              onClick={onOpen}
-            >
-              <Link to="/marketplace/create">Try again</Link>
-            </Button>
-          )}
-
-          <Button asChild className="text-base h-12 " onClick={onOpen}>
-            <Link to="/marketplace">Home</Link>
-          </Button>
-        </div>
-      </Modal>
+      <ModalSave error={error} open={open} onOpen={onOpen} />
     </>
   );
 }
+
+// Modal Presentation PXL CARD
+const ModalSave = ({
+  open,
+  onOpen,
+  error,
+}: {
+  open: boolean;
+  error: boolean;
+  onOpen: () => void;
+}) => {
+  return (
+    <Modal
+      isOpen={open}
+      onOpen={onOpen}
+      classNameCard="bg-card-light flex flex-col justify-between p-6"
+    >
+      <PxlCard />
+
+      <div className={cn("flex justify-between mt-4", error && "justify-end")}>
+        {!error && (
+          <Button
+            asChild
+            className="btn-display text-base h-12 "
+            onClick={onOpen}
+          >
+            <Link to="/marketplace/create">Try again</Link>
+          </Button>
+        )}
+
+        <Button asChild className="text-base h-12 " onClick={onOpen}>
+          <Link to="/marketplace">Home</Link>
+        </Button>
+      </div>
+    </Modal>
+  );
+};

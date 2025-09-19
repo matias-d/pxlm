@@ -1,7 +1,7 @@
 import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { Fragment } from "react/jsx-runtime";
-import { cn } from "../../../lib/cn";
 import TabsPanelUI from "./tabs-panel-ui";
+import { cn } from "@/lib/cn";
 
 export default function Tabs() {
   return (

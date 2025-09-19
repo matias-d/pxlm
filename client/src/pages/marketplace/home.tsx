@@ -1,7 +1,7 @@
-import CreateCallToAction from "../../components/marketplace/home/create-call-to-action";
-import FiltersUI from "../../components/marketplace/home/filters-ui";
-import PxlList from "../../components/widgets/pxl-list";
-import Loading from "../../components/ui/loading";
+import CreateCallToAction from "@/components/marketplace/home/create-call-to-action";
+import FiltersUI from "@/components/marketplace/home/filters-ui";
+import PxlList from "@/components/widgets/pxl-list";
+import Loading from "@/components/ui/loading";
 
 export default function Home() {
   const error = false;
