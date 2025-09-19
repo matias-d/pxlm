@@ -6,12 +6,12 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-interface IState {
+export interface IState {
   url: string;
   attributes: IAttributes[];
   timestamp: number;
   rarity: number;
+  price: number;
 }
 
 export default function useCreate() {
@@ -23,6 +23,7 @@ export default function useCreate() {
     attributes: [],
     timestamp: 0,
     rarity: 0,
+    price: 0,
   });
 
   // Tabs
@@ -45,11 +46,9 @@ export default function useCreate() {
 
     try {
       setLoad(true);
-      console.log("Hola");
 
       const result = generatePXL({ address: account?.address });
       setPXL(result);
-      console.log("Result", result);
 
       if (!isTry) goToNextStep();
 

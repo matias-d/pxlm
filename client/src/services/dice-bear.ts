@@ -133,13 +133,24 @@ export function generatePXL({ address }: { address: string }) {
   const avatarUrl = `${DICE_BEAR_API}?${params.toString()}`;
 
   const rarity = calculateRarity(attributes);
+  const price = generatePXLPrice(attributes);
 
   return {
     url: avatarUrl,
     attributes,
     timestamp,
     rarity,
+    price,
   };
+}
+
+function generatePXLPrice(attributes: IAttributes[], basePrice = 0.01) {
+  const rarity = calculateRarity(attributes);
+
+  const rarityMultiplier = Math.max(1, rarity / 100);
+  const price = basePrice * rarityMultiplier;
+
+  return Math.round(price * 10000) / 10000;
 }
 
 // Function to calculate rarity based on probabilities

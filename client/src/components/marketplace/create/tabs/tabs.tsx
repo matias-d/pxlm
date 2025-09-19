@@ -17,6 +17,8 @@ export default function Tabs() {
     setSelectedIndex,
   } = useCreate();
 
+  console.log("PXL", pxl);
+
   return (
     <>
       <TabGroup
@@ -35,15 +37,16 @@ export default function Tabs() {
               <TabPanel>
                 <Artwork
                   onNextStep={goToNextStep}
-                  attributes={pxl.attributes}
-                  image={pxl.url}
+                  pxl={pxl}
+                  onGeneratePXL={onGeneratePXL}
                   loading={load}
                 />
               </TabPanel>
               <TabPanel>
                 <Customize
-                  onNextStep={goToNextStep}
+                  pxl={pxl}
                   onPrevStep={goToPrevStep}
+                  onNextStep={goToNextStep}
                 />
               </TabPanel>
               <TabPanel>

@@ -21,8 +21,19 @@ export const CONFIG = {
   },
 };
 
-// Hat
+export const COLORS_VALUE = {
+  Red: "#d11141",
+  Green: "#00b159",
+  Blue: "#428bca",
+  Silver: "#c0c0c0",
+  Gold: "#ffd700",
+  Pink: "#ff69b4",
+  Burgundy: "#722f37",
+  Black: "#000000",
+  Gray: "#808080",
+};
 
+// Hat
 export const hatNames = {
   variant02: "Cap",
   variant09: "Beanie",
@@ -56,10 +67,9 @@ export const glassesColorNames = {
 };
 
 // Accessory
-
 export const accessoryNames = {
-  variant01: "Large Ear Piercing",
-  variant04: "Small Ear Piercing",
+  variant01: "Large Piercing",
+  variant04: "Small Piercing",
 };
 
 export const accessoryColorNames = {
@@ -68,7 +78,6 @@ export const accessoryColorNames = {
 };
 
 // Beard
-
 export const beardNames = {
   variant04: "Goatee",
   variant06: "Full Beard",

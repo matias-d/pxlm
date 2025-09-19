@@ -1,48 +1,29 @@
+import type { IState } from "@/hooks/create/useCreate";
 import { Tooltip } from "@/components/ui/tooltip";
 import PXLImage from "@/components/ui/pxl-image";
 import Textarea from "@/components/ui/textarea";
 import { ArrowLeftToLine } from "lucide-react";
+import TraitCard from "../../trait-card";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Card from "@/components/ui/card";
-import CardDark from "../../card-dark";
 
 interface Props {
   onNextStep: () => void;
   onPrevStep: () => void;
+  pxl: IState;
 }
 
-export default function Customize({ onNextStep, onPrevStep }: Props) {
+export default function Customize({ onNextStep, onPrevStep, pxl }: Props) {
   return (
     <section className="w-3xl">
       <Card className=" grid grid-cols-2 p-6 ">
         <div className="w-full space-y-4 relative">
-          <PXLImage src="/pxl-examples/6.svg" alt="PXL ART" />
+          <PXLImage src={pxl.url} alt="PXL ART" />
           <div className="grid grid-cols-2 gap-2 ">
-            <CardDark
-              title="hat"
-              value="Beani"
-              className="p-2 w-32"
-              classNameValue="text-xs"
-            />
-            <CardDark
-              title="accesory"
-              value="Drilling small"
-              className="p-2 w-32"
-              classNameValue="text-xs"
-            />
-            <CardDark
-              title="glasses"
-              value="Dark glasses"
-              className="p-2 w-32"
-              classNameValue="text-xs"
-            />
-            <CardDark
-              title="beard"
-              value="Low beard"
-              className="p-2 w-32"
-              classNameValue="text-xs"
-            />
+            {pxl.attributes.map((trait) => (
+              <TraitCard trait={trait} key={trait.trait_type} />
+            ))}
           </div>
         </div>
         <form className="w-full flex flex-col justify-between">
@@ -75,7 +56,7 @@ export default function Customize({ onNextStep, onPrevStep }: Props) {
                 label="Price in TBNB"
                 type="number"
                 required
-                value={1.4}
+                value={pxl.price}
                 placeholder="0.001"
               />
             </div>

@@ -6,7 +6,7 @@ import Button from "@/components/ui/button";
 import Error from "@/components/ui/error";
 import Modal from "@/components/ui/modal";
 import Card from "@/components/ui/card";
-import CardDark from "../../card-dark";
+import CardDark from "../../trait-card";
 import confetti from "canvas-confetti";
 import { Link } from "react-router";
 import { useState } from "react";
