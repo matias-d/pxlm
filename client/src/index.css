@@ -123,9 +123,11 @@
   .animate-shine {
     position: absolute;
     inset: 0;
+    opacity: 0;
     display: flex;
     justify-center: center;
     animation: shine 1s forwards;
+    animation-delay: 0.5s;
   }
 
   @keyframes shine {
@@ -143,44 +145,24 @@
     }
   }
 
-  .shake-animate {
-    animation: shake 0.2s;
-  }
-
-  @keyframes shake {
+  @keyframes glow {
     0% {
-      transform: translateX(0);
-    }
-    10% {
-      transform: translateX(-1px);
-    }
-    20% {
-      transform: translateX(1px);
-    }
-    30% {
-      transform: translateX(-1px);
+      box-shadow: 0 0 0 0 rgba(214, 177, 0, 0);
     }
     40% {
-      transform: translateX(1px);
-    }
-    50% {
-      transform: translateX(-1px);
-    }
-    60% {
-      transform: translateX(1px);
-    }
-    70% {
-      transform: translateX(-1px);
-    }
-    80% {
-      transform: translateX(1px);
-    }
-    90% {
-      transform: translateX(-1px);
+      box-shadow: 0 0 7px 4px rgba(214, 177, 0, 0.1);
     }
     100% {
-      transform: translateX(0);
+      box-shadow: 0 0 0 0 rgba(214, 177, 0, 0);
     }
+  }
+
+  .glow-once {
+    animation: glow 2.2s ease-in-out 1;
+  }
+
+  .glow-once-infinite {
+    animation: glow 2.2s ease-in-out infinite;
   }
 }
 

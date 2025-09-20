@@ -7,20 +7,31 @@ import Logo from "@/components/ui/logo";
 
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Auth() {
   const { account, error, loading, getAccount } = useMarketplace();
 
   const navigate = useNavigate();
 
+  const [count, setCount] = useState(3);
+
   useEffect(() => {
     if (!loading && account !== null) {
+      // Interval para ir bajando el contador
+      const interval = setInterval(() => {
+        setCount((prev) => (prev > 0 ? prev - 1 : 0));
+      }, 1000);
+
+      // Timer para redirigir
       const timer = setTimeout(() => {
         navigate("/marketplace");
       }, 3000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timer);
+      };
     }
   }, [loading, account, navigate]);
 
@@ -50,7 +61,7 @@ export default function Auth() {
               <p className="text-sm text-accent">{account.address}</p>
             </Card>
             <div className="text-text-secondary flex items-center justify-center text-sm gap-x-1">
-              <p>Redirecting to PXLM</p>
+              <p>Redirecting to PXLM {count}</p>
               <LoaderCircle className="animate-spin" size={16} />
             </div>
           </section>

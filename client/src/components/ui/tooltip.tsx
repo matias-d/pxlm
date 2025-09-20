@@ -84,7 +84,7 @@ export const Tooltip = ({
 
   const getTooltipClasses = () => {
     const baseClasses =
-      "absolute z-50 text-center px-3 py-2 text-sm font-medium text-text-primary/80 bg-card rounded-md shadow-lg pointer-events-none transition-all  transform";
+      "absolute z-50 text-center px-3 py-2 text-xs font-display font-medium text-text-primary/80 bg-card rounded-md shadow-lg pointer-events-none transition-all  transform";
 
     const positionClasses = {
       top: "bottom-full left-1/2 -translate-x-1/2 -translate-y-2",

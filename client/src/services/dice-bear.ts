@@ -3,11 +3,16 @@ import {
   accessoryNames,
   beardNames,
   colorNames,
+  COLORS_VALUE,
   CONFIG,
   glassesColorNames,
   glassesNames,
   hatNames,
+  PREMIUM_COLORS,
+  RARITY_SYSTEM,
+  SPECIAL_COMBOS,
 } from "@/helpers/consts/pxl-config";
+import { getColorHex } from "@/helpers/functions/plx-color-hex";
 
 import {
   createDeterministicHash,
@@ -124,55 +129,114 @@ export function generatePXL({ address }: { address: string }) {
   }
 
   // Add various background colors and clothing
-  params.append("backgroundColor", "c0aede,ffdfbf,b6e3f4");
   params.append(
     "clothingColor",
-    "428bca,44c585,5bc0de,88d8b0,ae0001,d11141,ff6f69,ffc425,ffd969,ffeead,03396c,00b159"
+    "aec6cf,ffb347,ff6961,77dd77,fdfd96,cfcfc4,b39eb5,ffd1dc,cb99c9,e0bbe4"
   );
 
-  const avatarUrl = `${DICE_BEAR_API}?${params.toString()}`;
-
   const rarity = calculateRarity(attributes);
-  const price = generatePXLPrice(attributes);
+  const rarityTier = getRarityTier(rarity);
+  const result = generatePXLPrice(attributes);
+  params.append("backgroundColor", rarityTier.backgroundColor);
+
+  const avatarUrl = `${DICE_BEAR_API}?${params.toString()}`;
 
   return {
     url: avatarUrl,
     attributes,
     timestamp,
     rarity,
-    price,
+    price: result.price,
+    bonuses: result.bonuses,
   };
 }
 
+type PremiumColorKey = keyof typeof COLORS_VALUE;
+
+// Generate price of PXL ART
 function generatePXLPrice(attributes: IAttributes[], basePrice = 0.01) {
   const rarity = calculateRarity(attributes);
 
   const rarityMultiplier = Math.max(1, rarity / 100);
-  const price = basePrice * rarityMultiplier;
+  let price = basePrice * rarityMultiplier;
+  const bonuses: string[] = [];
 
-  return Math.round(price * 10000) / 10000;
-}
-
-// Function to calculate rarity based on probabilities
-export function calculateRarity(attributes: IAttributes[]) {
-  let rarityScore = 100;
-
+  // BONUS: Premium Colors (view PREMIUM_COLORS const)
   attributes.forEach((attr) => {
-    switch (attr.trait_type) {
-      case "Hat":
-        rarityScore += 100 - CONFIG.hat.probability;
-        break;
-      case "Glasses":
-        rarityScore += 100 - CONFIG.glasses.probability;
-        break;
-      case "Accessory":
-        rarityScore += 100 - CONFIG.accessories.probability;
-        break;
-      case "Beard":
-        rarityScore += 100 - CONFIG.beard.probability;
-        break;
+    if (!attr.color) return;
+
+    const hex = getColorHex(attr.color as PremiumColorKey);
+    if (!hex) return;
+
+    const bonusInfo = PREMIUM_COLORS[hex];
+    if (bonusInfo) {
+      price += bonusInfo.bonus;
+      bonuses.push(`${bonusInfo.name} Item`);
     }
   });
 
+  // BONUS: Special Combos (view SPECIAL_COMBOS const)
+  Object.values(SPECIAL_COMBOS).forEach((combo) => {
+    if (combo.check(attributes)) {
+      price += combo.bonus;
+      bonuses.push(combo.name);
+    }
+  });
+
+  return {
+    price: Math.round(price * 10000) / 10000,
+    bonuses,
+  };
+}
+
+// Function to calculate rarity based on probabilities
+function calculateRarity(attributes: IAttributes[]) {
+  let rarityScore = 100;
+
+  let visualAttributes = 0;
+  let goldItems = 0;
+
+  // Base points for having attributes
+  attributes.forEach((attr) => {
+    switch (attr.trait_type) {
+      case "Hat":
+        rarityScore += 100 - CONFIG.hat.probability; // +60
+        visualAttributes++;
+        break;
+      case "Glasses":
+        rarityScore += 100 - CONFIG.glasses.probability; // +70
+        visualAttributes++;
+        break;
+      case "Accessory":
+        rarityScore += 100 - CONFIG.accessories.probability; // +55
+        visualAttributes++;
+        break;
+      case "Beard":
+        rarityScore += 100 - CONFIG.beard.probability; // +65
+        visualAttributes++;
+        break;
+    }
+
+    if (attr.color === "Gold") {
+      goldItems++;
+    }
+  });
+
+  // Bonus scores
+  if (goldItems >= 2 && visualAttributes > 2) rarityScore += 150;
+  else if (goldItems >= 1 && visualAttributes > 2) rarityScore += 50;
+  else if (visualAttributes >= 4) rarityScore += 30;
+
   return Math.round(rarityScore);
+}
+
+// Get rarity system data by rarityScore
+function getRarityTier(rarityScore: number) {
+  if (rarityScore >= RARITY_SYSTEM.LEGENDARY.minScore)
+    return RARITY_SYSTEM.LEGENDARY;
+  if (rarityScore >= RARITY_SYSTEM.EPIC.minScore) return RARITY_SYSTEM.EPIC;
+  if (rarityScore >= RARITY_SYSTEM.RARE.minScore) return RARITY_SYSTEM.RARE;
+  if (rarityScore >= RARITY_SYSTEM.UNCOMMON.minScore)
+    return RARITY_SYSTEM.UNCOMMON;
+  return RARITY_SYSTEM.COMMON;
 }

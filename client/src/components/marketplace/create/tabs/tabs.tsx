@@ -3,7 +3,7 @@ import useCreate from "@/hooks/create/useCreate";
 import GeneratePXL from "./panel/generate-pxl";
 import Customize from "./panel/customize";
 import TabsListUI from "./tabs-list-ui";
-import Artwork from "./panel/artwork";
+import Artwork from "./panel/artwork/artwork";
 import Save from "./panel/save";
 
 export default function Tabs() {
@@ -11,13 +11,12 @@ export default function Tabs() {
     onGeneratePXL,
     load,
     pxl,
+    onPrice,
     goToNextStep,
     goToPrevStep,
     selectedIndex,
     setSelectedIndex,
   } = useCreate();
-
-  console.log("PXL", pxl);
 
   return (
     <>
@@ -45,12 +44,13 @@ export default function Tabs() {
               <TabPanel>
                 <Customize
                   pxl={pxl}
+                  onPrice={onPrice}
                   onPrevStep={goToPrevStep}
                   onNextStep={goToNextStep}
                 />
               </TabPanel>
               <TabPanel>
-                <Save onPrevStep={goToPrevStep} />
+                <Save pxl={pxl} onPrevStep={goToPrevStep} />
               </TabPanel>
             </TabPanels>
           </>
