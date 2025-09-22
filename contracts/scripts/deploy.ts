@@ -1,5 +1,5 @@
+import { network, artifacts } from "hardhat";
 import { fileURLToPath } from "url";
-import { network } from "hardhat";
 import path from "path";
 import fs from "fs";
 
@@ -51,18 +51,10 @@ async function saveClientFiles(contract: any, name: string) {
   console.log("💾 Address saved to", `client/public/abi/${name}-address.json`);
 
   // Save the contract ABI
-  const contractArtifact = await ethers.getContractFactory(name);
+  const artifact = await artifacts.readArtifact(name);
   const abiPath = path.join(abiDir, `${name}.json`);
 
-  const artifactData = {
-    contractName: name,
-    abi: contractArtifact.interface.fragments.map((fragment) =>
-      fragment.format("json")
-    ),
-    address: contractAddress,
-  };
-
-  fs.writeFileSync(abiPath, JSON.stringify(artifactData, null, 2));
+  fs.writeFileSync(abiPath, JSON.stringify(artifact, null, 2));
   console.log("📄 ABI saved to", `client/public/abi/${name}.json`);
 }
 

@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run scripts/deploy.ts",
+    "test": "npx hardhat test",
+    "dev": "npx hardhat node"
   },
   "keywords": [],
   "author": "Matias Ezequiel Cabrera",
