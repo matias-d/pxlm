@@ -1,7 +1,8 @@
 import type { IUser } from "./user";
+import type { IPxl } from "./pxl";
 
 interface IMarketplaceState {
-  account: IUser | null;
-  items: any[];
   status: { loading: boolean; error: boolean };
+  account: IUser | null;
+  items: IPxl[];
 }

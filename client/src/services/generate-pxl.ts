@@ -9,17 +9,17 @@ import {
   glassesNames,
   hatNames,
   PREMIUM_COLORS,
-  RARITY_SYSTEM,
   SPECIAL_COMBOS,
 } from "@/helpers/consts/pxl-config";
-import { getColorHex } from "@/helpers/functions/plx-color-hex";
+import { getColorHex } from "@/helpers/functions/pxl-color-hex";
+import { getRarityTier } from "@/helpers/functions/pxl-get-rarity";
 
 import {
   createDeterministicHash,
   selectRandom,
   shouldIncludeAttribute,
 } from "@/helpers/functions/pxl-posibilities";
-import type { IAttributes } from "@/interfaces/attributes";
+import type { IAttribute } from "@/interfaces/attributes";
 
 const DICE_BEAR_API = "https://api.dicebear.com/9.x/pixel-art/svg";
 
@@ -32,7 +32,7 @@ export function generatePXL({ address }: { address: string }) {
     seed: seed,
   });
 
-  const attributes: IAttributes[] = [];
+  const attributes: IAttribute[] = [];
   let hashIndex = 0;
 
   // Generate HAT
@@ -144,8 +144,8 @@ export function generatePXL({ address }: { address: string }) {
   return {
     url: avatarUrl,
     attributes,
-    timestamp,
-    rarity,
+    rarity_score: rarity,
+    rarity_tier: rarityTier.name,
     price: result.price,
     bonuses: result.bonuses,
   };
@@ -154,7 +154,7 @@ export function generatePXL({ address }: { address: string }) {
 type PremiumColorKey = keyof typeof COLORS_VALUE;
 
 // Generate price of PXL ART
-function generatePXLPrice(attributes: IAttributes[], basePrice = 0.01) {
+function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
   const rarity = calculateRarity(attributes);
 
   const rarityMultiplier = Math.max(1, rarity / 100);
@@ -190,7 +190,7 @@ function generatePXLPrice(attributes: IAttributes[], basePrice = 0.01) {
 }
 
 // Function to calculate rarity based on probabilities
-function calculateRarity(attributes: IAttributes[]) {
+function calculateRarity(attributes: IAttribute[]) {
   let rarityScore = 100;
 
   let visualAttributes = 0;
@@ -230,13 +230,38 @@ function calculateRarity(attributes: IAttributes[]) {
   return Math.round(rarityScore);
 }
 
-// Get rarity system data by rarityScore
-function getRarityTier(rarityScore: number) {
-  if (rarityScore >= RARITY_SYSTEM.LEGENDARY.minScore)
-    return RARITY_SYSTEM.LEGENDARY;
-  if (rarityScore >= RARITY_SYSTEM.EPIC.minScore) return RARITY_SYSTEM.EPIC;
-  if (rarityScore >= RARITY_SYSTEM.RARE.minScore) return RARITY_SYSTEM.RARE;
-  if (rarityScore >= RARITY_SYSTEM.UNCOMMON.minScore)
-    return RARITY_SYSTEM.UNCOMMON;
-  return RARITY_SYSTEM.COMMON;
+export function generateNFTMetadata({
+  tokenId,
+  image,
+  address,
+  rarity_score,
+  rarity_tier,
+  attributes,
+  bonuses,
+}: {
+  tokenId: number;
+  image: string;
+  address: string;
+  rarity_score: number;
+  rarity_tier: string;
+  attributes: { trait_type: string; value: string | number }[];
+  bonuses: string[];
+}) {
+  return {
+    name: `PXL ART #${tokenId}`,
+    description:
+      "Generated PXL ART on-chain. Own your unique pixel art avatar!",
+    image,
+    attributes: [
+      ...attributes,
+      { trait_type: "Rarity Score", value: rarity_score },
+      { trait_type: "Rarity Tier", value: rarity_tier },
+      ...bonuses.map((b) => ({ trait_type: "Bonus", value: b })),
+      { trait_type: "Minted At", display_type: "date", value: Date.now() },
+    ],
+    properties: {
+      tokenId,
+      generated_from: address,
+    },
+  };
 }

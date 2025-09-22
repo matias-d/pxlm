@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { IAttributes } from "@/interfaces/attributes";
-import { generatePXL } from "@/services/dice-bear";
+import { generatePXL } from "@/services/generate-pxl";
+import type { IPxlCreate } from "@/interfaces/pxl";
 import useMarketplace from "../useMarketplace";
 import { useState } from "react";
 import { toast } from "sonner";
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+// Attemps management
 interface IAttempts {
   count: number;
   firstTry: number;
@@ -28,27 +30,20 @@ const resetAttempts = () => {
   saveAttempts({ count: 0, firstTry: 0 });
 };
 
-export interface IState {
-  url: string;
-  attributes: IAttributes[];
-  timestamp: number;
-  rarity: number;
-  price: number;
-  bonuses: string[];
-}
+const initState = {
+  url: "",
+  attributes: [],
+  rarity_score: 0,
+  rarity_tier: "",
+  price: 0,
+  bonuses: [],
+};
 
 export default function useCreate() {
   const { account } = useMarketplace();
 
   const [load, setLoad] = useState(false);
-  const [pxl, setPXL] = useState<IState>({
-    url: "",
-    attributes: [],
-    timestamp: 0,
-    rarity: 0,
-    price: 0,
-    bonuses: [],
-  });
+  const [pxl, setPXL] = useState<IPxlCreate>(initState);
 
   // Tabs
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -115,7 +110,6 @@ export default function useCreate() {
       }
     }
 
-    // Guardar nuevo intento
     const newAttempts: IAttempts = {
       count: updated.count + 1,
       firstTry: updated.firstTry || now,
@@ -123,6 +117,11 @@ export default function useCreate() {
     saveAttempts(newAttempts);
 
     return true;
+  };
+
+  const onReset = () => {
+    setSelectedIndex(0);
+    setPXL(initState);
   };
 
   return {
@@ -135,5 +134,6 @@ export default function useCreate() {
     selectedIndex,
     goToPrevStep,
     goToNextStep,
+    onReset,
   };
 }
