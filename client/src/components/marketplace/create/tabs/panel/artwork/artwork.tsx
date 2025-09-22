@@ -1,5 +1,6 @@
 import TabArtworkSkeleton from "../../../skeletons/tab-artwork-skeleton";
-import type { IState } from "@/hooks/create/useCreate";
+import SpecialCombo from "@/components/ui/special-combo";
+import type { IPxlCreate } from "@/interfaces/pxl";
 import { Tooltip } from "@/components/ui/tooltip";
 import ContainerPanel from "../container-panel";
 import Button from "@/components/ui/button";
@@ -9,11 +10,10 @@ import { CircleAlert } from "lucide-react";
 import Error from "@/components/ui/error";
 import Card from "@/components/ui/card";
 import ButtonTry from "./button-try";
-import SpecialCombo from "@/components/ui/special-combo";
 
 interface Props {
   loading: boolean;
-  pxl: IState;
+  pxl: IPxlCreate;
   onNextStep: () => void;
   onGeneratePXL: (isTry: boolean) => void;
 }
@@ -66,9 +66,10 @@ export default function Artwork({
                 <SpecialCombo bonuses={pxl.bonuses} />
 
                 <p className="text-sm font-display font-semibold">
-                  RARITY <span className="text-accent">#{pxl.rarity}</span>
+                  RARITY{" "}
+                  <span className="text-accent">#{pxl.rarity_score}</span>
                 </p>
-                <Rarity rarity={pxl.rarity} />
+                <Rarity rarity={pxl.rarity_score} />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-2 mb-2">

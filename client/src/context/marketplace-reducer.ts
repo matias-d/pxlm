@@ -1,16 +1,17 @@
 import type { IMarketplaceState } from "../interfaces/marketplace.d.state";
 import type { IUser } from "../interfaces/user";
+import type { IPxl } from "@/interfaces/pxl";
 
 export const initialState: IMarketplaceState = {
-  account: null,
   status: { loading: false, error: false },
+  account: null,
   items: [],
 };
 export type Action =
   | { type: "SET_ACCOUNT"; payload: IUser }
   | { type: "SET_LOADING"; payload: boolean }
-  | { type: "SET_ERROR"; payload: boolean };
-
+  | { type: "SET_ERROR"; payload: boolean }
+  | { type: "SET_ITEMS"; payload: IPxl[] };
 export type functionUpdate<T extends Action> = (
   state: IMarketplaceState,
   action: T
@@ -20,6 +21,7 @@ export interface UpdateStateI {
   SET_ACCOUNT: functionUpdate<Extract<Action, { type: "SET_ACCOUNT" }>>;
   SET_LOADING: functionUpdate<Extract<Action, { type: "SET_LOADING" }>>;
   SET_ERROR: functionUpdate<Extract<Action, { type: "SET_ERROR" }>>;
+  SET_ITEMS: functionUpdate<Extract<Action, { type: "SET_ITEMS" }>>;
 }
 
 const UPDATE_STATE_BY_ACTION: UpdateStateI = {
@@ -31,6 +33,9 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   },
   SET_ERROR: (state, action) => {
     return { ...state, status: { ...state.status, error: action.payload } };
+  },
+  SET_ITEMS: (state, action) => {
+    return { ...state, items: action.payload };
   },
 };
 

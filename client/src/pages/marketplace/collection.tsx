@@ -8,7 +8,7 @@ export default function Collection() {
   const { account, error, loading } = useMarketplace();
 
   return (
-    <section>
+    <section className="pb-16">
       <NavigationTrail
         items={[
           { href: "/marketplace", label: "Marketplace" },

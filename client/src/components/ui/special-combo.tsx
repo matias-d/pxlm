@@ -8,9 +8,9 @@ export default function SpecialCombo({ bonuses }: Props) {
   const bonusSets = bonuses.filter((bonus) => bonus !== "Fully Loaded");
 
   return (
-    <div className="flex items-center gap-x-2">
+    <>
       {bonusSets.map((bonus) => (
-        <>
+        <div key={bonus} className="flex items-center gap-x-2">
           {bonus === SPECIAL_COMBOS.GOLDEN_SET.name && (
             <p className="text-[10px] font-semibold font-display bg-[#716527]/80 rounded-sm px-1 py-0.5 text-[#ffd700] glow-once-infinite">
               GOLDEN SET 🥇
@@ -28,8 +28,8 @@ export default function SpecialCombo({ bonuses }: Props) {
               GENTLEMAN 🕴
             </p>
           )}
-        </>
+        </div>
       ))}
-    </div>
+    </>
   );
 }

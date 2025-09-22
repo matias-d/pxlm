@@ -1,16 +1,17 @@
 import CreateCallToAction from "@/components/marketplace/home/create-call-to-action";
+import PXLDetail from "@/components/marketplace/home/pxl-detail/pxl-detail";
 import FiltersUI from "@/components/marketplace/home/filters-ui";
+import useMarketplace from "@/hooks/useMarketplace";
 import PxlList from "@/components/widgets/pxl-list";
 import Loading from "@/components/ui/loading";
 
 export default function Home() {
-  const error = false;
-  const loading = false;
+  const { loading, error, items } = useMarketplace();
 
   return (
     <section className="pb-12">
       <CreateCallToAction />
-
+      {/* <PXLDetail /> */}
       <section className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-x-12">
           <div className="flex items-center gap-x-2">
@@ -33,12 +34,12 @@ export default function Home() {
 
       <FiltersUI />
       <PxlList
-        error={error}
-        items={[1, 2, 3, 4]}
-        loading={loading}
         renderLoading={() => (
           <Loading src="/pxl-examples/9.svg" label="Obtaining collection" />
         )}
+        loading={loading}
+        error={error}
+        items={items}
       />
     </section>
   );

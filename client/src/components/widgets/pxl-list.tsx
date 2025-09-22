@@ -1,14 +1,17 @@
+import PXLCard from "@/components/widgets/pxl-card";
+import type { IPxl } from "@/interfaces/pxl";
+import PXLImage from "../ui/pxl-image";
 import Button from "../ui/button";
 import PxlCard from "./pxl-card";
 import Error from "../ui/error";
 import { cn } from "@/lib/cn";
 
 interface Props {
-  items: number[];
+  renderLoading: () => React.ReactNode;
   className?: string;
   loading: boolean;
+  items: IPxl[];
   error: boolean;
-  renderLoading: () => React.ReactNode;
 }
 
 export default function PxlList({
@@ -34,7 +37,14 @@ export default function PxlList({
   return (
     <section className={cn("grid grid-cols-4 gap-4", className)}>
       {items.map((pxl) => (
-        <PxlCard key={pxl} />
+        <PXLCard.Card key={pxl.tokenId}>
+          <PXLImage src={pxl.image} alt={`PXL Media #${pxl.tokenId}`} />
+          <PXLCard.Info rarity_score={pxl.rarity_score} tokenId={pxl.tokenId} />
+          <PxlCard.PriceDetails price={pxl.price} />
+          <PxlCard.FooterContent>
+            <PxlCard.Button price={pxl.price} />
+          </PxlCard.FooterContent>
+        </PXLCard.Card>
       ))}
     </section>
   );

@@ -1,4 +1,4 @@
-import type { IAttributes } from "@/interfaces/attributes";
+import type { IAttribute } from "@/interfaces/attributes";
 
 export const CONFIG = {
   hat: {
@@ -20,6 +20,55 @@ export const CONFIG = {
   beard: {
     variants: ["variant04", "variant06", "variant01"],
     probability: 35,
+  },
+};
+
+// RARITY_SYSTEM
+export const RARITY_SYSTEM = {
+  LEGENDARY: {
+    name: "legendary",
+    minScore: 401,
+    backgroundColor: "d4af37,b8860b",
+    tailwind: {
+      text: "text-yellow-500",
+      bg: "bg-yellow-600/30",
+    },
+  },
+  EPIC: {
+    name: "epic",
+    minScore: 335,
+    backgroundColor: "8e7cc3,6f5f8f",
+    tailwind: {
+      text: "text-indigo-500",
+      bg: "bg-indigo-600/30",
+    },
+  },
+  RARE: {
+    name: "rare",
+    minScore: 260,
+    backgroundColor: "1B7599",
+    tailwind: {
+      text: "text-sky-500",
+      bg: "bg-sky-600/30",
+    },
+  },
+  UNCOMMON: {
+    name: "uncommon",
+    minScore: 190,
+    backgroundColor: "a19e99",
+    tailwind: {
+      text: "text-lime-500",
+      bg: "bg-lime-600/30",
+    },
+  },
+  COMMON: {
+    name: "common",
+    minScore: 100,
+    backgroundColor: "a19e99",
+    tailwind: {
+      text: "text-gray-500",
+      bg: "bg-gray-600/30",
+    },
   },
 };
 
@@ -61,7 +110,7 @@ export const colorNames = {
   c0c0c0: "Silver",
   ffd700: "Gold",
   ff69b4: "Pink",
-};
+} as const;
 
 // Glasses
 export const glassesNames = {
@@ -76,7 +125,7 @@ export const glassesColorNames = {
   ffd700: "Gold",
   "808080": "Gray",
   "4169e1": "Blue",
-};
+} as const;
 
 // Accessory
 export const accessoryNames = {
@@ -87,7 +136,7 @@ export const accessoryNames = {
 export const accessoryColorNames = {
   c0c0c0: "Silver",
   ffd700: "Gold",
-};
+} as const;
 
 // Beard
 export const beardNames = {
@@ -96,51 +145,23 @@ export const beardNames = {
   variant01: "Regular Beard",
 };
 
-// RARITY_SYSTEM
-export const RARITY_SYSTEM = {
-  LEGENDARY: {
-    name: "legendary",
-    minScore: 401,
-    backgroundColor: "d4af37,b8860b",
-  },
-  EPIC: {
-    name: "epic",
-    minScore: 335,
-    backgroundColor: "8e7cc3,6f5f8f",
-  },
-  RARE: {
-    name: "rare",
-    minScore: 260,
-    backgroundColor: "1B7599",
-  },
-  UNCOMMON: {
-    name: "uncommon",
-    minScore: 190,
-    backgroundColor: "c0aede",
-  },
-  COMMON: {
-    name: "common",
-    minScore: 100,
-    backgroundColor: "c0aede",
-  },
-};
 // === BONUS SYSTEM ===
 
 export const SPECIAL_COMBOS = {
   GOLDEN_SET: {
-    check: (attrs: IAttributes[]) =>
+    check: (attrs: IAttribute[]) =>
       attrs.filter((a) => a.value === "Gold").length >= 2,
     bonus: 0.008,
     name: "Golden Set",
   },
   SILVER_SET: {
-    check: (attrs: IAttributes[]) =>
+    check: (attrs: IAttribute[]) =>
       attrs.filter((a) => a.value === "Silver").length >= 2,
     bonus: 0.008,
     name: "Silver Set",
   },
   FULL_ACCESSORY: {
-    check: (attrs: IAttributes[]) =>
+    check: (attrs: IAttribute[]) =>
       ["Hat", "Glasses", "Accessory", "Beard"].every((type) =>
         attrs.some((a) => a.trait_type === type)
       ),
@@ -148,7 +169,7 @@ export const SPECIAL_COMBOS = {
     name: "Fully Loaded",
   },
   GENTLEMAN: {
-    check: (attrs: IAttributes[]) =>
+    check: (attrs: IAttribute[]) =>
       attrs.some((a) => a.value === "Top Hat") &&
       attrs.some((a) => a.trait_type === "Glasses") &&
       attrs.some((a) => a.trait_type === "Beard"),
