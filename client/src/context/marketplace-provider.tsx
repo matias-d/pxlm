@@ -5,7 +5,6 @@ import {
   _getAccount,
   _getNFT,
   getAllNFTs,
-  type CreateNFTResult,
 } from "../services/contracts";
 import { createContext, useEffect, useReducer, useState } from "react";
 import { steps } from "@/helpers/consts/steps-progress";
@@ -20,7 +19,7 @@ interface IMarketplaceContext {
   progress: number;
   error: boolean;
 
-  createNFT: (pxl: IPxlCreate) => Promise<CreateNFTResult | undefined>;
+  createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
   getNFT: (tokenId: number) => Promise<IPxl | null>;
   getAccount: () => Promise<void>;
 }
@@ -32,7 +31,7 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   items: [],
   error: false,
   progress: 0,
-  createNFT: async () => undefined,
+  createNFT: async () => null,
   getAccount: async () => {},
   getNFT: async () => null,
 });
@@ -68,6 +67,9 @@ export default function MarketplaceProvider({
   const onError = (value: boolean) =>
     dispatch({ type: "SET_ERROR", payload: value });
 
+  const updateItems = (items: IPxl[]) =>
+    dispatch({ type: "SET_ITEMS", payload: items });
+
   const getAccount = async (): Promise<void> => {
     try {
       onLoading(true);
@@ -85,9 +87,7 @@ export default function MarketplaceProvider({
     }
   };
 
-  const createNFT = async (
-    pxl: IPxlCreate
-  ): Promise<CreateNFTResult | undefined> => {
+  const createNFT = async (pxl: IPxlCreate): Promise<IPxl | null> => {
     setProgress(0);
     try {
       const result = await _createNFT({
@@ -101,10 +101,13 @@ export default function MarketplaceProvider({
         id: "nft-progress",
       });
 
+      if (result) updateItems([result, ...state.items]);
+
       return result;
     } catch (error) {
       console.error("❌ Error while creating NFT:", error);
       messageError(error as Error, "create NFT");
+      return null;
     } finally {
       setProgress(0);
     }

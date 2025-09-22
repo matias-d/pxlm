@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function Save({ onPrevStep, pxl, onReset }: Props) {
-  const { account, createNFT, progress, getNFT } = useMarketplace();
+  const { account, createNFT, progress } = useMarketplace();
 
   const [open, setOpen] = useState(false);
   const [nft, setNFT] = useState<IPxl | null>(null);
@@ -34,12 +34,8 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
   const onSave = async () => {
     setStatus((prev) => ({ ...prev, load: true }));
     try {
-      const result = await createNFT(pxl);
-      if (!result?.tokenId) throw new Error("Token ID is missing");
-
-      const nft = await getNFT(result?.tokenId);
-      setNFT(nft);
-
+      const resultNFT = await createNFT(pxl);
+      setNFT(resultNFT);
       confetti({
         particleCount: Math.floor(200 * 0.25),
         spread: 26,

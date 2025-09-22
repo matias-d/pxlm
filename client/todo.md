@@ -19,6 +19,7 @@
 - [] Crear pagina de como funcionan los rarity
 - [] Animate shine modal con el pxl card
 - [] Page de PXL DETAIL
+- [] No poder cerrar el modal
 
 ### Prioridad baja
 

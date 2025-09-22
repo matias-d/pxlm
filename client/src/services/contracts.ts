@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { uploadImageToPinata, uploadMetadataToPinata } from "@/lib/pinata";
-import type { IPxl, IPxlCreate, PinataPXLResponse } from "@/interfaces/pxl";
+import type {
+  IPxl,
+  IPxlContract,
+  IPxlCreate,
+  PinataPXLResponse,
+} from "@/interfaces/pxl";
 import { generateNFTMetadata } from "./generate-pxl";
 import { downloadSVG } from "@/utils/download-svg";
 import { ethers } from "ethers";
@@ -44,20 +49,14 @@ interface CreateNFTParams {
   address: string;
 }
 
-export interface CreateNFTResult {
-  nftUrl: string;
-  metadataIpfsUrl: string;
-  tokenId: number;
-}
-
 export async function _createNFT({
   pxl,
   onStepChange,
   signer,
   address,
-}: CreateNFTParams): Promise<CreateNFTResult> {
+}: CreateNFTParams): Promise<IPxl> {
   onStepChange?.(0);
-  const { attributes, bonuses, rarity_score, rarity_tier, url } = pxl;
+  const { attributes, bonuses, rarity_score, rarity_tier, url, price } = pxl;
 
   // Get next token ID
   onStepChange?.(1);
@@ -109,21 +108,34 @@ export async function _createNFT({
   await approveTx.wait();
   // List on marketplace
   onStepChange?.(8);
-  const priceInWei = ethers.parseEther(pxl.price.toString());
+  const priceParse = ethers.parseEther(price.toString());
   const listTx = await marketplaceContract.makeItem(
     nftAddress,
     tokenId,
-    priceInWei
+    priceParse
   );
   await listTx.wait();
 
-  const imageGatewayUrl = `${import.meta.env.VITE_GATEWAY}/${imageIpfsUrl}`;
+  const item: IPxlContract = await marketplaceContract.getItem(tokenId);
+  const tokenUri = `https://${import.meta.env.VITE_GATEWAY}/${item.tokenURI}`;
 
-  return {
-    nftUrl: imageGatewayUrl,
-    metadataIpfsUrl,
-    tokenId,
-  };
+  const result: PinataPXLResponse = await fetch(tokenUri).then((res) =>
+    res.json()
+  );
+
+  const nft = NFTMapper({
+    item,
+    metadata: result,
+    price: priceParse.toString(),
+  });
+
+  return nft;
+}
+
+interface NFTMapperParams {
+  item: IPxlContract;
+  metadata: PinataPXLResponse;
+  price: string;
 }
 
 export async function getAllNFTs(signer: ethers.Signer): Promise<IPxl[]> {
@@ -147,35 +159,44 @@ export async function _getNFT(
   signer: ethers.Signer
 ): Promise<IPxl> {
   const { marketplaceContract } = await getMarketplaceContract(signer);
-  const priceRaw = await marketplaceContract.getTotalPrice(tokenId);
-  const item = await marketplaceContract.getItem(tokenId);
-  const price = ethers.formatEther(priceRaw);
+  const item: IPxlContract = await marketplaceContract.getItem(tokenId);
 
+  // Get metadata from IPFS
   const tokenUri = `https://${import.meta.env.VITE_GATEWAY}/${item.tokenURI}`;
 
   const result: PinataPXLResponse = await fetch(tokenUri).then((res) =>
     res.json()
   );
 
-  const image = `https://${import.meta.env.VITE_GATEWAY}/${result.image}`;
+  const priceRaw = await marketplaceContract.getTotalPrice(tokenId);
+  const price = ethers.formatEther(priceRaw);
+
+  const nft = NFTMapper({ item, metadata: result, price });
+
+  return nft;
+}
+
+export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
+  const image = `https://${import.meta.env.VITE_GATEWAY}/${metadata.image}`;
   const rarity_score =
     Number(
-      result.attributes.find((attr) => attr.trait_type === "Rarity Score")
+      metadata.attributes.find((attr) => attr.trait_type === "Rarity Score")
         ?.value
     ) || 0;
   const rarity_tier =
     String(
-      result.attributes.find((attr) => attr.trait_type === "Rarity Tier")?.value
+      metadata.attributes.find((attr) => attr.trait_type === "Rarity Tier")
+        ?.value
     ) || "";
 
   const nft: IPxl = {
-    generatedFrom: result.properties.generated_from,
-    description: result.description,
+    generatedFrom: metadata.properties.generated_from,
+    description: metadata.description,
     tokenId: Number(item.tokenId),
-    attributes: result.attributes,
+    attributes: metadata.attributes,
     nftAddress: item.nft,
     seller: item.seller,
-    name: result.name,
+    name: metadata.name,
     sold: item.sold,
     rarity_score,
     rarity_tier,

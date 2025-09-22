@@ -25,6 +25,16 @@ export interface IPxl {
   generatedFrom: string;
 }
 
+export interface IPxlContract {
+  nft: string;
+  itemId: string;
+  tokenId: string;
+  price: string;
+  seller: string;
+  sold: boolean;
+  tokenURI: string;
+}
+
 export interface PinataPXLResponse {
   name: string;
   description: string;
