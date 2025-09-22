@@ -1,10 +1,10 @@
 import { TabPanel, TabPanels } from "@headlessui/react";
+import useMarketplace from "@/hooks/useMarketplace";
 import PxlList from "../../widgets/pxl-list";
 import Loading from "../../ui/loading";
 
 export default function TabsPanelUI() {
-  const error = false;
-  const loading = false;
+  const { error, loading, items } = useMarketplace();
 
   return (
     <div>
@@ -21,22 +21,22 @@ export default function TabsPanelUI() {
       <TabPanels>
         <TabPanel>
           <PxlList
-            error={error}
-            items={[1, 2, 3, 4]}
-            loading={loading}
             renderLoading={() => (
               <Loading label="Obtaining collection" withIcon />
             )}
+            loading={loading}
+            error={error}
+            items={items}
           />
         </TabPanel>
         <TabPanel>
           <PxlList
-            error={error}
-            items={[1, 2, 3, 4]}
-            loading={loading}
             renderLoading={() => (
               <Loading label="Obtaining collection" withIcon />
             )}
+            loading={loading}
+            error={error}
+            items={items}
           />
         </TabPanel>
       </TabPanels>

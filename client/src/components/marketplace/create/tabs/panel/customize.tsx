@@ -1,6 +1,6 @@
 import { ChevronLeft, CircleAlert } from "lucide-react";
 import DisclousureUI from "@/components/ui/disclousure-ui";
-import type { IState } from "@/hooks/create/useCreate";
+import type { IPxlCreate } from "@/interfaces/pxl";
 import { Tooltip } from "@/components/ui/tooltip";
 import ContainerPanel from "./container-panel";
 import Button from "@/components/ui/button";
@@ -14,7 +14,7 @@ interface Props {
   onNextStep: () => void;
   onPrevStep: () => void;
   onPrice: (newPrice: number) => void;
-  pxl: IState;
+  pxl: IPxlCreate;
 }
 
 export default function Customize({
@@ -32,9 +32,9 @@ export default function Customize({
 
         <div className="flex items-center gap-x-2 mb-2">
           <p className="text-sm font-display font-semibold">
-            RARITY <span className="text-accent">#{pxl.rarity}</span>
+            RARITY <span className="text-accent">#{pxl.rarity_score}</span>
           </p>
-          <Rarity rarity={pxl.rarity} />
+          <Rarity rarity={pxl.rarity_score} />
         </div>
         {/* TRAITS */}
 

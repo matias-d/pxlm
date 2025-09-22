@@ -1,18 +1,29 @@
 ### Prioridad alta
 
-- [] Crear nuevo item blockchain
-- [] Logica para traer una descripcion
-- [] Integrar Pinata
+- [] Desactivar tabs de arriba
+- [] Tooltip SPECIAL COMBO
+
+- [] Traer items en collection
+
+  - [] Items comprados
+  - [] Items tuyos
+  - [] Items vendidos
+
+- [] button process mas suave
+- [] Actualizar items al crear nuevo
+- [] Items recien creados primero
 
 ### Prioridad media
 
+- [] Tooltip del precio de porque esoes precio tambien en el custmoize
+- [] Crear pagina de como funcionan los rarity
 - [] Animate shine modal con el pxl card
-- [] Mejorar ui si es epic o legendary tooltip
 - [] Page de PXL DETAIL
 
 ### Prioridad baja
 
 - [] Agregar owners pxl card
+- [] Mejorar ui si es epic o legendary tooltip
 
 ---
 
@@ -35,3 +46,11 @@
 - [x] Mejorar UI Gentleman o SET GOLD
 - [x] Contador redirrecionamiento al marketplace
 - [x] Agregar rarity en la PXL CARD
+- [x] Cambiar try por ejemplo 1 try 1 intento
+- [x] Integrar Pinata
+- [x] Crear nuevo item blockchain
+- [x] Refactorizar crear nft
+- [x] toasts ala hora de crear nft
+- [x] Colores de texto y background de tailwind de las rarezas
+- [x] Trear items en home
+- [x] Cuando se genera el modal tarda en traer la imagen esperar ala imagen

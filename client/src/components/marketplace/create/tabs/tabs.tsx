@@ -4,7 +4,7 @@ import GeneratePXL from "./panel/generate-pxl";
 import Customize from "./panel/customize";
 import TabsListUI from "./tabs-list-ui";
 import Artwork from "./panel/artwork/artwork";
-import Save from "./panel/save";
+import Save from "./panel/save/save";
 
 export default function Tabs() {
   const {
@@ -16,6 +16,7 @@ export default function Tabs() {
     goToPrevStep,
     selectedIndex,
     setSelectedIndex,
+    onReset,
   } = useCreate();
 
   return (
@@ -50,7 +51,7 @@ export default function Tabs() {
                 />
               </TabPanel>
               <TabPanel>
-                <Save pxl={pxl} onPrevStep={goToPrevStep} />
+                <Save pxl={pxl} onPrevStep={goToPrevStep} onReset={onReset} />
               </TabPanel>
             </TabPanels>
           </>

@@ -1,4 +1,4 @@
-import type { IState } from "@/hooks/create/useCreate";
+import type { IPxlCreate } from "@/interfaces/pxl";
 import PXLImage from "@/components/ui/pxl-image";
 import Card from "@/components/ui/card";
 import { cn } from "@/lib/cn";
@@ -8,7 +8,7 @@ interface Props {
   className?: string;
   classPXLImage?: string;
 
-  pxl: IState;
+  pxl: IPxlCreate;
 }
 
 export default function ContainerPanel({

@@ -87,12 +87,29 @@
     font-family: var(--font-accent);
   }
 
+  .glow-once {
+    animation: glow 2.2s ease-in-out 1;
+  }
+
+  .glow-once-infinite {
+    animation: glow 2.2s ease-in-out infinite;
+  }
+
   .max-container {
     @apply max-w-screen-xl mx-auto w-full px-4 lg:px-12 2xl:px-0;
   }
 
   .tansition-cube {
     transition: all 0.5s cubic-bezier(0.15, 0.85, 0.45, 1);
+  }
+
+  .animate-pulse-smooth {
+    animation: pulse-smooth 1.5s ease-in-out infinite;
+  }
+
+  .after\:animate-dots::after {
+    content: "";
+    animation: dots 1.2s steps(4, end) infinite;
   }
 
   .bg-detail-container {
@@ -102,22 +119,6 @@
         rgba(30, 30, 30, 0.6) 100%
       ),
       #1b1b1b;
-  }
-
-  @keyframes pulse-smooth {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.6;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-
-  .animate-pulse-smooth {
-    animation: pulse-smooth 1.5s ease-in-out infinite;
   }
 
   .animate-shine {
@@ -157,12 +158,31 @@
     }
   }
 
-  .glow-once {
-    animation: glow 2.2s ease-in-out 1;
+  @keyframes pulse-smooth {
+    0% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 1;
+    }
   }
 
-  .glow-once-infinite {
-    animation: glow 2.2s ease-in-out infinite;
+  @keyframes dots {
+    0% {
+      content: "";
+    }
+    33% {
+      content: ".";
+    }
+    66% {
+      content: "..";
+    }
+    100% {
+      content: "...";
+    }
   }
 }
 
@@ -189,26 +209,6 @@
   .btn-display {
     @apply bg-transparent hover:bg-card-super-light  border-0 shadow shadow-card/20   text-white hover:ring-0 hover:ring-offset-0;
     @apply disabled:bg-card/80;
-  }
-
-  @keyframes dots {
-    0% {
-      content: "";
-    }
-    33% {
-      content: ".";
-    }
-    66% {
-      content: "..";
-    }
-    100% {
-      content: "...";
-    }
-  }
-
-  .after\:animate-dots::after {
-    content: "";
-    animation: dots 1.2s steps(4, end) infinite;
   }
 }
 
