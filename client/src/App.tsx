@@ -8,6 +8,7 @@ import MarketplaceLayout from "./layouts/marketplace.layout";
 import Collection from "./pages/marketplace/collection";
 import Create from "./pages/marketplace/create";
 import Home from "./pages/marketplace/home";
+import NotFound from "./pages/not-found";
 import Auth from "./pages/auth";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
       <MarketplaceProvider>
         <Routes>
           <Route path="/" element={<Auth />} />
+          <Route path="*" element={<NotFound />} />
 
           {/* Marketplace */}
           <Route path="/marketplace" element={<MarketplaceLayout />}>
