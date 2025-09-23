@@ -105,6 +105,9 @@ export default function Guide() {
                       {combo.combo}
                     </p>
                   </div>
+                  {combo.desc && (
+                    <p className="text-xs text-text-secondary">{combo.desc}</p>
+                  )}
                   <div className="size-12 mt-6">
                     <IconArrow />
                   </div>
