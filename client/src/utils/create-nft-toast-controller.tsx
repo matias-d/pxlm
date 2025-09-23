@@ -28,9 +28,9 @@ export function createNFTToastController() {
   };
 
   const success = (message: string) => {
-    toast.success(message, { id: toastId });
+    toast.dismiss(toastId);
+    toast.success(message);
   };
-
   const error = (message: string) => {
     toast.error(message, { id: toastId });
   };
