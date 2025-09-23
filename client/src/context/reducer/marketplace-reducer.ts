@@ -13,9 +13,23 @@ function applyPriceOrder(
   items: IPxl[],
   order: "low-to-high" | "high-to-low"
 ): IPxl[] {
+  const rarityRank: Record<string, number> = {
+    common: 1,
+    uncommon: 2,
+    rare: 3,
+    epic: 4,
+    legendary: 5,
+  };
+
   return [...items].sort((a, b) => {
     const priceA = parseFloat(a.price);
     const priceB = parseFloat(b.price);
+
+    if (priceA === priceB) {
+      const rarityA = rarityRank[a.rarity_tier.toLowerCase()] ?? 0;
+      const rarityB = rarityRank[b.rarity_tier.toLowerCase()] ?? 0;
+      return rarityB - rarityA;
+    }
 
     return order === "low-to-high" ? priceA - priceB : priceB - priceA;
   });

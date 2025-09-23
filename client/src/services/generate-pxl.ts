@@ -180,7 +180,6 @@ function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
     if (bonusInfo) {
       price += bonusInfo.bonus;
 
-      // Agrupar por nombre
       if (!addedPricesMap[bonusInfo.name]) {
         addedPricesMap[bonusInfo.name] = {
           count: 1,
@@ -221,7 +220,7 @@ function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
     name:
       data.count > 1
         ? `x${data.count} ${name} items`
-        : name === "rarity bonus"
+        : name !== "Silver" && name !== "Gold"
         ? name
         : `${name} item`,
     color: data.color,
