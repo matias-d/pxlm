@@ -12,18 +12,15 @@ import { useEffect, useState } from "react";
 export default function Auth() {
   const { account, error, loading, getAccount } = useMarketplace();
 
-  const navigate = useNavigate();
-
   const [count, setCount] = useState(3);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!loading && account !== null) {
-      // Interval para ir bajando el contador
       const interval = setInterval(() => {
         setCount((prev) => (prev > 0 ? prev - 1 : 0));
       }, 1000);
 
-      // Timer para redirigir
       const timer = setTimeout(() => {
         navigate("/marketplace");
       }, 3000);
@@ -52,7 +49,7 @@ export default function Auth() {
           </>
         )}
 
-        {!loading && !account && (
+        {loading && account && (
           <Card className="h-[4.875rem] w-[24.375rem] flex items-center justify-center">
             <p className="font-display text-text-secondary font-semibold">
               Getting data...

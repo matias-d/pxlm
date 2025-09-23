@@ -1,5 +1,4 @@
 import CreateCallToAction from "@/components/marketplace/home/create-call-to-action";
-import PXLDetail from "@/components/marketplace/home/pxl-detail/pxl-detail";
 import FiltersUI from "@/components/marketplace/home/filters-ui";
 import useMarketplace from "@/hooks/useMarketplace";
 import PxlList from "@/components/widgets/pxl-list";

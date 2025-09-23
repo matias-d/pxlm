@@ -1,5 +1,6 @@
 import type { IAttribute } from "@/interfaces/attributes";
 
+// Attributes config
 export const CONFIG = {
   hat: {
     variants: ["variant02", "variant09", "variant06", "variant10"],
@@ -47,22 +48,12 @@ export const RARITY_SYSTEM = {
   },
   RARE: {
     name: "rare",
-    minScore: 260,
+    minScore: 190,
     backgroundColor: "1B7599",
-    probabilities: "12%",
+    probabilities: "43%",
     tailwind: {
       text: "text-sky-500",
       bg: "bg-sky-600/30",
-    },
-  },
-  UNCOMMON: {
-    name: "uncommon",
-    minScore: 190,
-    backgroundColor: "a19e99",
-    probabilities: "31%",
-    tailwind: {
-      text: "text-lime-500",
-      bg: "bg-lime-600/30",
     },
   },
   COMMON: {
@@ -151,12 +142,11 @@ export const beardNames = {
 };
 
 // === BONUS SYSTEM ===
-
 export const SPECIAL_COMBOS = {
   GOLDEN_SET: {
     check: (attrs: IAttribute[]) =>
       attrs.filter((a) => a.value === "Gold").length >= 2,
-    bonus: 0.008,
+    bonus: 0.009,
     name: "Golden Set",
   },
   SILVER_SET: {
@@ -170,7 +160,7 @@ export const SPECIAL_COMBOS = {
       ["Hat", "Glasses", "Accessory", "Beard"].every((type) =>
         attrs.some((a) => a.trait_type === type)
       ),
-    bonus: 0.006,
+    bonus: 0.005,
     name: "Fully Loaded",
   },
   GENTLEMAN: {

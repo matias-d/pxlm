@@ -8,9 +8,10 @@
   - [] Items tuyos
   - [] Items vendidos
 
+- [] Crear pagina de como funcionan los rarity
+
 ### Prioridad media
 
-- [] Crear pagina de como funcionan los rarity
 - [] Page de PXL DETAIL
 
 ### Prioridad baja

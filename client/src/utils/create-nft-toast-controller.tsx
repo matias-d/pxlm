@@ -14,7 +14,6 @@ export function createNFTToastController() {
     );
   };
 
-  // Actualizar label y porcentaje
   const update = (label: string, progress?: number) => {
     toast(
       <div className="flex items-center gap-2">

@@ -1,3 +1,4 @@
+import { getRarityMapper } from "@/helpers/functions/pxl-get-rarity";
 import { RARITY_SYSTEM } from "@/helpers/consts/pxl-config";
 import { Tooltip } from "./tooltip";
 import { cn } from "@/lib/cn";
@@ -6,45 +7,8 @@ interface Props {
   rarity: number;
 }
 
-const getRarity = (rarity: number) => {
-  if (rarity >= RARITY_SYSTEM.LEGENDARY.minScore)
-    return {
-      label: RARITY_SYSTEM.LEGENDARY.name,
-      class: `${RARITY_SYSTEM.LEGENDARY.tailwind.bg} ${RARITY_SYSTEM.LEGENDARY.tailwind.text}`,
-      probabilities: RARITY_SYSTEM.LEGENDARY.probabilities,
-      text: RARITY_SYSTEM.LEGENDARY.tailwind.text,
-    };
-  if (rarity >= RARITY_SYSTEM.EPIC.minScore)
-    return {
-      label: RARITY_SYSTEM.EPIC.name,
-      class: `${RARITY_SYSTEM.EPIC.tailwind.bg} ${RARITY_SYSTEM.EPIC.tailwind.text}`,
-      probabilities: RARITY_SYSTEM.EPIC.probabilities,
-      text: RARITY_SYSTEM.EPIC.tailwind.text,
-    };
-  if (rarity >= RARITY_SYSTEM.RARE.minScore)
-    return {
-      label: RARITY_SYSTEM.RARE.name,
-      class: `${RARITY_SYSTEM.RARE.tailwind.bg} ${RARITY_SYSTEM.RARE.tailwind.text}`,
-      probabilities: RARITY_SYSTEM.RARE.probabilities,
-      text: RARITY_SYSTEM.RARE.tailwind.text,
-    };
-  if (rarity >= RARITY_SYSTEM.UNCOMMON.minScore)
-    return {
-      label: RARITY_SYSTEM.UNCOMMON.name,
-      class: `${RARITY_SYSTEM.UNCOMMON.tailwind.bg} ${RARITY_SYSTEM.UNCOMMON.tailwind.text}`,
-      probabilities: RARITY_SYSTEM.UNCOMMON.probabilities,
-      text: RARITY_SYSTEM.UNCOMMON.tailwind.text,
-    };
-  return {
-    label: RARITY_SYSTEM.COMMON.name,
-    class: `${RARITY_SYSTEM.COMMON.tailwind.bg} ${RARITY_SYSTEM.COMMON.tailwind.text}`,
-    probabilities: RARITY_SYSTEM.COMMON.probabilities,
-    text: RARITY_SYSTEM.COMMON.tailwind.text,
-  };
-};
-
 export default function Rarity({ rarity }: Props) {
-  const options = getRarity(rarity);
+  const options = getRarityMapper(rarity);
 
   return (
     <Tooltip

@@ -15,10 +15,9 @@ function applyPriceOrder(
 ): IPxl[] {
   const rarityRank: Record<string, number> = {
     common: 1,
-    uncommon: 2,
-    rare: 3,
-    epic: 4,
-    legendary: 5,
+    rare: 2,
+    epic: 3,
+    legendary: 4,
   };
 
   return [...items].sort((a, b) => {

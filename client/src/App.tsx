@@ -7,6 +7,7 @@ import MarketplaceLayout from "./layouts/marketplace.layout";
 // Pages
 import Collection from "./pages/marketplace/collection";
 import Create from "./pages/marketplace/create";
+import Guide from "./pages/marketplace/guide";
 import Home from "./pages/marketplace/home";
 import NotFound from "./pages/not-found";
 import Auth from "./pages/auth";
@@ -25,6 +26,7 @@ export default function App() {
 
             <Route path="create" element={<Create />} />
             <Route path="collection" element={<Collection />} />
+            <Route path="guide" element={<Guide />} />
           </Route>
         </Routes>
       </MarketplaceProvider>

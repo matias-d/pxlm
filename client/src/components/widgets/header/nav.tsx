@@ -13,6 +13,11 @@ const links = [
   },
   {
     id: 3,
+    to: "/marketplace/guide",
+    label: "Guide",
+  },
+  {
+    id: 4,
     to: "/marketplace/create",
     label: "Create",
   },
@@ -28,8 +33,8 @@ export default function Nav() {
           end={link.to === "/marketplace"}
           className={({ isActive }) =>
             isActive
-              ? "text-sm text-accent relative drop-shadow-[0_0_16px_rgba(255,255,255,1)] tansition-cube"
-              : "text-sm text-text-secondary relative hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] tansition-cube"
+              ? "text-sm text-accent relative drop-shadow-[0_0_16px_rgba(255,255,255,1)] tansition-cube outline-none"
+              : "text-sm text-text-secondary relative hover:drop-shadow-[0_0_16px_rgba(255,255,255,1)] tansition-cube outline-none"
           }
         >
           {({ isActive }) => (

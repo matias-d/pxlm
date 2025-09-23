@@ -11,10 +11,9 @@ const fields = [
 const fields2 = [
   { id: 1, label: "All", value: "all" },
   { id: 2, label: "Common", value: "common" },
-  { id: 3, label: "Uncommon", value: "uncommon" },
-  { id: 4, label: "Rare", value: "rare" },
-  { id: 5, label: "Legendary", value: "legendary" },
-  { id: 6, label: "Epic", value: "epic" },
+  { id: 3, label: "Rare", value: "rare" },
+  { id: 5, label: "Epic", value: "epic" },
+  { id: 4, label: "Legendary", value: "legendary" },
 ];
 
 export default function FiltersUI() {
