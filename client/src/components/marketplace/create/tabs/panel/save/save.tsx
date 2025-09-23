@@ -1,5 +1,4 @@
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
-import SpecialCombo from "@/components/ui/special-combo";
 import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
 import ErrorComponent from "@/components/ui/error";
@@ -45,6 +44,8 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
       onOpen();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
+      setOpen(false);
+      onReset();
     } finally {
       setStatus((prev) => ({ ...prev, load: false }));
     }
@@ -80,8 +81,6 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
                 </span>
               </h4>
               <div className="flex items-center gap-x-2">
-                <SpecialCombo bonuses={pxl.bonuses} />
-
                 <p className="text-sm font-display font-semibold">
                   RARITY{" "}
                   <span className="text-accent">#{pxl.rarity_score}</span>

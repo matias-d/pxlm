@@ -83,8 +83,9 @@ export default function Customize({
                 />
                 <div className="absolute bottom-2.5 right-4">
                   <Tooltip
-                    content="Default"
-                    contentClassName="bg-card-super-light"
+                    content="Default name"
+                    contentClassName="bg-card-super-light "
+                    className="whitespace-nowrap"
                   >
                     <CircleAlert size={20} className="text-text-secondary" />
                   </Tooltip>
@@ -96,14 +97,27 @@ export default function Customize({
 
             <div>
               <h4 className="font-semibold mb-0.5 text-sm">Price</h4>
-              <Input
-                label="Price in TBNB"
-                type="number"
-                required
-                onChange={(e) => onPrice(Number(e.target.value))}
-                value={pxl.price}
-                placeholder="0.001"
-              />
+              <div className="relative">
+                <Input
+                  label="Price in TBNB"
+                  type="number"
+                  required
+                  onChange={(e) => onPrice(Number(e.target.value))}
+                  value={pxl.price}
+                  placeholder="0.001"
+                />
+
+                <div className="absolute bottom-2 right-4">
+                  <Tooltip
+                    className="text-[10px]"
+                    contentClassName="w-48"
+                    content="Automatically calculated price — recommended for this item."
+                  >
+                    {" "}
+                    <CircleAlert className="text-text-secondary" />
+                  </Tooltip>
+                </div>
+              </div>
             </div>
           </div>
 

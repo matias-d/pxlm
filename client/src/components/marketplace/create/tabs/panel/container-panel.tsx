@@ -1,3 +1,4 @@
+import SpecialCombo from "@/components/ui/special-combo";
 import type { IPxlCreate } from "@/interfaces/pxl";
 import PXLImage from "@/components/ui/pxl-image";
 import Card from "@/components/ui/card";
@@ -20,11 +21,15 @@ export default function ContainerPanel({
   return (
     <section>
       <Card className={cn(" grid grid-cols-2 p-6  gap-x-6 ", className)}>
-        <PXLImage
-          src={pxl.url}
-          alt="PXL ART"
-          className={cn("object-cover w-[25rem] h-[27.5rem] ", classPXLImage)}
-        />
+        <div className="relative ">
+          <PXLImage
+            src={pxl.url}
+            alt="PXL ART"
+            className={cn("object-cover  w-[25rem] h-[27.5rem]", classPXLImage)}
+          />
+
+          <SpecialCombo bonuses={pxl.bonuses} />
+        </div>
 
         {children}
       </Card>

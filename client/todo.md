@@ -1,7 +1,6 @@
 ### Prioridad alta
 
 - [] Desactivar tabs de arriba
-- [] Tooltip SPECIAL COMBO
 
 - [] Traer items en collection
 
@@ -9,22 +8,14 @@
   - [] Items tuyos
   - [] Items vendidos
 
-- [] button process mas suave
-- [] Actualizar items al crear nuevo
-- [] Items recien creados primero
-
 ### Prioridad media
 
-- [] Tooltip del precio de porque esoes precio tambien en el custmoize
 - [] Crear pagina de como funcionan los rarity
-- [] Animate shine modal con el pxl card
 - [] Page de PXL DETAIL
-- [] No poder cerrar el modal
 
 ### Prioridad baja
 
 - [] Agregar owners pxl card
-- [] Mejorar ui si es epic o legendary tooltip
 
 ---
 
@@ -55,3 +46,8 @@
 - [x] Colores de texto y background de tailwind de las rarezas
 - [x] Trear items en home
 - [x] Cuando se genera el modal tarda en traer la imagen esperar ala imagen
+- [x] Actualizar items al crear nuevo
+- [x] Items recien creados primero
+- [x] No poder cerrar el modal
+- [x] Mejorar special combos
+- [x] Tooltip del precio de porque esoes precio tambien en el custmoize

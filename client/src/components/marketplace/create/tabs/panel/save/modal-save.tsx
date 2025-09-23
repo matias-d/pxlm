@@ -24,6 +24,7 @@ export default function ModalSave({ open, onOpen, nft, onReset }: Props) {
     <Modal
       isOpen={open}
       onOpen={onOpen}
+      disableOutsideClick
       classNameCard="bg-card-light flex flex-col justify-between p-6"
     >
       <PXLCard.Card key={nft.tokenId}>

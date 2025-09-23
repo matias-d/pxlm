@@ -84,7 +84,7 @@ export const Tooltip = ({
 
   const getTooltipClasses = () => {
     const baseClasses =
-      "absolute z-50 text-center px-3 py-2 text-xs font-display font-medium text-text-primary/80 bg-card rounded-md shadow-lg pointer-events-none transition-all  transform";
+      "absolute z-50 text-center px-3 py-2 text-xs font-display font-medium text-text-primary/80 bg-card-super-light rounded-md shadow-lg pointer-events-none transition-all  transform";
 
     const positionClasses = {
       top: "bottom-full left-1/2 -translate-x-1/2 -translate-y-2",
@@ -109,12 +109,10 @@ export const Tooltip = ({
     if (!arrow) return "hidden";
 
     const arrowClasses = {
-      top: "top-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-card",
-      bottom:
-        "bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-card",
-      left: "left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-card",
-      right:
-        "right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-card",
+      top: `top-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-card-super-light`,
+      bottom: `bottom-full left-1/2 -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-card-super-light`,
+      left: `left-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-card-super-light`,
+      right: `right-full top-1/2 -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-card-super-light`,
     };
 
     return cn("absolute w-0 h-0 border-4", arrowClasses[actualPosition]);
