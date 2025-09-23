@@ -8,14 +8,15 @@ const links = [
   },
   {
     id: 2,
-    to: "/marketplace/collection",
-    label: "Collection",
-  },
-  {
-    id: 3,
     to: "/marketplace/guide",
     label: "Guide",
   },
+  {
+    id: 3,
+    to: "/marketplace/collection",
+    label: "Collection",
+  },
+
   {
     id: 4,
     to: "/marketplace/create",

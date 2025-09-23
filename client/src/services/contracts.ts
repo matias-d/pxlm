@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { uploadImageToPinata, uploadMetadataToPinata } from "@/lib/pinata";
+import { NFTMapper } from "@/helpers/functions/nft-mapper";
 import type {
   IPxl,
   IPxlContract,
@@ -16,6 +17,7 @@ declare global {
   }
 }
 
+// Handle get account data
 export async function _getAccount() {
   if (typeof window.ethereum === "undefined") {
     throw new Error("You need to install MetaMask to continue.");
@@ -49,6 +51,7 @@ interface CreateNFTParams {
   address: string;
 }
 
+// Handle create NFT
 export async function _createNFT({
   pxl,
   onStepChange,
@@ -135,12 +138,7 @@ export async function _createNFT({
   return nft;
 }
 
-interface NFTMapperParams {
-  item: IPxlContract;
-  metadata: PinataPXLResponse;
-  price: string;
-}
-
+// Handle Get All NFTs
 export async function getAllNFTs(signer: ethers.Signer): Promise<IPxl[]> {
   const { marketplaceContract } = await getMarketplaceContract(signer);
 
@@ -157,6 +155,29 @@ export async function getAllNFTs(signer: ethers.Signer): Promise<IPxl[]> {
   return nfts;
 }
 
+// Handle Get User NFTs
+export async function _getAllUserNfts(
+  address: string,
+  signer: ethers.Signer
+): Promise<IPxl[]> {
+  const { marketplaceContract } = await getMarketplaceContract(signer);
+
+  const itemCountBN: bigint = await marketplaceContract.itemCount();
+  const itemCount = Number(itemCountBN);
+
+  const nftPromises = [];
+  for (let i = 1; i <= itemCount; i++) {
+    nftPromises.push(_getNFT(i, signer));
+  }
+
+  const nfts = await Promise.all(nftPromises);
+
+  const nftsFiltered = nfts.filter((nft) => nft.generatedFrom === address);
+
+  return nftsFiltered;
+}
+
+// Handle Get a unique NFT
 export async function _getNFT(
   tokenId: number,
   signer: ethers.Signer
@@ -179,42 +200,7 @@ export async function _getNFT(
   return nft;
 }
 
-export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
-  const image = `https://${import.meta.env.VITE_GATEWAY}/${metadata.image}`;
-  const rarity_score =
-    Number(
-      metadata.attributes.find((attr) => attr.trait_type === "Rarity Score")
-        ?.value
-    ) || 0;
-  const rarity_tier =
-    String(
-      metadata.attributes.find((attr) => attr.trait_type === "Rarity Tier")
-        ?.value
-    ) || "";
-
-  const minted_at = Number(
-    metadata.attributes.find((attr) => attr.trait_type === "Minted At")?.value
-  );
-
-  const nft: IPxl = {
-    generatedFrom: metadata.properties.generated_from,
-    description: metadata.description,
-    tokenId: Number(item.tokenId),
-    attributes: metadata.attributes,
-    nftAddress: item.nft,
-    seller: item.seller,
-    name: metadata.name,
-    sold: item.sold,
-    rarity_score,
-    rarity_tier,
-    price,
-    image,
-    minted_at,
-  };
-
-  return nft;
-}
-
+// Get NFT Contract with your address
 export async function getNFTContract(signer: ethers.Signer) {
   // ABI
   const nftJson = await fetch("/abi/NFT.json").then((res) => res.json());
@@ -236,6 +222,7 @@ export async function getNFTContract(signer: ethers.Signer) {
   return { nftContract, nftAddress };
 }
 
+// Get Marketplace Contract with your address
 export async function getMarketplaceContract(signer: ethers.Signer) {
   // ABI
   const marketplaceJson = await fetch("/abi/Marketplace.json").then((res) =>

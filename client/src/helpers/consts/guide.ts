@@ -52,6 +52,7 @@ export const combos = [
     image: "/pxl-examples/gentleman.svg",
     combo: "Gentleman",
     bonus: SPECIAL_COMBOS.GENTLEMAN.bonus,
+    desc: "(top hat, glasses and beard)",
     icon: "/guide/gentleman.png",
   },
 ];

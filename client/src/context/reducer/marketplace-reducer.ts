@@ -1,5 +1,9 @@
 import type { Action, IMarketplaceState, UpdateStateI } from "./reducer";
-import type { IPxl } from "@/interfaces/pxl";
+import {
+  applyPriceOrder,
+  filterPurchasedItems,
+  filterSoldItems,
+} from "./functions-utils";
 
 export const initialState: IMarketplaceState = {
   status: { loading: false, error: false },
@@ -7,32 +11,10 @@ export const initialState: IMarketplaceState = {
   account: null,
   baseItems: [],
   items: [],
+
+  userItems: [],
+  baseUserItems: [],
 };
-
-function applyPriceOrder(
-  items: IPxl[],
-  order: "low-to-high" | "high-to-low"
-): IPxl[] {
-  const rarityRank: Record<string, number> = {
-    common: 1,
-    rare: 2,
-    epic: 3,
-    legendary: 4,
-  };
-
-  return [...items].sort((a, b) => {
-    const priceA = parseFloat(a.price);
-    const priceB = parseFloat(b.price);
-
-    if (priceA === priceB) {
-      const rarityA = rarityRank[a.rarity_tier.toLowerCase()] ?? 0;
-      const rarityB = rarityRank[b.rarity_tier.toLowerCase()] ?? 0;
-      return rarityB - rarityA;
-    }
-
-    return order === "low-to-high" ? priceA - priceB : priceB - priceA;
-  });
-}
 
 const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   SET_ACCOUNT: (state, action) => {
@@ -48,6 +30,11 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     const order = "low-to-high";
     const sorted = applyPriceOrder(action.payload, order);
     return { ...state, items: sorted, baseItems: sorted, order };
+  },
+  SET_USER_ITEMS: (state, action) => {
+    const order = "low-to-high";
+    const sorted = applyPriceOrder(action.payload, order);
+    return { ...state, userItems: sorted, baseUserItems: sorted, order };
   },
   FILTER_BY_RARITY: (state, action) => {
     if (action.payload === "all") {
@@ -66,6 +53,30 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   SORT_BY_PRICE: (state, action) => {
     const sorted = applyPriceOrder(state.items, action.payload);
     return { ...state, items: sorted, order: action.payload };
+  },
+
+  FILTER_BY_STATUS_USER_ITEMS: (state, action) => {
+    if (!state.account?.address) return { ...state };
+
+    if (action.payload === "all") {
+      const sorted = applyPriceOrder(state.baseUserItems, state.order);
+      return { ...state, userItems: sorted };
+    }
+
+    if (action.payload === "sold") {
+      const filtered = filterSoldItems(state.baseItems, state.account?.address);
+
+      const sorted = applyPriceOrder(filtered, state.order);
+      return { ...state, userItems: sorted };
+    }
+
+    const filtered = filterPurchasedItems(
+      state.baseItems,
+      state.account?.address
+    );
+    const sorted = applyPriceOrder(filtered, state.order);
+
+    return { ...state, userItems: sorted };
   },
 };
 

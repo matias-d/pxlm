@@ -6,6 +6,7 @@ import {
 import {
   _createNFT,
   _getAccount,
+  _getAllUserNfts,
   _getNFT,
   getAllNFTs,
 } from "../services/contracts";
@@ -18,33 +19,44 @@ import { toast } from "sonner";
 
 interface IMarketplaceContext {
   account: IUser | null;
+  userItems: IPxl[];
   items: IPxl[];
+
   loading: boolean;
   progress: number;
   error: boolean;
 
   createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
   getNFT: (tokenId: number) => Promise<IPxl | null>;
-  getAccount: () => Promise<void>;
+  onFilterByRarity: (rarity: string) => void;
+
   updateItemsOrder: (
     order: "low-to-high" | "high-to-low",
     items: IPxl[]
   ) => void;
-  onFilterByRarity: (rarity: string) => void;
+
+  onFilterByStatusUserItems: (status: "all" | "sold" | "purchase") => void;
+
+  getAllUserNfts: () => Promise<void>;
+  getAccount: () => Promise<void>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const MarketplaceContext = createContext<IMarketplaceContext>({
   account: null,
-  loading: false,
+  userItems: [],
   items: [],
+
+  loading: false,
   error: false,
   progress: 0,
+  onFilterByStatusUserItems: () => {},
+  getAllUserNfts: async () => {},
   createNFT: async () => null,
   getAccount: async () => {},
-  getNFT: async () => null,
   updateItemsOrder: () => {},
   onFilterByRarity: () => {},
+  getNFT: async () => null,
 });
 
 const toastController = createNFTToastController();
@@ -59,11 +71,14 @@ export default function MarketplaceProvider({
 
   useEffect(() => {
     (async () => {
-      if (!state.account?.signer) return;
+      if (!state.account?.signer)
+        throw new Error(
+          "Wallet not connected. Please connect your wallet to continue."
+        );
       onLoading(true);
       try {
         const result = await getAllNFTs(state.account?.signer);
-        updateItems(result);
+        updateItems({ items: result });
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
         messageError(error as Error, "get all nfts");
@@ -108,7 +123,7 @@ export default function MarketplaceProvider({
 
       toastController.success("🎉 NFT created successfully!");
 
-      if (result) updateItems([result, ...state.items]);
+      if (result) updateItems({ items: [result, ...state.items] });
 
       return result;
     } catch (error) {
@@ -120,6 +135,29 @@ export default function MarketplaceProvider({
     }
   };
 
+  // Getters
+
+  const getAllUserNfts = async () => {
+    onLoading(true);
+    if (!state.account?.signer)
+      throw new Error(
+        "Wallet not connected. Please connect your wallet to continue."
+      );
+
+    try {
+      const result = await _getAllUserNfts(
+        state.account?.address,
+        state.account?.signer
+      );
+      updateItems({ type: "SET_USER_ITEMS", items: result });
+    } catch (error: any) {
+      console.error("❌ Error while getting all user nfts:", error);
+      messageError(error as Error, "get all user nfts");
+      onError(true);
+    } finally {
+      onLoading(false);
+    }
+  };
   const getNFT = async (tokenId: number): Promise<IPxl | null> => {
     try {
       const result = await _getNFT(tokenId, state.account!.signer);
@@ -140,9 +178,18 @@ export default function MarketplaceProvider({
     dispatch({ type: "FILTER_BY_RARITY", payload: rarity });
   };
 
+  const onFilterByStatusUserItems = (status: "all" | "sold" | "purchase") => {
+    dispatch({ type: "FILTER_BY_STATUS_USER_ITEMS", payload: status });
+  };
+
   // Util functions
-  const updateItems = (items: IPxl[]) =>
-    dispatch({ type: "SET_ITEMS", payload: items });
+  const updateItems = ({
+    type = "SET_ITEMS",
+    items,
+  }: {
+    type?: "SET_ITEMS" | "SET_USER_ITEMS";
+    items: IPxl[];
+  }) => dispatch({ type: type, payload: items });
 
   const onLoading = (value: boolean) =>
     dispatch({ type: "SET_LOADING", payload: value });
@@ -163,11 +210,14 @@ export default function MarketplaceProvider({
     <MarketplaceContext.Provider
       value={{
         loading: state.status.loading,
+        userItems: state.userItems,
         error: state.status.error,
+        onFilterByStatusUserItems,
         account: state.account,
         items: state.items,
         updateItemsOrder,
         onFilterByRarity,
+        getAllUserNfts,
         getAccount,
         createNFT,
         progress,
