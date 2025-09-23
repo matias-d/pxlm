@@ -19,6 +19,8 @@ export default function Tabs() {
     onReset,
   } = useCreate();
 
+  console.log("PXL: ", pxl);
+
   return (
     <>
       <TabGroup

@@ -1,13 +1,11 @@
 import TabArtworkSkeleton from "../../../skeletons/tab-artwork-skeleton";
-import SpecialCombo from "@/components/ui/special-combo";
 import type { IPxlCreate } from "@/interfaces/pxl";
-import { Tooltip } from "@/components/ui/tooltip";
 import ContainerPanel from "../container-panel";
 import Button from "@/components/ui/button";
 import Rarity from "@/components/ui/rarity";
 import TraitCard from "../../../trait-card";
-import { CircleAlert } from "lucide-react";
 import Error from "@/components/ui/error";
+import AddedPrices from "../added-prices";
 import Card from "@/components/ui/card";
 import ButtonTry from "./button-try";
 
@@ -48,7 +46,14 @@ export default function Artwork({
             PXL ART <span className="text-text-secondary text-xl">#0000</span>
           </h2>
           <div className="flex items-center gap-x-1">
-            <p className="text-xs text-text-secondary">by DiceBear</p>
+            <a
+              href="https://www.dicebear.com"
+              referrerPolicy="no-referrer"
+              target="_blank"
+              className="text-xs text-text-secondary hover:underline"
+            >
+              by DiceBear
+            </a>
             <img src="/dicebear-logo.ico" className="size-4 rounded-full" />
           </div>
         </section>
@@ -63,8 +68,6 @@ export default function Artwork({
                 </span>
               </h4>
               <div className="flex items-center gap-x-2">
-                <SpecialCombo bonuses={pxl.bonuses} />
-
                 <p className="text-sm font-display font-semibold">
                   RARITY{" "}
                   <span className="text-accent">#{pxl.rarity_score}</span>
@@ -79,20 +82,13 @@ export default function Artwork({
             </div>
           </div>
           <Card className="p-3 bg-card-dark">
-            <div>
+            <div className="h-">
               <h3 className="text-sm text-text-secondary">PRICE</h3>
               <div className="flex items-center justify-between">
                 <p className="font-display font-semibold text-xl">
                   {pxl.price} TBNB
                 </p>
-                <Tooltip
-                  content="Recommended Price"
-                  contentClassName="bg-card-super-light"
-                >
-                  <div className="text-text-secondary transition-all rounded-full p-1.5 hover:text-text-primary">
-                    <CircleAlert size={20} />
-                  </div>
-                </Tooltip>
+                <AddedPrices addedPrices={pxl.addedPrices} />
               </div>
             </div>
           </Card>
