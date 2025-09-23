@@ -10,14 +10,16 @@ interface Props {
 
 export default function AddedPrices({ addedPrices }: Props) {
   return (
-    <div className="flex  gap-x-2 items-center">
+    <div className="flex  gap-x-1.5 items-center">
       {addedPrices.map((item, index) => (
         <>
           <div className="flex flex-col text-[10px]  items-end gap-x-1">
             <p className="text-green-300 font-semibold font-display">
               +{item.bonus.toFixed(3)}
             </p>
-            <p className={cn("text-gray-400 text-[8px] uppercase", item.color)}>
+            <p
+              className={cn("text-gray-400 text-[7.2px] uppercase", item.color)}
+            >
               {item.name}
             </p>
           </div>

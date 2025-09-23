@@ -8,6 +8,7 @@ import { cn } from "@/lib/cn";
 
 interface Props {
   renderLoading: () => React.ReactNode;
+  renderNotItems: () => React.ReactNode;
   className?: string;
   loading: boolean;
   items: IPxl[];
@@ -16,10 +17,11 @@ interface Props {
 
 export default function PxlList({
   items,
+  error,
   loading,
   className,
   renderLoading,
-  error,
+  renderNotItems,
 }: Props) {
   if (loading) return renderLoading();
 
@@ -34,6 +36,8 @@ export default function PxlList({
         title="505 | A network error has occurred"
       />
     );
+
+  if (!items.length) return renderNotItems();
   return (
     <section className={cn("grid grid-cols-4 gap-4", className)}>
       {items.map((pxl) => (

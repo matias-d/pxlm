@@ -2,10 +2,16 @@ import CreateCallToAction from "@/components/marketplace/home/create-call-to-act
 import FiltersUI from "@/components/marketplace/home/filters-ui";
 import useMarketplace from "@/hooks/useMarketplace";
 import PxlList from "@/components/widgets/pxl-list";
+import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
+import Button from "@/components/ui/button";
+import useStatistics from "@/hooks/useStatistics";
 
 export default function Home() {
   const { loading, error, items } = useMarketplace();
+
+  const { totalItems, totalOwners, totalVolume, lastMintedTimeAgo } =
+    useStatistics({ items });
 
   return (
     <section className="pb-12">
@@ -15,19 +21,21 @@ export default function Home() {
         <div className="flex items-center gap-x-12">
           <div className="flex items-center gap-x-2">
             <h2 className="font-display text-lg">Results</h2>
-            <p className="text-text-secondary">{error ? 0 : 1000}</p>
+            <p className="text-text-secondary">{error ? 0 : totalItems}</p>
           </div>
           <div className="flex items-center gap-x-2">
             <h2 className="font-display text-lg">Volume</h2>
-            <p className="text-text-secondary">{error ? 0 : "2.5k TBNB"}</p>
+            <p className="text-text-secondary">
+              {error ? 0 : totalVolume} TBNB
+            </p>
           </div>
           <div className="flex items-center gap-x-2">
             <h2 className="font-display text-lg">Owners</h2>
-            <p className="text-text-secondary">{error ? 0 : 200}</p>
+            <p className="text-text-secondary">{error ? 0 : totalOwners}</p>
           </div>
         </div>
         <p className="text-accent-firthy font-display ">
-          last minted 30 mins ago
+          last minted {lastMintedTimeAgo}
         </p>
       </section>
 
@@ -35,6 +43,11 @@ export default function Home() {
       <PxlList
         renderLoading={() => (
           <Loading src="/pxl-examples/9.svg" label="Obtaining collection" />
+        )}
+        renderNotItems={() => (
+          <NotItems message="No items available in the marketplace right now.">
+            <Button className="h-4 text-xs px-4">Create your PXL</Button>
+          </NotItems>
         )}
         loading={loading}
         error={error}

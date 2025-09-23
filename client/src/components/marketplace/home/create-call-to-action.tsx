@@ -6,11 +6,6 @@ import { Link } from "react-router";
 export default function CreateCallToAction() {
   return (
     <div className="mb-12 bg-linear-to-r  from-accent via-accent-fifthy to-accent-firthy rounded-sm h-[350px] p-8 flex items-center justify-between relative">
-      <img
-        src="/background.png"
-        alt="Background gradient"
-        className="pointer-events-none absolute inset-0 w-full h-full rounded-sm opacity-80"
-      />
       <div className="bg-card rounded-full -top-8 ring ring-white/10 shadow left-8 w-24 h-24 flex items-center justify-center z-10 absolute overflow-hidden">
         <img
           src="/pxl-examples/3.svg"
