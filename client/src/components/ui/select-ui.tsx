@@ -8,29 +8,42 @@ import { ChevronRight, Dot } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 
-interface Select {
+interface Fields {
   id: number;
   label: string;
+  value: string;
 }
 
 interface Props {
-  selects: Select[];
+  fields: Fields[];
   placeholder?: string;
   className?: string;
+  onSelect: (select: string) => void;
 }
 
-export default function SelectUI({ selects, placeholder, className }: Props) {
-  const initState = placeholder ? null : selects[0];
-
-  const [select, setSelect] = useState<Select | null>(initState);
+export default function SelectUI({
+  fields,
+  placeholder,
+  className,
+  onSelect,
+}: Props) {
+  const [selected, setSelected] = useState<Fields | undefined>(
+    placeholder ? undefined : fields[0]
+  );
 
   return (
     <div className={cn("space-y-2 relative", className)}>
-      <Listbox value={select} onChange={setSelect}>
+      <Listbox
+        value={selected}
+        onChange={(field: Fields) => {
+          setSelected(field);
+          onSelect(field.value);
+        }}
+      >
         {({ open }) => (
           <>
-            <ListboxButton className="cursor-pointer font-display flex items-center justify-between min-w-56 w-full text-text-secondary hover:text-text-primary px-4 h-14 gap-x-12 bg-card-light rounded-md border-2 border-border outline-none  hover:border-accent-primary/50 transition-colors">
-              {select?.label || placeholder}
+            <ListboxButton className="cursor-pointer font-display flex items-center justify-between min-w-56 w-full text-text-secondary hover:text-text-primary px-4 h-14 gap-x-12 bg-card-light rounded-md border-2 border-border outline-none hover:border-accent-primary/50 transition-colors">
+              {selected?.label || placeholder}
               <ChevronRight
                 className={cn(
                   "size-5 transition-transform duration-300 text-accent-primary",
@@ -41,21 +54,21 @@ export default function SelectUI({ selects, placeholder, className }: Props) {
             </ListboxButton>
 
             <ListboxOptions className="outline-none absolute top-full left-0 right-0 bg-card-light overflow-hidden rounded-md mt-1 border border-border shadow-lg z-50">
-              {selects.map((person) => (
+              {fields.map((option) => (
                 <ListboxOption
-                  key={person.id}
-                  value={person}
-                  className="font-primary  text-text-secondary cursor-pointer group "
+                  key={option.id}
+                  value={option}
+                  className="font-primary text-text-secondary cursor-pointer group"
                 >
                   {({ selected }) => (
                     <div
                       className={cn(
-                        "h-12 px-4 flex items-center justify-between  group-hover:bg-card-super-light transition-colors",
-                        selected && "bg-card-super-light  text-accent-primary"
+                        "h-12 px-4 flex items-center justify-between group-hover:bg-card-super-light transition-colors",
+                        selected && "bg-card-super-light text-accent-primary"
                       )}
                     >
                       <span className={cn(selected && "font-medium")}>
-                        {person.label}
+                        {option.label}
                       </span>
                       <Dot
                         size={28}

@@ -1,11 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { initialState, marketplaceReducer } from "./marketplace-reducer";
+import {
+  initialState,
+  marketplaceReducer,
+} from "./reducer/marketplace-reducer";
 import {
   _createNFT,
   _getAccount,
   _getNFT,
   getAllNFTs,
 } from "../services/contracts";
+import { createNFTToastController } from "@/utils/create-nft-toast-controller";
 import { createContext, useEffect, useReducer, useState } from "react";
 import { steps } from "@/helpers/consts/steps-progress";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
@@ -22,6 +26,11 @@ interface IMarketplaceContext {
   createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
   getNFT: (tokenId: number) => Promise<IPxl | null>;
   getAccount: () => Promise<void>;
+  updateItemsOrder: (
+    order: "low-to-high" | "high-to-low",
+    items: IPxl[]
+  ) => void;
+  onFilterByRarity: (rarity: string) => void;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -34,7 +43,11 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   createNFT: async () => null,
   getAccount: async () => {},
   getNFT: async () => null,
+  updateItemsOrder: () => {},
+  onFilterByRarity: () => {},
 });
+
+const toastController = createNFTToastController();
 
 export default function MarketplaceProvider({
   children,
@@ -50,7 +63,7 @@ export default function MarketplaceProvider({
       onLoading(true);
       try {
         const result = await getAllNFTs(state.account?.signer);
-        dispatch({ type: "SET_ITEMS", payload: result });
+        updateItems(result);
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
         messageError(error as Error, "get all nfts");
@@ -60,15 +73,6 @@ export default function MarketplaceProvider({
       }
     })();
   }, [state.account?.signer]);
-
-  const onLoading = (value: boolean) =>
-    dispatch({ type: "SET_LOADING", payload: value });
-
-  const onError = (value: boolean) =>
-    dispatch({ type: "SET_ERROR", payload: value });
-
-  const updateItems = (items: IPxl[]) =>
-    dispatch({ type: "SET_ITEMS", payload: items });
 
   const getAccount = async (): Promise<void> => {
     try {
@@ -89,17 +93,20 @@ export default function MarketplaceProvider({
 
   const createNFT = async (pxl: IPxlCreate): Promise<IPxl | null> => {
     setProgress(0);
+    toastController.start("🎨 Starting NFT creation...");
     try {
       const result = await _createNFT({
         pxl,
         signer: state.account!.signer,
         address: state.account!.address,
-        onStepChange,
+        onStepChange: (currentStep) => {
+          const { label, percent } = steps[currentStep];
+          setProgress(percent);
+          toastController.update(label, percent);
+        },
       });
 
-      toast.success("🎉 NFT created and listed successfully!", {
-        id: "nft-progress",
-      });
+      toastController.success("🎉 NFT created successfully!");
 
       if (result) updateItems([result, ...state.items]);
 
@@ -124,11 +131,24 @@ export default function MarketplaceProvider({
     }
   };
 
-  const onStepChange = (currentStep: number) => {
-    const { label, percent } = steps[currentStep];
-    setProgress(percent);
-    toast.loading(label, { id: "nft-progress" });
+  // Handle filters & sorting
+  const updateItemsOrder = (order: "low-to-high" | "high-to-low") => {
+    dispatch({ type: "SORT_BY_PRICE", payload: order });
   };
+
+  const onFilterByRarity = (rarity: string) => {
+    dispatch({ type: "FILTER_BY_RARITY", payload: rarity });
+  };
+
+  // Util functions
+  const updateItems = (items: IPxl[]) =>
+    dispatch({ type: "SET_ITEMS", payload: items });
+
+  const onLoading = (value: boolean) =>
+    dispatch({ type: "SET_LOADING", payload: value });
+
+  const onError = (value: boolean) =>
+    dispatch({ type: "SET_ERROR", payload: value });
 
   const messageError = (error: Error, functionAction: string) => {
     const message =
@@ -146,6 +166,8 @@ export default function MarketplaceProvider({
         error: state.status.error,
         account: state.account,
         items: state.items,
+        updateItemsOrder,
+        onFilterByRarity,
         getAccount,
         createNFT,
         progress,
