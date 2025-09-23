@@ -29,6 +29,7 @@ export const RARITY_SYSTEM = {
     name: "legendary",
     minScore: 401,
     backgroundColor: "d4af37,b8860b",
+    probabilities: "1%",
     tailwind: {
       text: "text-yellow-500",
       bg: "bg-yellow-600/30",
@@ -38,6 +39,7 @@ export const RARITY_SYSTEM = {
     name: "epic",
     minScore: 335,
     backgroundColor: "8e7cc3,6f5f8f",
+    probabilities: "4%",
     tailwind: {
       text: "text-indigo-500",
       bg: "bg-indigo-600/30",
@@ -47,6 +49,7 @@ export const RARITY_SYSTEM = {
     name: "rare",
     minScore: 260,
     backgroundColor: "1B7599",
+    probabilities: "12%",
     tailwind: {
       text: "text-sky-500",
       bg: "bg-sky-600/30",
@@ -56,6 +59,7 @@ export const RARITY_SYSTEM = {
     name: "uncommon",
     minScore: 190,
     backgroundColor: "a19e99",
+    probabilities: "31%",
     tailwind: {
       text: "text-lime-500",
       bg: "bg-lime-600/30",
@@ -65,6 +69,7 @@ export const RARITY_SYSTEM = {
     name: "common",
     minScore: 100,
     backgroundColor: "a19e99",
+    probabilities: "51%",
     tailwind: {
       text: "text-gray-500",
       bg: "bg-gray-600/30",
