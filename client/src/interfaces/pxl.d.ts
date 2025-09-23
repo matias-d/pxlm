@@ -7,6 +7,7 @@ export interface IPxlCreate {
   rarity_tier: string;
   price: number;
   bonuses: string[];
+  addedPrices: { bonus: number; name: string; color: string }[];
 }
 
 export interface IPxl {
@@ -23,6 +24,7 @@ export interface IPxl {
   rarity_score: number;
   rarity_tier: string;
   generatedFrom: string;
+  minted_at: number;
 }
 
 export interface IPxlContract {

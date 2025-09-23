@@ -1,35 +1,70 @@
 import { SPECIAL_COMBOS } from "@/helpers/consts/pxl-config";
+import { Tooltip } from "./tooltip";
+import { cn } from "@/lib/cn";
+import Card from "./card";
 
 interface Props {
   bonuses: string[];
 }
 
+const COMBO_CONFIG = [
+  {
+    key: "GOLDEN_SET",
+    label: "Golden Set",
+    classTooltip: "bg-[#716527]/80 text-[#ffd700]",
+    classCard: "bg-[#7F6800] border-[#BBA015] glow-once-infinite",
+    imgSrc: "/pxl-examples/set_golden.svg",
+  },
+  {
+    key: "SILVER_SET",
+    label: "Silver Set",
+    classTooltip: "bg-[#555555]/80  text-[#c0c0c0]",
+    classCard: "bg-[#666666] border-[#7B7B7B]",
+    imgSrc: "/pxl-examples/set_silver.svg",
+  },
+  {
+    key: "GENTLEMAN",
+    label: "Gentleman",
+    classCard: "",
+    classTooltip: "",
+    imgSrc: "/pxl-examples/gentleman.svg",
+  },
+];
+
 export default function SpecialCombo({ bonuses }: Props) {
   const bonusSets = bonuses.filter((bonus) => bonus !== "Fully Loaded");
 
   return (
-    <>
-      {bonusSets.map((bonus) => (
-        <div key={bonus} className="flex items-center gap-x-2">
-          {bonus === SPECIAL_COMBOS.GOLDEN_SET.name && (
-            <p className="text-[10px] font-semibold font-display bg-[#716527]/80 rounded-sm px-1 py-0.5 text-[#ffd700] glow-once-infinite">
-              GOLDEN SET 🥇
-            </p>
-          )}
-
-          {bonus === SPECIAL_COMBOS.SILVER_SET.name && (
-            <p className="text-[10px] font-semibold font-display bg-[#949494]/40 rounded-sm px-1 py-0.5 text-[#c0c0c0] ">
-              SILVER SET 🥈
-            </p>
-          )}
-
-          {bonus === SPECIAL_COMBOS.GENTLEMAN.name && (
-            <p className="text-[10px] font-semibold font-display bg-gray-700/80 rounded-sm px-1 py-0.5 text-black ">
-              GENTLEMAN 🕴
-            </p>
-          )}
-        </div>
-      ))}
-    </>
+    <div className="absolute left-1/2 -translate-x-1/2 -bottom-4 flex items-center gap-x-2">
+      {bonusSets.map((bonus) => {
+        const combo = COMBO_CONFIG.find(
+          (c) =>
+            SPECIAL_COMBOS[c.key as keyof typeof SPECIAL_COMBOS].name === bonus
+        );
+        if (!combo) return null;
+        return (
+          <Tooltip
+            key={bonus}
+            content={`Special Combo: ${combo.label}`}
+            className="whitespace-nowrap "
+            contentClassName={cn(
+              "text-xs font-semibold font-display bg-[#555]/80 rounded-md",
+              combo.classTooltip
+            )}
+          >
+            <Card
+              className={cn(
+                "rounded-full overflow-hidden p-1 size-16",
+                combo.classCard
+              )}
+            >
+              <div className="rounded-full overflow-hidden">
+                <img src={combo.imgSrc} className="" />
+              </div>
+            </Card>
+          </Tooltip>
+        );
+      })}
+    </div>
   );
 }

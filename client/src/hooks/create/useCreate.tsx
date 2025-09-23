@@ -37,6 +37,7 @@ const initState = {
   rarity_tier: "",
   price: 0,
   bonuses: [],
+  addedPrices: [],
 };
 
 export default function useCreate() {
@@ -78,10 +79,13 @@ export default function useCreate() {
       if (!isTry) goToNextStep();
       await sleep(2000);
     } catch (error: any) {
-      console.error("Generate PXL ERROR:", error);
-      toast.error("Error al generar el PXL ART", {
-        description: error.message,
-      });
+      console.error("❌ Error while generating PXL:", error);
+      const message =
+        error instanceof Error && error.message
+          ? `Failed to generate pxl: ${error.message}`
+          : `An unexpected error occurred while generating pxl.`;
+
+      toast.error(message);
     } finally {
       setLoad(false);
     }

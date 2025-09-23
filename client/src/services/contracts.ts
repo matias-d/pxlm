@@ -123,10 +123,13 @@ export async function _createNFT({
     res.json()
   );
 
+  const priceFormat = await marketplaceContract.getTotalPrice(tokenId);
+  const priceParse2 = ethers.formatEther(priceFormat);
+
   const nft = NFTMapper({
     item,
     metadata: result,
-    price: priceParse.toString(),
+    price: priceParse2,
   });
 
   return nft;
@@ -189,6 +192,10 @@ export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
         ?.value
     ) || "";
 
+  const minted_at = Number(
+    metadata.attributes.find((attr) => attr.trait_type === "Minted At")?.value
+  );
+
   const nft: IPxl = {
     generatedFrom: metadata.properties.generated_from,
     description: metadata.description,
@@ -202,6 +209,7 @@ export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
     rarity_tier,
     price,
     image,
+    minted_at,
   };
 
   return nft;

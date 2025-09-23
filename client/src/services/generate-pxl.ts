@@ -148,6 +148,7 @@ export function generatePXL({ address }: { address: string }) {
     rarity_tier: rarityTier.name,
     price: result.price,
     bonuses: result.bonuses,
+    addedPrices: result.addedPrices,
   };
 }
 
@@ -156,12 +157,19 @@ type PremiumColorKey = keyof typeof COLORS_VALUE;
 // Generate price of PXL ART
 function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
   const rarity = calculateRarity(attributes);
+  const addedPricesMap: Record<
+    string,
+    { count: number; bonus: number; color: string }
+  > = {};
 
   const rarityMultiplier = Math.max(1, rarity / 100);
   let price = basePrice * rarityMultiplier;
   const bonuses: string[] = [];
 
-  // BONUS: Premium Colors (view PREMIUM_COLORS const)
+  // Rarity bonus
+  addedPricesMap["rarity bonus"] = { count: 1, bonus: price, color: "" };
+
+  // BONUS: Premium Colors
   attributes.forEach((attr) => {
     if (!attr.color) return;
 
@@ -171,21 +179,57 @@ function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
     const bonusInfo = PREMIUM_COLORS[hex];
     if (bonusInfo) {
       price += bonusInfo.bonus;
-      bonuses.push(`${bonusInfo.name} Item`);
+
+      // Agrupar por nombre
+      if (!addedPricesMap[bonusInfo.name]) {
+        addedPricesMap[bonusInfo.name] = {
+          count: 1,
+          bonus: bonusInfo.bonus,
+          color: `text-[#${hex}]`,
+        };
+      } else {
+        addedPricesMap[bonusInfo.name].count += 1;
+        addedPricesMap[bonusInfo.name].bonus += bonusInfo.bonus;
+      }
+
+      bonuses.push(bonusInfo.name);
     }
   });
 
-  // BONUS: Special Combos (view SPECIAL_COMBOS const)
+  // BONUS: Special Combos
   Object.values(SPECIAL_COMBOS).forEach((combo) => {
     if (combo.check(attributes)) {
       price += combo.bonus;
+
+      if (!addedPricesMap[combo.name]) {
+        addedPricesMap[combo.name] = {
+          count: 1,
+          bonus: combo.bonus,
+          color: "",
+        };
+      } else {
+        addedPricesMap[combo.name].count += 1;
+        addedPricesMap[combo.name].bonus += combo.bonus;
+      }
+
       bonuses.push(combo.name);
     }
   });
 
+  const addedPrices = Object.entries(addedPricesMap).map(([name, data]) => ({
+    bonus: data.bonus,
+    name:
+      data.count > 1
+        ? `x${data.count} ${name} items`
+        : name === "rarity bonus"
+        ? name
+        : `${name} item`,
+    color: data.color,
+  }));
   return {
     price: Math.round(price * 10000) / 10000,
     bonuses,
+    addedPrices,
   };
 }
 
