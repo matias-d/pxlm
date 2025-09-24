@@ -1,0 +1,57 @@
+import useCart from "@/hooks/useCart";
+import Button from "../ui/button";
+import { cn } from "@/lib/cn";
+import Drawer from "../marketplace/home/purchase/drawer";
+import { useState } from "react";
+
+export default function PxlCart() {
+  const [open, setOpen] = useState(false);
+  const { active, clearCart, cart } = useCart();
+
+  const onOpen = () => setOpen(!open);
+
+  const totalPrice = cart.reduce((acc, item) => acc + Number(item.price), 0);
+  return (
+    <>
+      <div
+        className={cn(
+          "fixed bottom-0  left-0 w-full h-[56px] bg-card z-30 border-t border-border transition-all duration-400 ease-in-out",
+          active ? "bottom-0" : "-bottom-full"
+        )}
+      >
+        <section className="max-container p-2 flex items-center gap-x-4">
+          <div className="flex items-center">
+            {cart.map((item, i) => (
+              <img
+                key={item.tokenId}
+                src={item.image}
+                className={cn(
+                  "size-10 rounded-sm border border-border",
+                  i > 0 && "-ml-2"
+                )}
+                alt={`PXL Media #${item.tokenId}`}
+              />
+            ))}
+          </div>
+          <span className="w-[1px] h-8 bg-border"></span>
+          <div className="flex items-center gap-x-4">
+            <Button onClick={onOpen} className="text-xs h-4 font-bold">
+              Buy {cart.length} now
+            </Button>
+            <p className="text-text-primary/90 text-sm">
+              {totalPrice.toFixed(4)} TBNB
+            </p>
+          </div>
+          <span className="w-[1px] h-8 bg-border"></span>
+          <Button
+            onClick={clearCart}
+            className="text-xs h-4 font-bold btn-secondary px-2"
+          >
+            Clear
+          </Button>
+        </section>
+      </div>
+      <Drawer items={cart} onOpen={onOpen} open={open} />
+    </>
+  );
+}
