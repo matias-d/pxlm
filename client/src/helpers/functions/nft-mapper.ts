@@ -4,9 +4,15 @@ interface NFTMapperParams {
   item: IPxlContract;
   metadata: PinataPXLResponse;
   price: string;
+  owner: string;
 }
 
-export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
+export function NFTMapper({
+  item,
+  metadata,
+  price,
+  owner,
+}: NFTMapperParams): IPxl {
   const image = `https://${import.meta.env.VITE_GATEWAY}/${metadata.image}`;
   const rarity_score =
     Number(
@@ -26,17 +32,19 @@ export function NFTMapper({ item, metadata, price }: NFTMapperParams): IPxl {
   const nft: IPxl = {
     generatedFrom: metadata.properties.generated_from,
     description: metadata.description,
-    tokenId: Number(item.tokenId),
     attributes: metadata.attributes,
+    tokenId: Number(item.tokenId),
+    itemId: Number(item.itemId),
     nftAddress: item.nft,
     seller: item.seller,
     name: metadata.name,
     sold: item.sold,
     rarity_score,
     rarity_tier,
+    minted_at,
     price,
     image,
-    minted_at,
+    owner,
   };
 
   return nft;

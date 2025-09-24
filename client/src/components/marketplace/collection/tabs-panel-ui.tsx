@@ -10,8 +10,6 @@ import useStatistics from "@/hooks/useStatistics";
 export default function TabsPanelUI() {
   const { error, loading, getAllUserNfts, userItems } = useMarketplace();
 
-  console.log("Useritems", userItems);
-
   const { totalVolume, totalItems } = useStatistics({ items: userItems });
 
   useEffect(() => {

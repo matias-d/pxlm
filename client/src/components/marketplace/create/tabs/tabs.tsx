@@ -4,7 +4,7 @@ import GeneratePXL from "./panel/generate-pxl";
 import Customize from "./panel/customize";
 import TabsListUI from "./tabs-list-ui";
 import Artwork from "./panel/artwork/artwork";
-import Save from "./panel/save/save";
+import Save from "./panel/save";
 
 export default function Tabs() {
   const {

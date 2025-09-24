@@ -2,10 +2,10 @@ import CreateCallToAction from "@/components/marketplace/home/create-call-to-act
 import FiltersUI from "@/components/marketplace/home/filters-ui";
 import useMarketplace from "@/hooks/useMarketplace";
 import PxlList from "@/components/widgets/pxl-list";
+import useStatistics from "@/hooks/useStatistics";
 import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
-import useStatistics from "@/hooks/useStatistics";
 
 export default function Home() {
   const { loading, error, items } = useMarketplace();

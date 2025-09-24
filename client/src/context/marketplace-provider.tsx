@@ -8,14 +8,16 @@ import {
   _getAccount,
   _getAllUserNfts,
   _getNFT,
+  _purchaseNFT,
   getAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
 import { createContext, useEffect, useReducer, useState } from "react";
 import { steps } from "@/helpers/consts/steps-progress";
+import { toast } from "sonner";
+
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import type { IUser } from "../interfaces/user";
-import { toast } from "sonner";
 
 interface IMarketplaceContext {
   account: IUser | null;
@@ -28,8 +30,8 @@ interface IMarketplaceContext {
 
   createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
   getNFT: (tokenId: number) => Promise<IPxl | null>;
+  purchaseNFT: (tokenId: number) => Promise<void>;
   onFilterByRarity: (rarity: string) => void;
-
   updateItemsOrder: (
     order: "low-to-high" | "high-to-low",
     items: IPxl[]
@@ -52,6 +54,7 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   progress: 0,
   onFilterByStatusUserItems: () => {},
   getAllUserNfts: async () => {},
+  purchaseNFT: async () => {},
   createNFT: async () => null,
   getAccount: async () => {},
   updateItemsOrder: () => {},
@@ -69,6 +72,7 @@ export default function MarketplaceProvider({
   const [state, dispatch] = useReducer(marketplaceReducer, initialState);
   const [progress, setProgress] = useState(0);
 
+  // Get all NFTs Marketplace
   useEffect(() => {
     (async () => {
       if (!state.account?.signer)
@@ -89,23 +93,7 @@ export default function MarketplaceProvider({
     })();
   }, [state.account?.signer]);
 
-  const getAccount = async (): Promise<void> => {
-    try {
-      onLoading(true);
-      const account = await _getAccount();
-      dispatch({
-        type: "SET_ACCOUNT",
-        payload: account,
-      });
-    } catch (error: any) {
-      console.error("❌ Error while getting account:", error);
-      messageError(error as Error, "get account");
-      onError(true);
-    } finally {
-      onLoading(false);
-    }
-  };
-
+  // Actions NFT
   const createNFT = async (pxl: IPxlCreate): Promise<IPxl | null> => {
     setProgress(0);
     toastController.start("🎨 Starting NFT creation...");
@@ -135,7 +123,42 @@ export default function MarketplaceProvider({
     }
   };
 
+  const purchaseNFT = async (tokenId: number) => {
+    try {
+      const { buyer } = await _purchaseNFT({
+        tokenId,
+        signer: state.account!.signer,
+      });
+
+      const updated = state.baseItems.map((item) =>
+        item.tokenId === tokenId ? { ...item, sold: true, owner: buyer } : item
+      );
+
+      updateItems({ type: "SET_USER_ITEMS", items: updated });
+      updateItems({ items: updated });
+    } catch (error) {
+      console.error("❌ Error while purchasing NFT:", error);
+      messageError(error as Error, "purchase NFT");
+    }
+  };
+
   // Getters
+  const getAccount = async (): Promise<void> => {
+    try {
+      onLoading(true);
+      const account = await _getAccount();
+      dispatch({
+        type: "SET_ACCOUNT",
+        payload: account,
+      });
+    } catch (error: any) {
+      console.error("❌ Error while getting account:", error);
+      messageError(error as Error, "get account");
+      onError(true);
+    } finally {
+      onLoading(false);
+    }
+  };
 
   const getAllUserNfts = async () => {
     onLoading(true);
@@ -158,6 +181,7 @@ export default function MarketplaceProvider({
       onLoading(false);
     }
   };
+
   const getNFT = async (tokenId: number): Promise<IPxl | null> => {
     try {
       const result = await _getNFT(tokenId, state.account!.signer);
@@ -218,6 +242,7 @@ export default function MarketplaceProvider({
         updateItemsOrder,
         onFilterByRarity,
         getAllUserNfts,
+        purchaseNFT,
         getAccount,
         createNFT,
         progress,

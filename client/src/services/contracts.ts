@@ -119,23 +119,45 @@ export async function _createNFT({
   );
   await listTx.wait();
 
-  const item: IPxlContract = await marketplaceContract.getItem(tokenId);
-  const tokenUri = `https://${import.meta.env.VITE_GATEWAY}/${item.tokenURI}`;
-
-  const result: PinataPXLResponse = await fetch(tokenUri).then((res) =>
-    res.json()
-  );
-
-  const priceFormat = await marketplaceContract.getTotalPrice(tokenId);
-  const priceParse2 = ethers.formatEther(priceFormat);
-
-  const nft = NFTMapper({
-    item,
-    metadata: result,
-    price: priceParse2,
-  });
+  const nft = _getNFT(tokenId, signer);
 
   return nft;
+}
+
+// Handle purchase NFT
+export async function _purchaseNFT({
+  tokenId,
+  signer,
+}: {
+  tokenId: number;
+  signer: ethers.Signer;
+}) {
+  const { marketplaceContract } = await getMarketplaceContract(signer);
+
+  const totalPrice = await marketplaceContract.getTotalPrice(tokenId);
+
+  const tx = await marketplaceContract.purchaseItem(tokenId, {
+    value: totalPrice,
+  });
+
+  const receipt = await tx.wait();
+
+  // Buscar el evento Bought
+  const event = receipt.logs
+    .map((log: any) => {
+      try {
+        return marketplaceContract.interface.parseLog(log);
+      } catch {
+        return null;
+      }
+    })
+    .filter((e: any) => e?.name === "Bought")[0];
+
+  if (!event) throw new Error("Bought event not found");
+
+  const { buyer } = event.args;
+
+  return { tokenId, buyer };
 }
 
 // Handle Get All NFTs
@@ -172,7 +194,9 @@ export async function _getAllUserNfts(
 
   const nfts = await Promise.all(nftPromises);
 
-  const nftsFiltered = nfts.filter((nft) => nft.generatedFrom === address);
+  const nftsFiltered = nfts.filter(
+    (nft) => nft.generatedFrom === address || nft.owner === address
+  );
 
   return nftsFiltered;
 }
@@ -183,7 +207,9 @@ export async function _getNFT(
   signer: ethers.Signer
 ): Promise<IPxl> {
   const { marketplaceContract } = await getMarketplaceContract(signer);
+  const { nftContract } = await getNFTContract(signer);
   const item: IPxlContract = await marketplaceContract.getItem(tokenId);
+  const owner = await nftContract.ownerOf(tokenId);
 
   // Get metadata from IPFS
   const tokenUri = `https://${import.meta.env.VITE_GATEWAY}/${item.tokenURI}`;
@@ -195,7 +221,7 @@ export async function _getNFT(
   const priceRaw = await marketplaceContract.getTotalPrice(tokenId);
   const price = ethers.formatEther(priceRaw);
 
-  const nft = NFTMapper({ item, metadata: result, price });
+  const nft = NFTMapper({ item, metadata: result, price, owner });
 
   return nft;
 }

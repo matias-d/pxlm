@@ -11,11 +11,13 @@ export interface IPxlCreate {
 }
 
 export interface IPxl {
+  itemId: number;
   nftAddress: string;
   tokenId: number;
   seller: string;
   price: string;
   sold: boolean;
+  owner: string;
 
   name: string;
   description: string;
