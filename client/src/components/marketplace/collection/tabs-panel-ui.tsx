@@ -5,12 +5,10 @@ import PxlList from "../../widgets/pxl-list";
 import Button from "@/components/ui/button";
 import Loading from "../../ui/loading";
 import { useEffect } from "react";
-import useStatistics from "@/hooks/useStatistics";
+import Statics from "./statics";
 
 export default function TabsPanelUI() {
   const { error, loading, getAllUserNfts, userItems } = useMarketplace();
-
-  const { totalVolume, totalItems } = useStatistics({ items: userItems });
 
   useEffect(() => {
     (async () => await getAllUserNfts())();
@@ -18,17 +16,9 @@ export default function TabsPanelUI() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center gap-x-6 mb-4  w-full">
-        <div className="flex items-center gap-x-2">
-          <h2 className="font-display text-lg">Items</h2>
-          <p className="text-text-secondary">{error ? 0 : totalItems}</p>
-        </div>
-        <div className="flex items-center gap-x-2">
-          <h2 className="font-display text-lg">Vol</h2>
-          <p className="text-text-secondary">{error ? 0 : totalVolume} TBNB</p>
-        </div>
-      </div>
+      <Statics />
       <TabPanels>
+        {/* Panel All items */}
         <TabPanel>
           <PxlList
             renderLoading={() => (
@@ -49,6 +39,8 @@ export default function TabsPanelUI() {
             items={userItems}
           />
         </TabPanel>
+
+        {/* Panel Items Sold */}
         <TabPanel>
           <PxlList
             renderLoading={() => (
@@ -62,6 +54,8 @@ export default function TabsPanelUI() {
             items={userItems}
           />
         </TabPanel>
+
+        {/* Panel Items Purchased */}
         <TabPanel>
           <PxlList
             renderLoading={() => (

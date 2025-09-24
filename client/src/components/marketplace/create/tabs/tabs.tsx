@@ -1,9 +1,9 @@
 import { TabGroup, TabPanel, TabPanels } from "@headlessui/react";
 import useCreate from "@/hooks/create/useCreate";
 import GeneratePXL from "./panel/generate-pxl";
+import Artwork from "./panel/artwork/artwork";
 import Customize from "./panel/customize";
 import TabsListUI from "./tabs-list-ui";
-import Artwork from "./panel/artwork/artwork";
 import Save from "./panel/save";
 
 export default function Tabs() {
@@ -31,9 +31,12 @@ export default function Tabs() {
             <TabsListUI selectedIndex={selectedIndex} />
 
             <TabPanels className="mt-20">
+              {/* Generate PXL Panel */}
               <TabPanel>
                 <GeneratePXL onGeneratePXL={onGeneratePXL} />
               </TabPanel>
+
+              {/* Artwork Panel */}
               <TabPanel>
                 <Artwork
                   onNextStep={goToNextStep}
@@ -42,6 +45,8 @@ export default function Tabs() {
                   loading={load}
                 />
               </TabPanel>
+
+              {/* Customize Panel */}
               <TabPanel>
                 <Customize
                   pxl={pxl}
@@ -50,6 +55,8 @@ export default function Tabs() {
                   onNextStep={goToNextStep}
                 />
               </TabPanel>
+
+              {/* Save Panel */}
               <TabPanel>
                 <Save pxl={pxl} onPrevStep={goToPrevStep} onReset={onReset} />
               </TabPanel>

@@ -12,55 +12,11 @@ import {
   getAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
-import { createContext, useEffect, useReducer, useState } from "react";
+import { MarketplaceContext } from "./marketplace-context";
+import { useEffect, useReducer, useState } from "react";
+import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { steps } from "@/helpers/consts/steps-progress";
 import { toast } from "sonner";
-
-import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
-import type { IUser } from "../interfaces/user";
-
-interface IMarketplaceContext {
-  account: IUser | null;
-  userItems: IPxl[];
-  items: IPxl[];
-
-  loading: boolean;
-  progress: number;
-  error: boolean;
-
-  createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
-  getNFT: (tokenId: number) => Promise<IPxl | null>;
-  purchaseNFT: (tokenId: number) => Promise<void>;
-  onFilterByRarity: (rarity: string) => void;
-  updateItemsOrder: (
-    order: "low-to-high" | "high-to-low",
-    items: IPxl[]
-  ) => void;
-
-  onFilterByStatusUserItems: (status: "all" | "sold" | "purchase") => void;
-
-  getAllUserNfts: () => Promise<void>;
-  getAccount: () => Promise<void>;
-}
-
-// eslint-disable-next-line react-refresh/only-export-components
-export const MarketplaceContext = createContext<IMarketplaceContext>({
-  account: null,
-  userItems: [],
-  items: [],
-
-  loading: false,
-  error: false,
-  progress: 0,
-  onFilterByStatusUserItems: () => {},
-  getAllUserNfts: async () => {},
-  purchaseNFT: async () => {},
-  createNFT: async () => null,
-  getAccount: async () => {},
-  updateItemsOrder: () => {},
-  onFilterByRarity: () => {},
-  getNFT: async () => null,
-});
 
 const toastController = createNFTToastController();
 
@@ -72,7 +28,7 @@ export default function MarketplaceProvider({
   const [state, dispatch] = useReducer(marketplaceReducer, initialState);
   const [progress, setProgress] = useState(0);
 
-  // Get all NFTs Marketplace
+  // === Get all NFTs Marketplace ===
   useEffect(() => {
     (async () => {
       if (!state.account?.signer)
@@ -93,7 +49,7 @@ export default function MarketplaceProvider({
     })();
   }, [state.account?.signer]);
 
-  // Actions NFT
+  // === Actions NFT ===
   const createNFT = async (pxl: IPxlCreate): Promise<IPxl | null> => {
     setProgress(0);
     toastController.start("🎨 Starting NFT creation...");
@@ -142,7 +98,7 @@ export default function MarketplaceProvider({
     }
   };
 
-  // Getters
+  // === Getters ===
   const getAccount = async (): Promise<void> => {
     try {
       onLoading(true);
@@ -193,7 +149,7 @@ export default function MarketplaceProvider({
     }
   };
 
-  // Handle filters & sorting
+  // === Handle filters & sorting ===
   const updateItemsOrder = (order: "low-to-high" | "high-to-low") => {
     dispatch({ type: "SORT_BY_PRICE", payload: order });
   };
@@ -206,7 +162,7 @@ export default function MarketplaceProvider({
     dispatch({ type: "FILTER_BY_STATUS_USER_ITEMS", payload: status });
   };
 
-  // Util functions
+  // === Util reducer functions ===
   const updateItems = ({
     type = "SET_ITEMS",
     items,

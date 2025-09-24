@@ -20,22 +20,32 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   SET_ACCOUNT: (state, action) => {
     return { ...state, account: action.payload };
   },
+
+  // Handle loading
   SET_LOADING: (state, action) => {
     return { ...state, status: { ...state.status, loading: action.payload } };
   },
+
+  // Handle error
   SET_ERROR: (state, action) => {
     return { ...state, status: { ...state.status, error: action.payload } };
   },
+
+  // Set items and base items
   SET_ITEMS: (state, action) => {
     const order = "low-to-high";
     const sorted = applyPriceOrder(action.payload, order);
     return { ...state, items: sorted, baseItems: sorted, order };
   },
+
+  // Set items in userItems and baseUserItems
   SET_USER_ITEMS: (state, action) => {
     const order = "low-to-high";
     const sorted = applyPriceOrder(action.payload, order);
     return { ...state, userItems: sorted, baseUserItems: sorted, order };
   },
+
+  // Filter items by rarity
   FILTER_BY_RARITY: (state, action) => {
     if (action.payload === "all") {
       const sorted = applyPriceOrder(state.baseItems, state.order);
@@ -50,11 +60,14 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
 
     return { ...state, items: sorted };
   },
+
+  // Sort items by low and hight price
   SORT_BY_PRICE: (state, action) => {
     const sorted = applyPriceOrder(state.items, action.payload);
     return { ...state, items: sorted, order: action.payload };
   },
 
+  // Filter user items by status (sold, purchased or all)
   FILTER_BY_STATUS_USER_ITEMS: (state, action) => {
     if (!state.account?.address) return { ...state };
 

@@ -47,24 +47,23 @@ export default function useStatistics({ items }: Props): Statistics {
         volumeByRarity: {},
       };
     }
-
-    // 1. Cantidad de items
+    // 1. Number of items
     const totalItems = items.length;
     const soldItems = items.filter((item) => item.sold).length;
     const availableItems = totalItems - soldItems;
 
-    // 2. Cálculos de volumen
+    // 2. Volume calculations
     const prices = items.map((item) => parseFloat(item.price));
     const totalVolume = prices.reduce((sum, price) => sum + price, 0);
     const averagePrice = totalVolume / totalItems;
     const floorPrice = Math.min(...prices);
     const ceilingPrice = Math.max(...prices);
 
-    // 3. Owners únicos
+    // 3. Unique owners
     const uniqueSellers = [...new Set(items.map((item) => item.seller))];
     const totalOwners = uniqueSellers.length;
 
-    // 4. Último minteado (NFT con minted_at más reciente)
+    // 4. Latest minting
     const sortedByMintDate = [...items].sort(
       (a, b) => b.minted_at - a.minted_at
     );
@@ -74,10 +73,10 @@ export default function useStatistics({ items }: Props): Statistics {
       ? getTimeAgo(lastMinted.minted_at)
       : "never";
 
-    // 5. Estadísticas adicionales
+    // 5. Additional statistics
     const salesRate = totalItems > 0 ? (soldItems / totalItems) * 100 : 0;
 
-    // 6. Volumen por rareza
+    // 6. Volume by rarity
     const volumeByRarity = items.reduce((acc, item) => {
       const rarity = item.rarity_tier;
       const price = parseFloat(item.price);
@@ -105,7 +104,7 @@ export default function useStatistics({ items }: Props): Statistics {
       lastMinted,
       lastMintedDate,
       lastMintedTimeAgo,
-      salesRate: Math.round(salesRate * 100) / 100, // 2 decimales
+      salesRate: Math.round(salesRate * 100) / 100,
       volumeByRarity: Object.fromEntries(
         Object.entries(volumeByRarity).map(([rarity, data]) => [
           rarity,

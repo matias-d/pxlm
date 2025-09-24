@@ -1,4 +1,4 @@
-import { MarketplaceContext } from "../context/marketplace-provider";
+import { MarketplaceContext } from "@/context/marketplace-context";
 import { useContext } from "react";
 
 export default function useMarketplace() {

@@ -1,4 +1,4 @@
-import PurchaseDetails from "../marketplace/home/purchase-details";
+import Drawer from "../marketplace/home/purchase/drawer";
 import PXLCard from "@/components/widgets/pxl-card";
 import type { IPxl } from "@/interfaces/pxl";
 import PXLImage from "../ui/pxl-image";
@@ -66,7 +66,7 @@ export default function PxlList({
           </PXLCard.Card>
         ))}
       </section>
-      <PurchaseDetails onOpen={onOpen} open={drawer.open} pxl={drawer.pxl} />
+      <Drawer onOpen={onOpen} open={drawer.open} pxl={drawer.pxl} />
     </>
   );
 }

@@ -37,7 +37,6 @@ export default function Customize({
           <Rarity rarity={pxl.rarity_score} />
         </div>
         {/* TRAITS */}
-
         <DisclousureUI
           title="TRAITS"
           classNamePanel={cn(
@@ -94,7 +93,6 @@ export default function Customize({
             </div>
 
             {/* Input Price */}
-
             <div>
               <h4 className="font-semibold mb-0.5 text-sm">Price</h4>
               <div className="relative">

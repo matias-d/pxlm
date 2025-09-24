@@ -67,6 +67,7 @@ export default function TabsListUI({
         </Tab>
       ))}
 
+      {/* Progress bar */}
       <div className="absolute -bottom-4 left-0 w-full">
         <div className="absolute top-0 left-0 h-1 w-full bg-border"></div>
 

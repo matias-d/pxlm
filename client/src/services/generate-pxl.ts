@@ -23,6 +23,7 @@ import type { IAttribute } from "@/interfaces/attributes";
 
 const DICE_BEAR_API = "https://api.dicebear.com/9.x/pixel-art/svg";
 
+// Generates a unique PXL avatar with randomized traits based on an address and timestamp.
 export function generatePXL({ address }: { address: string }) {
   const timestamp = Date.now();
   const hash = createDeterministicHash(address, timestamp);
@@ -154,7 +155,7 @@ export function generatePXL({ address }: { address: string }) {
 
 type PremiumColorKey = keyof typeof COLORS_VALUE;
 
-// Generate price of PXL ART
+// Calculates the price of a PXL ART avatar based on its attributes, rarity, premium colors, and special combinations.
 function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
   const rarity = calculateRarity(attributes);
   const addedPricesMap: Record<
@@ -232,7 +233,7 @@ function generatePXLPrice(attributes: IAttribute[], basePrice = 0.01) {
   };
 }
 
-// Function to calculate rarity based on probabilities
+// Calculates the rarity score of a PXL ART avatar based on its attributes, probabilities, and presence of gold items.
 function calculateRarity(attributes: IAttribute[]) {
   let rarityScore = 100;
 
@@ -273,6 +274,7 @@ function calculateRarity(attributes: IAttribute[]) {
   return Math.round(rarityScore);
 }
 
+// Generates the metadata object for a PXL NFT, including name, description, image, traits, rarity, bonuses, and additional properties.
 export function generateNFTMetadata({
   tokenId,
   image,
