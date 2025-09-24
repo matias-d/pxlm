@@ -5,8 +5,8 @@ import {
   DialogTitle,
   Transition,
 } from "@headlessui/react";
-import Card from "./card";
 import { cn } from "../../lib/cn";
+import Card from "./card";
 
 interface Props {
   isOpen: boolean;
@@ -51,7 +51,7 @@ export default function Modal({
               "transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in data-closed:sm:translate-y-0 data-closed:sm:scale-95",
               className
             )}
-            onClick={(e) => e.stopPropagation()} // evita que el click dentro del panel cierre el modal
+            onClick={(e) => e.stopPropagation()}
           >
             <Card className={cn("max-w-xl", classNameCard)}>
               {title && (

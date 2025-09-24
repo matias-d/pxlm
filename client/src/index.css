@@ -87,6 +87,10 @@
     font-family: var(--font-accent);
   }
 
+  .line-border {
+    border: 0.1px solid #26242c;
+  }
+
   .glow-once {
     animation: glow 2.2s ease-in-out 1;
   }

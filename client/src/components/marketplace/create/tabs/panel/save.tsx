@@ -2,15 +2,16 @@ import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
 import ErrorComponent from "@/components/ui/error";
+import ModalSave from "@/components/ui/modal-save";
 import { Tooltip } from "@/components/ui/tooltip";
-import ContainerPanel from "../container-panel";
+import ContainerPanel from "./container-panel";
+import { Confetti } from "@/utils/confetti";
 import Button from "@/components/ui/button";
 import Rarity from "@/components/ui/rarity";
 import { ChevronLeft } from "lucide-react";
-import TraitCard from "../../../trait-card";
+import TraitCard from "../../trait-card";
 import Card from "@/components/ui/card";
-import confetti from "canvas-confetti";
-import ModalSave from "./modal-save";
+import { Link } from "react-router";
 import { useState } from "react";
 
 interface Props {
@@ -35,13 +36,8 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
     try {
       const resultNFT = await createNFT(pxl);
       setNFT(resultNFT);
-      confetti({
-        particleCount: Math.floor(200 * 0.25),
-        spread: 26,
-        origin: { y: 0.7 },
-        startVelocity: 55,
-      });
       onOpen();
+      Confetti();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
       setOpen(false);
@@ -144,7 +140,19 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
         </section>
       </ContainerPanel>
 
-      <ModalSave onReset={onReset} nft={nft} open={open} onOpen={onOpen} />
+      <ModalSave nft={nft} open={open} onOpen={onOpen} disableOutsideClick>
+        <Button
+          className="btn-display text-base h-12"
+          onClick={onReset}
+          asChild
+        >
+          <Link to="/marketplace/create">Try again</Link>
+        </Button>
+
+        <Button asChild className="text-base h-12 " onClick={onOpen}>
+          <Link to="/marketplace">Home</Link>
+        </Button>
+      </ModalSave>
     </>
   );
 }
