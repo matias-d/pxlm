@@ -51,8 +51,8 @@ export default function Auth() {
 
         {loading && account && (
           <Card className="h-[4.875rem] w-[24.375rem] flex items-center justify-center">
-            <p className="font-display text-text-secondary font-semibold">
-              Getting data...
+            <p className="font-display text-text-secondary after:content-[''] after:absolute after:ml-1 after:animate-dots">
+              Obtaining a user wallet
             </p>
           </Card>
         )}

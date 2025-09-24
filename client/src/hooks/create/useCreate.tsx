@@ -4,31 +4,16 @@ import type { IPxlCreate } from "@/interfaces/pxl";
 import useMarketplace from "../useMarketplace";
 import { useState } from "react";
 import { toast } from "sonner";
+import {
+  COOLDOWN,
+  getAttempts,
+  MAX_TRIES,
+  resetAttempts,
+  saveAttempts,
+  type IAttempts,
+} from "./attemps";
 
 const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
-
-// Attemps management
-interface IAttempts {
-  count: number;
-  firstTry: number;
-}
-
-const MAX_TRIES = 3;
-const COOLDOWN = 2 * 60 * 1000;
-const STORAGE_KEY = "pxl_attempts";
-
-export const getAttempts = (): IAttempts => {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : { count: 0, firstTry: 0 };
-};
-
-const saveAttempts = (attempts: IAttempts) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(attempts));
-};
-
-const resetAttempts = () => {
-  saveAttempts({ count: 0, firstTry: 0 });
-};
 
 const initState = {
   url: "",
@@ -105,9 +90,7 @@ export default function useCreate() {
       const waitMs = COOLDOWN - (now - updated.firstTry);
       if (waitMs > 0) {
         const minutes = Math.ceil(waitMs / 60000);
-        toast.info(
-          `You've already had your three attempts. Please wait ${minutes} min.`
-        );
+        toast.info(`Try again in ${minutes} min.`);
         return false;
       } else {
         resetAttempts();

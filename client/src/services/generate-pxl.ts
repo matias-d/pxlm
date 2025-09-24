@@ -138,6 +138,8 @@ export function generatePXL({ address }: { address: string }) {
   const rarity = calculateRarity(attributes);
   const rarityTier = getRarityTier(rarity);
   const result = generatePXLPrice(attributes);
+  params.append("backgroundRotation", "250");
+  params.append("backgroundType", "gradientLinear");
   params.append("backgroundColor", rarityTier.backgroundColor);
 
   const avatarUrl = `${DICE_BEAR_API}?${params.toString()}`;
