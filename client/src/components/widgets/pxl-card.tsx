@@ -6,11 +6,26 @@ import { Link } from "react-router";
 import Button from "../ui/button";
 import CardUI from "../ui/card";
 import { cn } from "@/lib/cn";
+import useCart from "@/hooks/useCart";
 
 // Principal Card
-export function Card({ children }: { children: React.ReactNode }) {
+export function Card({
+  children,
+  tokenId,
+}: {
+  children: React.ReactNode;
+  tokenId: number;
+}) {
+  const { inCart } = useCart();
+  const found = inCart(tokenId);
+
   return (
-    <CardUI className="group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out">
+    <CardUI
+      className={cn(
+        "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
+        found && "border-accent border-2"
+      )}
+    >
       {children}
     </CardUI>
   );

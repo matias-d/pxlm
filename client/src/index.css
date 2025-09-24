@@ -99,6 +99,10 @@
     animation: glow 2.2s ease-in-out infinite;
   }
 
+  .glow-active {
+    animation: glow-default 2s ease-in-out infinite alternate;
+  }
+
   .max-container {
     @apply max-w-screen-xl mx-auto w-full px-4 lg:px-12 2xl:px-0;
   }
@@ -196,6 +200,16 @@
     100% {
       transform: skew(-12deg) translateX(100%);
       opacity: 0;
+    }
+  }
+
+  @keyframes glow-default {
+    0%,
+    100% {
+      box-shadow: 0 0 1px rgba(214, 177, 0, 0);
+    }
+    50% {
+      box-shadow: 0 0 5px rgba(214, 177, 0, 0.1);
     }
   }
 

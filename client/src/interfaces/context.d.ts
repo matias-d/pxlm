@@ -1,3 +1,5 @@
+import type { IPxl } from "./pxl";
+
 export interface IMarketplaceContext {
   account: IUser | null;
   userItems: IPxl[];

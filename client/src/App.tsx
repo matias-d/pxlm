@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 // Layouts
 import MarketplaceProvider from "./context/marketplace-provider";
 import MarketplaceLayout from "./layouts/marketplace.layout";
+import CartProvider from "./context/cart-provider";
 
 // Pages
 import Collection from "./pages/marketplace/collection";
@@ -16,19 +17,21 @@ export default function App() {
   return (
     <>
       <MarketplaceProvider>
-        <Routes>
-          <Route path="/" element={<Auth />} />
-          <Route path="*" element={<NotFound />} />
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<Auth />} />
+            <Route path="*" element={<NotFound />} />
 
-          {/* Marketplace */}
-          <Route path="/marketplace" element={<MarketplaceLayout />}>
-            <Route index element={<Home />} />
+            {/* Marketplace */}
+            <Route path="/marketplace" element={<MarketplaceLayout />}>
+              <Route index element={<Home />} />
 
-            <Route path="create" element={<Create />} />
-            <Route path="collection" element={<Collection />} />
-            <Route path="guide" element={<Guide />} />
-          </Route>
-        </Routes>
+              <Route path="create" element={<Create />} />
+              <Route path="collection" element={<Collection />} />
+              <Route path="guide" element={<Guide />} />
+            </Route>
+          </Routes>
+        </CartProvider>
       </MarketplaceProvider>
     </>
   );

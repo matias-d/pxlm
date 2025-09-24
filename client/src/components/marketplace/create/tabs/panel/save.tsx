@@ -64,6 +64,7 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
   const owner =
     (account?.address && shortenAddress(account?.address)) || "Uknowed user";
 
+  const items = nft ? [nft] : [];
   return (
     <>
       <ContainerPanel pxl={pxl}>
@@ -140,7 +141,13 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
         </section>
       </ContainerPanel>
 
-      <ModalSave nft={nft} open={open} onOpen={onOpen} disableOutsideClick>
+      <ModalSave
+        items={items}
+        open={open}
+        onOpen={onOpen}
+        disableOutsideClick
+        className="justify-between"
+      >
         <Button
           className="btn-display text-base h-12"
           onClick={onReset}

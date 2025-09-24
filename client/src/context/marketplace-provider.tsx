@@ -2,7 +2,8 @@
 import {
   initialState,
   marketplaceReducer,
-} from "./reducer/marketplace-reducer";
+} from "./reducer/marketplace/marketplace-reducer";
+
 import {
   _createNFT,
   _getAccount,

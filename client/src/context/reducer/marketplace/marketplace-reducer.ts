@@ -14,6 +14,8 @@ export const initialState: IMarketplaceState = {
 
   userItems: [],
   baseUserItems: [],
+
+  cart: [],
 };
 
 const UPDATE_STATE_BY_ACTION: UpdateStateI = {
@@ -90,6 +92,10 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     const sorted = applyPriceOrder(filtered, state.order);
 
     return { ...state, userItems: sorted };
+  },
+  SET_CART: (state, action) => {
+    const cartUpdated = [...state.cart, action.payload];
+    return { ...state, cart: cartUpdated };
   },
 };
 

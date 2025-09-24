@@ -1,24 +1,27 @@
 import { useDisableScroll } from "@/hooks/useDisabelScroll";
 import useMarketplace from "@/hooks/useMarketplace";
-import ModalSave from "../../../ui/modal-save";
+import ModalSave from "@/components/ui/modal-save";
 import type { IPxl } from "@/interfaces/pxl";
-import Button from "@/components/ui/button";
 import { useState, useEffect } from "react";
 import { Confetti } from "@/utils/confetti";
+import Button from "@/components/ui/button";
+import useCart from "@/hooks/useCart";
 import Checkout from "./checkout";
 import { X } from "lucide-react";
 import Payment from "./payment";
 import { cn } from "@/lib/cn";
+import { toast } from "sonner";
 
 interface Props {
-  onOpen: (pxl: IPxl | null) => void;
+  onOpen: () => void;
   open: boolean;
-  pxl: IPxl | null;
+  items: IPxl[];
 }
 
-export default function Drawer({ onOpen, open, pxl }: Props) {
+export default function Drawer({ onOpen, open, items }: Props) {
+  const [currentItems, setCurrentItems] = useState<IPxl[] | null>(items);
   const { purchaseNFT } = useMarketplace();
-  const [currentPxl, setCurrentPxl] = useState<IPxl | null>(pxl);
+  const { removeCart, inCart, baseCart, clearCart } = useCart();
 
   const [status, setStatus] = useState({
     load: false,
@@ -29,28 +32,53 @@ export default function Drawer({ onOpen, open, pxl }: Props) {
   useDisableScroll(open);
 
   useEffect(() => {
-    if (pxl) {
-      setCurrentPxl(pxl);
+    if (items) {
+      setCurrentItems(items);
     }
-    if (!open && !pxl) {
+    if (!open && !items) {
       const timer = setTimeout(() => {
-        setCurrentPxl(null);
+        setCurrentItems(null);
       }, 400);
       return () => clearTimeout(timer);
     }
-  }, [pxl, open]);
+  }, [items, open]);
 
-  const onPurchase = async (tokenId: number) => {
-    setStatus((prev) => ({ ...prev, load: true }));
+  const onPurchase = async () => {
+    if (!currentItems) return;
+    setStatus({ load: true, error: false, success: false });
     try {
-      await purchaseNFT(tokenId);
+      for (let i = 0; i < currentItems.length; i++) {
+        const item = currentItems[i];
+
+        toast.info(`Purchasing NFT ${i + 1} of ${currentItems.length}...`, {});
+
+        await purchaseNFT(item.tokenId);
+      }
+
       Confetti();
+      toast.success("Purchase completed successfully! 🎉");
       setStatus((prev) => ({ ...prev, success: true }));
+      onEnd();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {
       setStatus((prev) => ({ ...prev, load: false }));
     }
+  };
+
+  const onClearCart = () => {
+    const itemsFound = items.filter((pxl) => inCart(pxl.tokenId));
+    itemsFound.forEach((pxl) => removeCart(pxl.tokenId));
+  };
+
+  const onEnd = () => {
+    onOpen();
+    onClearCart();
+  };
+
+  const onCloseModal = () => {
+    setStatus({ load: false, error: false, success: false });
+    clearCart();
   };
 
   return (
@@ -63,20 +91,17 @@ export default function Drawer({ onOpen, open, pxl }: Props) {
       >
         <button
           className="absolute right-12 top-3 transition-colors hover:bg-card-super-light p-1 rounded-full cursor-pointer"
-          onClick={() => onOpen(null)}
+          onClick={onOpen}
         >
           <X />
         </button>
         <section className="max-container pt-6 h-full relative">
-          {currentPxl && (
+          {currentItems?.length && (
             <section className="grid grid-cols-2 w-full gap-x-20 relative h-full">
-              <Checkout pxl={currentPxl} />
+              <Checkout items={currentItems} />
               <span className="h-[calc(100%-2rem)] w-[2px] bg-border absolute left-1/2 -translate-x-1/2 top-2"></span>
 
-              <Payment
-                load={status.load}
-                onPurchase={() => onPurchase(currentPxl.tokenId)}
-              />
+              <Payment load={status.load} onPurchase={onPurchase} />
             </section>
           )}
         </section>
@@ -85,7 +110,7 @@ export default function Drawer({ onOpen, open, pxl }: Props) {
       {/* Layout black */}
       <div
         role="button"
-        onClick={() => onOpen(null)}
+        onClick={onOpen}
         className={cn(
           "inset-0 bg-black/30 w-full h-full fixed transition-all",
           open ? "bg-black/30 z-20 opacity-100" : "-z-10 opacity-0"
@@ -94,18 +119,22 @@ export default function Drawer({ onOpen, open, pxl }: Props) {
 
       <ModalSave
         title="🎉 Your new PXL!"
-        onOpen={() => onOpen(null)}
-        nft={pxl}
+        onOpen={onCloseModal}
         open={status.success}
-        className="justify-end"
-      >
-        <Button
-          className="btn-display text-base h-12"
-          onClick={() => onOpen(null)}
-        >
-          Close
-        </Button>
-      </ModalSave>
+        items={baseCart}
+        renderButtonClose={(onClose) => (
+          <Button className="h-12 text-base btn-display" onClick={onClose}>
+            Close
+          </Button>
+        )}
+        renderHandleNext={(onNext, isLastItem) =>
+          !isLastItem && (
+            <Button className="h-12 text-base" onClick={onNext}>
+              Next
+            </Button>
+          )
+        }
+      />
     </>
   );
 }

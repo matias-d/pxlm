@@ -25,13 +25,16 @@ export default function PxlList({
   renderLoading,
   renderNotItems,
 }: Props) {
-  const [drawer, setDrawer] = useState<{ open: boolean; pxl: IPxl | null }>({
+  const [drawer, setDrawer] = useState<{ open: boolean; items: IPxl[] }>({
     open: false,
-    pxl: null,
+    items: [],
   });
 
-  const onOpen = (pxl: IPxl | null) => {
-    setDrawer({ pxl, open: !drawer.open });
+  const onOpen = () => setDrawer((prev) => ({ ...prev, open: !drawer.open }));
+
+  const onBuy = (pxl: IPxl) => {
+    setDrawer((prev) => ({ ...prev, items: [pxl] }));
+    onOpen();
   };
 
   if (loading) return renderLoading();
@@ -53,20 +56,20 @@ export default function PxlList({
     <>
       <section className={cn("grid grid-cols-4 gap-4", className)}>
         {items.map((pxl) => (
-          <PXLCard.Card key={pxl.tokenId}>
-            <PXLImage src={pxl.image} alt={`PXL Media #${pxl.tokenId}`} />
+          <PXLCard.Card key={pxl.tokenId} tokenId={pxl.tokenId}>
+            <PXLImage pxl={pxl} alt={`PXL Media #${pxl.tokenId}`} />
             <PXLCard.Info
               rarity_score={pxl.rarity_score}
               tokenId={pxl.tokenId}
             />
             <PxlCard.PriceDetails price={pxl.price} isSold={pxl.sold} />
             <PxlCard.FooterContent>
-              <PxlCard.ButtonCard onClick={() => onOpen(pxl)} pxl={pxl} />
+              <PxlCard.ButtonCard onClick={() => onBuy(pxl)} pxl={pxl} />
             </PxlCard.FooterContent>
           </PXLCard.Card>
         ))}
       </section>
-      <Drawer onOpen={onOpen} open={drawer.open} pxl={drawer.pxl} />
+      <Drawer onOpen={onOpen} open={drawer.open} items={drawer.items} />
     </>
   );
 }

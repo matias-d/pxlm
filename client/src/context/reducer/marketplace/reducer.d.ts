@@ -10,6 +10,8 @@ interface IMarketplaceState {
 
   baseUserItems: Ipxl[];
   userItems: IPxl[];
+
+  cart: IPxl[];
 }
 export type Action =
   | { type: "SET_ACCOUNT"; payload: IUser }
@@ -18,6 +20,7 @@ export type Action =
   | { type: "SET_ITEMS"; payload: IPxl[] }
   | { type: "SET_USER_ITEMS"; payload: IPxl[] }
   | { type: "FILTER_BY_RARITY"; payload: string }
+  | { type: "SET_CART"; payload: IPxl }
   | {
       type: "FILTER_BY_STATUS_USER_ITEMS";
       payload: "all" | "sold" | "purchase";
@@ -33,6 +36,7 @@ export interface UpdateStateI {
   SET_LOADING: functionUpdate<Extract<Action, { type: "SET_LOADING" }>>;
   SET_ERROR: functionUpdate<Extract<Action, { type: "SET_ERROR" }>>;
   SET_ITEMS: functionUpdate<Extract<Action, { type: "SET_ITEMS" }>>;
+  SET_CART: functionUpdate<Extract<Action, { type: "SET_CART" }>>;
   SET_USER_ITEMS: functionUpdate<Extract<Action, { type: "SET_USER_ITEMS" }>>;
   FILTER_BY_RARITY: functionUpdate<
     Extract<Action, { type: "FILTER_BY_RARITY" }>
