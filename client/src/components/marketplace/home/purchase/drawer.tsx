@@ -16,10 +16,11 @@ interface Props {
   onOpen: () => void;
   open: boolean;
   items: IPxl[];
+  type?: "cart" | "single";
 }
 
-export default function Drawer({ onOpen, open, items }: Props) {
-  const [currentItems, setCurrentItems] = useState<IPxl[] | null>(items);
+export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
+  const [currentItems, setCurrentItems] = useState<IPxl[]>(items);
   const { purchaseNFT } = useMarketplace();
   const { removeCart, inCart, baseCart, clearCart } = useCart();
 
@@ -37,7 +38,7 @@ export default function Drawer({ onOpen, open, items }: Props) {
     }
     if (!open && !items) {
       const timer = setTimeout(() => {
-        setCurrentItems(null);
+        setCurrentItems([]);
       }, 400);
       return () => clearTimeout(timer);
     }
@@ -50,7 +51,12 @@ export default function Drawer({ onOpen, open, items }: Props) {
       for (let i = 0; i < currentItems.length; i++) {
         const item = currentItems[i];
 
-        toast.info(`Purchasing NFT ${i + 1} of ${currentItems.length}...`, {});
+        if (currentItems.length > 0)
+          toast.info(
+            `Purchasing NFT ${i + 1} of ${currentItems.length}...`,
+            {}
+          );
+        else toast.info(`Purchasing NFT ...`, {});
 
         await purchaseNFT(item.tokenId);
       }
@@ -118,10 +124,11 @@ export default function Drawer({ onOpen, open, items }: Props) {
       />
 
       <ModalSave
+        disableOutsideClick
         title="🎉 Your new PXL!"
         onOpen={onCloseModal}
         open={status.success}
-        items={baseCart}
+        items={type === "cart" ? baseCart : currentItems}
         renderButtonClose={(onClose) => (
           <Button className="h-12 text-base btn-display" onClick={onClose}>
             Close

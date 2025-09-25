@@ -69,7 +69,12 @@ export default function PxlList({
           </PXLCard.Card>
         ))}
       </section>
-      <Drawer onOpen={onOpen} open={drawer.open} items={drawer.items} />
+      <Drawer
+        type="single"
+        onOpen={onOpen}
+        open={drawer.open}
+        items={drawer.items}
+      />
     </>
   );
 }
