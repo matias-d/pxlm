@@ -31,6 +31,13 @@ export default function PXLImage({
 
   return (
     <div className="relative">
+      {isOwner && (
+        <div className="absolute top-2 right-2 z-20">
+          <p className="text-xs bg-accent/95 text-[#D445AB] font-semibold border border-accent px-2 rounded-md">
+            Owned
+          </p>
+        </div>
+      )}
       <div
         className={cn(
           "group relative inline-flex overflow-hidden rounded-md ",

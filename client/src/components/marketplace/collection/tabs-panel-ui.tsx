@@ -12,8 +12,6 @@ export default function TabsPanelUI() {
   const { error, loading, getAllUserNfts, userItems, account } =
     useMarketplace();
 
-  console.log("USER ITEMS", userItems);
-
   useEffect(() => {
     if (!account?.signer) return;
     (async () => {

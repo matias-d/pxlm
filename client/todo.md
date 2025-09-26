@@ -2,16 +2,12 @@
 
 - [] Desactivar tabs de arriba
 - [] Responsive web - mobil and tablet
+- [] Grafica de precio del nft
 
 ### Prioridad media
 
+- [] Metadata en html- description + title, tambien en el proyecto de Lottery
 - [] Page de PXL DETAIL
-
-### Prioridad baja
-
-- [] Agregar owners pxl card
-
----
 
 ### Resueltos
 
@@ -51,3 +47,6 @@
   - [x] Items vendidos
 - [x] Crear pagina de como funcionan los rarity
 - [x] Ordernar pxl assets
+- [x] Agregar owners pxl card
+- [x] Loader top header page
+- [x] Mejorar ui botones (comprado, mi coleccion)

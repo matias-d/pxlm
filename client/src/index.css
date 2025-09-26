@@ -88,7 +88,7 @@
   }
 
   .line-border {
-    border: 0.1px solid #26242c;
+    border: 0.1px solid var(--color-border);
   }
 
   .glow-once {
@@ -144,6 +144,38 @@
     border-radius: 50%;
     overflow: hidden;
     animation: glowSoftGold 2s infinite alternate;
+  }
+
+  .loading-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: transparent;
+    overflow: hidden;
+  }
+
+  .loading-bar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20%;
+    height: 5px;
+    background-color: var(--color-accent);
+    box-shadow: 10px 0 30px 15px var(--color-accent),
+      -10px 0 30px 15px var(--color-accent);
+    animation: moveLoadBar 2s cubic-bezier(0.09, 0.89, 0.7, 0.71) infinite;
+  }
+
+  @keyframes moveLoadBar {
+    0% {
+      left: -10%;
+    }
+    100% {
+      left: 110%;
+    }
   }
 
   input[type="number"]::-webkit-outer-spin-button,
@@ -259,22 +291,22 @@
   }
 
   .btn-primary {
-    @apply bg-accent   shadow shadow-accent/20 text-bg     hover:ring-accent hover:ring-offset-3 hover:ring-offset-card;
+    @apply bg-accent shadow shadow-accent/20 text-bg hover:ring-accent hover:ring-offset-3 hover:ring-offset-card;
     @apply disabled:bg-accent/80;
   }
 
   .btn-secondary {
-    @apply bg-card border-accent-fifthy/40 shadow shadow-card/20  text-text-primary        hover:ring-card hover:ring-offset-text-primary/10;
+    @apply bg-card border-accent-fifthy/40 shadow shadow-card/20  text-text-primary hover:ring-card hover:ring-offset-text-primary/10;
     @apply disabled:bg-card/80;
   }
 
   .btn-tertiary {
-    @apply bg-accent-fifthy   border-accent-fifthy shadow shadow-card/20  text-card        hover:ring-accent-fifthy hover:ring-offset-card;
+    @apply bg-accent-fifthy border-accent-fifthy shadow shadow-card/20 text-card hover:ring-accent-fifthy hover:ring-offset-card;
     @apply disabled:bg-card/80;
   }
 
   .btn-display {
-    @apply bg-transparent hover:bg-card-super-light  border-0 shadow shadow-card/20   text-white hover:ring-0 hover:ring-offset-0;
+    @apply bg-transparent hover:bg-card-super-light  border-0 shadow shadow-card/20 text-white hover:ring-0 hover:ring-offset-0;
     @apply disabled:bg-card/80;
   }
 }
