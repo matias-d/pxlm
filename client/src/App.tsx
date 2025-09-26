@@ -9,6 +9,7 @@ import CartProvider from "./context/cart-provider";
 import Collection from "./pages/marketplace/collection";
 import Create from "./pages/marketplace/create";
 import Guide from "./pages/marketplace/guide";
+import Item from "./pages/marketplace/item";
 import Home from "./pages/marketplace/home";
 import NotFound from "./pages/not-found";
 import Auth from "./pages/auth";
@@ -25,6 +26,7 @@ export default function App() {
             {/* Marketplace */}
             <Route path="/marketplace" element={<MarketplaceLayout />}>
               <Route index element={<Home />} />
+              <Route path="item/:tokenId" element={<Item />} />
 
               <Route path="create" element={<Create />} />
               <Route path="collection" element={<Collection />} />
