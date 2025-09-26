@@ -1,9 +1,9 @@
 import Drawer from "../marketplace/home/purchase/drawer";
-import PXLCard from "@/components/widgets/pxl-card";
+import PXLCard from "@/components/ui/pxl-card";
 import type { IPxl } from "@/interfaces/pxl";
 import PXLImage from "../ui/pxl-image";
 import Button from "../ui/button";
-import PxlCard from "./pxl-card";
+import PxlCard from "../ui/pxl-card";
 import { useState } from "react";
 import Error from "../ui/error";
 import { cn } from "@/lib/cn";

@@ -1,4 +1,4 @@
-import Logo from "@/components/ui/logo";
+import Logo from "@/components/widgets/logo";
 import { Dot } from "lucide-react";
 import MenuUser from "./menu-user";
 import Nav from "./nav";

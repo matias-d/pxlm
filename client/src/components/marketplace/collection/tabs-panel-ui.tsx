@@ -3,16 +3,25 @@ import useMarketplace from "@/hooks/useMarketplace";
 import NotItems from "@/components/ui/not-items";
 import PxlList from "../../widgets/pxl-list";
 import Button from "@/components/ui/button";
+import RelistItem from "./relist-item";
 import Loading from "../../ui/loading";
 import { useEffect } from "react";
 import Statics from "./statics";
 
 export default function TabsPanelUI() {
-  const { error, loading, getAllUserNfts, userItems } = useMarketplace();
+  const { error, loading, getAllUserNfts, userItems, account } =
+    useMarketplace();
+
+  console.log("USER ITEMS", userItems);
 
   useEffect(() => {
-    (async () => await getAllUserNfts())();
-  }, []);
+    if (!account?.signer) return;
+    (async () => {
+      await getAllUserNfts();
+    })();
+  }, [account?.signer]);
+
+  const load = loading || (!account?.signer && !error);
 
   return (
     <div className="w-full">
@@ -34,7 +43,7 @@ export default function TabsPanelUI() {
                 </div>
               </NotItems>
             )}
-            loading={loading}
+            loading={load}
             error={error}
             items={userItems}
           />
@@ -49,7 +58,7 @@ export default function TabsPanelUI() {
             renderNotItems={() => (
               <NotItems message="You haven’t sold any PXLs yet. List your creations to start selling" />
             )}
-            loading={loading}
+            loading={load}
             error={error}
             items={userItems}
           />
@@ -66,10 +75,15 @@ export default function TabsPanelUI() {
                 <Button className="h-4 text-xs px-4">Marketplace</Button>
               </NotItems>
             )}
-            loading={loading}
+            loading={load}
             error={error}
             items={userItems}
           />
+        </TabPanel>
+
+        {/* Relist items again in Marketplace */}
+        <TabPanel>
+          <RelistItem items={userItems} loading={load} />
         </TabPanel>
       </TabPanels>
     </div>

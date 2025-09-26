@@ -5,7 +5,7 @@ import useMarketplace from "@/hooks/useMarketplace";
 import AvatarUI from "@/components/ui/avatar-ui";
 
 export default function Collection() {
-  const { account, error, loading } = useMarketplace();
+  const { account, error } = useMarketplace();
 
   return (
     <section className="pb-16">
@@ -20,8 +20,6 @@ export default function Collection() {
           <AvatarUI
             className="ring-2 rounded-full"
             username={account?.address}
-            loading={loading}
-            error={error}
             size={72}
           />
           <h3 className="font-accent text-xl font-semibold text-accent">

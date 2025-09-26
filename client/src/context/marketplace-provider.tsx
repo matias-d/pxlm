@@ -5,14 +5,17 @@ import {
 } from "./reducer/marketplace/marketplace-reducer";
 
 import {
+  getMarketplaceNFTs,
+  _getAllUserNfts,
+  _purchaseNFT,
   _createNFT,
   _getAccount,
-  _getAllUserNfts,
   _getNFT,
-  _purchaseNFT,
-  getAllNFTs,
+  _relistNFT,
+  getMarketplaceAddress,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
+import { filterRelistNFTs } from "./reducer/marketplace/functions-utils";
 import { MarketplaceContext } from "./marketplace-context";
 import { useEffect, useReducer, useState } from "react";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
@@ -32,13 +35,11 @@ export default function MarketplaceProvider({
   // === Get all NFTs Marketplace ===
   useEffect(() => {
     (async () => {
-      if (!state.account?.signer)
-        throw new Error(
-          "Wallet not connected. Please connect your wallet to continue."
-        );
+      if (!state.account?.signer) return;
+
       onLoading(true);
       try {
-        const result = await getAllNFTs(state.account?.signer);
+        const result = await getMarketplaceNFTs(state.account?.signer);
         updateItems({ items: result });
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
@@ -50,15 +51,33 @@ export default function MarketplaceProvider({
     })();
   }, [state.account?.signer]);
 
+  // === Get Address Marketplace ===
+  useEffect(() => {
+    (async () => {
+      const addressMP = await getMarketplaceAddress();
+
+      if (!addressMP)
+        throw new Error(
+          "❌ Could not get the marketplace address. Check the ABI."
+        );
+      updateAddressMP(addressMP);
+    })();
+  }, []);
+
   // === Actions NFT ===
   const createNFT = async (pxl: IPxlCreate): Promise<IPxl | null> => {
+    if (!state.account)
+      throw new Error(
+        "Wallet not connected. Please connect your wallet to continue."
+      );
+
     setProgress(0);
     toastController.start("🎨 Starting NFT creation...");
     try {
       const result = await _createNFT({
         pxl,
-        signer: state.account!.signer,
-        address: state.account!.address,
+        signer: state.account.signer,
+        address: state.account.address,
         onStepChange: (currentStep) => {
           const { label, percent } = steps[currentStep];
           setProgress(percent);
@@ -80,11 +99,51 @@ export default function MarketplaceProvider({
     }
   };
 
+  const relistNFT = async (tokenId: number, price: string): Promise<void> => {
+    if (!state.account)
+      throw new Error(
+        "Wallet not connected. Please connect your wallet to continue."
+      );
+
+    try {
+      await _relistNFT({
+        tokenId,
+        price,
+        signer: state.account.signer,
+      });
+      toast.success("🎉 NFT relisted successfully!");
+
+      const marketplaceItems = await getMarketplaceNFTs(state.account.signer);
+      updateItems({ type: "SET_ITEMS", items: marketplaceItems });
+
+      const userItems = await _getAllUserNfts(
+        state.account.address,
+        state.account.signer
+      );
+
+      const filteredUserItems = filterRelistNFTs(
+        userItems,
+        state.account.address,
+        marketplaceItems
+      );
+
+      updateItems({ type: "SET_USER_ITEMS", items: filteredUserItems });
+    } catch (error) {
+      console.error("❌ Error while relist NFT:", error);
+      messageError(error as Error, "relist NFT");
+    }
+  };
+
   const purchaseNFT = async (tokenId: number) => {
+    if (!state.account)
+      throw new Error(
+        "Wallet not connected. Please connect your wallet to continue."
+      );
+
     try {
       const { buyer } = await _purchaseNFT({
         tokenId,
-        signer: state.account!.signer,
+        signer: state.account.signer,
       });
 
       const updated = state.baseItems.map((item) =>
@@ -101,8 +160,8 @@ export default function MarketplaceProvider({
 
   // === Getters ===
   const getAccount = async (): Promise<void> => {
+    onLoading(true);
     try {
-      onLoading(true);
       const account = await _getAccount();
       dispatch({
         type: "SET_ACCOUNT",
@@ -119,15 +178,11 @@ export default function MarketplaceProvider({
 
   const getAllUserNfts = async () => {
     onLoading(true);
-    if (!state.account?.signer)
-      throw new Error(
-        "Wallet not connected. Please connect your wallet to continue."
-      );
 
     try {
       const result = await _getAllUserNfts(
-        state.account?.address,
-        state.account?.signer
+        state.account!.address,
+        state.account!.signer
       );
       updateItems({ type: "SET_USER_ITEMS", items: result });
     } catch (error: any) {
@@ -159,7 +214,9 @@ export default function MarketplaceProvider({
     dispatch({ type: "FILTER_BY_RARITY", payload: rarity });
   };
 
-  const onFilterByStatusUserItems = (status: "all" | "sold" | "purchase") => {
+  const onFilterByStatusUserItems = (
+    status: "all" | "sold" | "purchase" | "relist"
+  ) => {
     dispatch({ type: "FILTER_BY_STATUS_USER_ITEMS", payload: status });
   };
 
@@ -171,6 +228,9 @@ export default function MarketplaceProvider({
     type?: "SET_ITEMS" | "SET_USER_ITEMS";
     items: IPxl[];
   }) => dispatch({ type: type, payload: items });
+
+  const updateAddressMP = (address: string) =>
+    dispatch({ type: "SET_ADDRESS_MP", payload: address });
 
   const onLoading = (value: boolean) =>
     dispatch({ type: "SET_LOADING", payload: value });
@@ -191,6 +251,7 @@ export default function MarketplaceProvider({
     <MarketplaceContext.Provider
       value={{
         loading: state.status.loading,
+        addressMP: state.addressMP,
         userItems: state.userItems,
         error: state.status.error,
         onFilterByStatusUserItems,
@@ -201,6 +262,7 @@ export default function MarketplaceProvider({
         getAllUserNfts,
         purchaseNFT,
         getAccount,
+        relistNFT,
         createNFT,
         progress,
         getNFT,

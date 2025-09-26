@@ -25,6 +25,8 @@ export function applyPriceOrder(
   });
 }
 
+// ==== Users items ====
+
 export function filterSoldItems(items: IPxl[], userAddress: string): IPxl[] {
   return items.filter(
     (item) =>
@@ -41,5 +43,17 @@ export function filterPurchasedItems(
     (item) =>
       item.sold === true &&
       item.seller.toLowerCase() !== userAddress.toLowerCase()
+  );
+}
+
+export function filterRelistNFTs(
+  items: IPxl[],
+  userAddress: string,
+  marketplaceItems: IPxl[]
+): IPxl[] {
+  return items.filter(
+    (item) =>
+      item.owner === userAddress &&
+      !marketplaceItems.some((i) => i.tokenId === item.tokenId)
   );
 }

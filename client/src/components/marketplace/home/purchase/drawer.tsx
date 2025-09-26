@@ -119,7 +119,9 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
         onClick={onOpen}
         className={cn(
           "inset-0 bg-black/30 w-full h-full fixed transition-all",
-          open ? "bg-black/30 z-20 opacity-100" : "-z-10 opacity-0"
+          open
+            ? "bg-black/30 z-20 opacity-100"
+            : "-z-20 opacity-0 pointer-events-none"
         )}
       />
 

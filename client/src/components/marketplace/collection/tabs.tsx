@@ -7,7 +7,7 @@ import useMarketplace from "@/hooks/useMarketplace";
 const tabs: {
   id: number;
   label: string;
-  value: "all" | "sold" | "purchase";
+  value: "all" | "sold" | "purchase" | "relist";
 }[] = [
   {
     id: 1,
@@ -23,6 +23,11 @@ const tabs: {
     id: 3,
     label: "Purchase",
     value: "purchase",
+  },
+  {
+    id: 4,
+    label: "Relist NFTs",
+    value: "relist",
   },
 ];
 export default function Tabs() {

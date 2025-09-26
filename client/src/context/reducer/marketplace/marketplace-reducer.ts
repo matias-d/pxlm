@@ -2,6 +2,7 @@ import type { Action, IMarketplaceState, UpdateStateI } from "./reducer";
 import {
   applyPriceOrder,
   filterPurchasedItems,
+  filterRelistNFTs,
   filterSoldItems,
 } from "./functions-utils";
 
@@ -11,11 +12,10 @@ export const initialState: IMarketplaceState = {
   account: null,
   baseItems: [],
   items: [],
+  addressMP: "",
 
   userItems: [],
   baseUserItems: [],
-
-  cart: [],
 };
 
 const UPDATE_STATE_BY_ACTION: UpdateStateI = {
@@ -38,6 +38,11 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     const order = "low-to-high";
     const sorted = applyPriceOrder(action.payload, order);
     return { ...state, items: sorted, baseItems: sorted, order };
+  },
+
+  // Set addres of Marketplace
+  SET_ADDRESS_MP: (state, action) => {
+    return { ...state, addressMP: action.payload };
   },
 
   // Set items in userItems and baseUserItems
@@ -79,23 +84,33 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     }
 
     if (action.payload === "sold") {
-      const filtered = filterSoldItems(state.baseItems, state.account?.address);
+      const filtered = filterSoldItems(
+        state.baseUserItems,
+        state.account?.address
+      );
 
       const sorted = applyPriceOrder(filtered, state.order);
       return { ...state, userItems: sorted };
     }
 
-    const filtered = filterPurchasedItems(
-      state.baseItems,
-      state.account?.address
+    if (action.payload === "purchase") {
+      const filtered = filterPurchasedItems(
+        state.baseUserItems,
+        state.account?.address
+      );
+
+      const sorted = applyPriceOrder(filtered, state.order);
+      return { ...state, userItems: sorted };
+    }
+
+    const filtered = filterRelistNFTs(
+      state.baseUserItems,
+      state.account.address,
+      state.baseItems
     );
     const sorted = applyPriceOrder(filtered, state.order);
 
     return { ...state, userItems: sorted };
-  },
-  SET_CART: (state, action) => {
-    const cartUpdated = [...state.cart, action.payload];
-    return { ...state, cart: cartUpdated };
   },
 };
 
