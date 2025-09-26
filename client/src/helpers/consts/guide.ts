@@ -35,21 +35,21 @@ export const rarities = [
 export const combos = [
   {
     id: "golden-set-combo",
-    image: "/pxl-examples/set_golden.svg",
+    image: "/assets/set_golden.svg",
     combo: SPECIAL_COMBOS.GOLDEN_SET.name,
     bonus: SPECIAL_COMBOS.GOLDEN_SET.bonus,
     icon: "/guide/golden_set.png",
   },
   {
     id: "silver-set-combo",
-    image: "/pxl-examples/set_silver.svg",
+    image: "/assets/set_silver.svg",
     combo: SPECIAL_COMBOS.SILVER_SET.name,
     bonus: SPECIAL_COMBOS.SILVER_SET.bonus,
     icon: "/guide/silver_set.png",
   },
   {
     id: "gentleman-combo",
-    image: "/pxl-examples/gentleman.svg",
+    image: "/assets/gentleman.svg",
     combo: "Gentleman",
     bonus: SPECIAL_COMBOS.GENTLEMAN.bonus,
     desc: "(top hat, glasses and beard)",

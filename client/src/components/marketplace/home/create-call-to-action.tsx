@@ -8,7 +8,7 @@ export default function CreateCallToAction() {
     <div className="mb-12 bg-linear-to-r  from-accent via-accent-fifthy to-accent-firthy rounded-sm h-[350px] p-8 flex items-center justify-between relative">
       <div className="bg-card rounded-full -top-8 ring ring-white/10 shadow left-8 w-24 h-24 flex items-center justify-center z-10 absolute overflow-hidden">
         <img
-          src="/pxl-examples/3.svg"
+          src="/assets/art-background-3.svg"
           alt="PXL NFT EXAMPLE"
           className="size-20 mt-7"
         />
@@ -30,12 +30,12 @@ export default function CreateCallToAction() {
         </Button>
       </div>
       <img
-        src="/pxl-examples/1.svg"
+        src="/assets/art-background.svg"
         alt="PXL NFT EXAMPLE"
         className="size-96 z-20"
       />
       <img
-        src="/pxl-examples/2.svg"
+        src="/assets/art-background-2.svg"
         alt="PXL NFT EXAMPLE"
         className="size-80 absolute opacity-30 bottom-0 right-1/5 z-10"
       />

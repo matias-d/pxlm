@@ -1,9 +1,9 @@
 import ButtonConnect from "@/components/auth/button-connect";
 import useMarketplace from "@/hooks/useMarketplace";
-import Footer from "@/components/ui/footer";
+import Footer from "@/components/widgets/footer";
 import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
-import Logo from "@/components/ui/logo";
+import Logo from "@/components/widgets/logo";
 
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -94,10 +94,10 @@ export default function Auth() {
         </div>
 
         <div className="absolute -bottom-4 left-0">
-          <img src="/pxl-examples/4.svg" className="size-48 opacity-10 " />
+          <img src="/assets/art-auth.svg" className="size-48 opacity-10 " />
         </div>
         <div className="absolute bottom-0 right-0">
-          <img src="/pxl-examples/5.svg" className="size-48 opacity-10" />
+          <img src="/assets/art-auth-2.svg" className="size-48 opacity-10" />
         </div>
       </main>
 

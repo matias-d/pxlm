@@ -7,12 +7,12 @@ import Card from "@/components/ui/card";
 import { Link } from "react-router";
 
 export default function MenuUser() {
-  const { loading, error, account, getAccount } = useMarketplace();
+  const { account, getAccount } = useMarketplace();
 
   return (
     <Menu>
       <MenuButton className="cursor-pointer hover:opacity-80 transition-opacity">
-        <AvatarUI username={account?.address} loading={loading} error={error} />
+        <AvatarUI username={account?.address} />
       </MenuButton>
       <MenuItems
         transition

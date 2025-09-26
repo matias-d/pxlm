@@ -19,7 +19,7 @@ export default function Home() {
       <FiltersUI />
       <PxlList
         renderLoading={() => (
-          <Loading src="/pxl-examples/9.svg" label="Obtaining collection" />
+          <Loading src="/assets/art-loading.svg" label="Obtaining collection" />
         )}
         renderNotItems={() => (
           <NotItems message="No items available in the marketplace right now.">

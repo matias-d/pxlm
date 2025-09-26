@@ -1,4 +1,4 @@
-import PXLCard from "@/components/widgets/pxl-card";
+import PXLCard from "@/components/ui/pxl-card";
 import PXLImage from "@/components/ui/pxl-image";
 import type { IPxl } from "@/interfaces/pxl";
 import Button from "@/components/ui/button";

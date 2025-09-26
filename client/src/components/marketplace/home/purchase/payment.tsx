@@ -1,7 +1,7 @@
 import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
 import Button from "@/components/ui/button";
-import Logo from "@/components/ui/logo";
+import Logo from "@/components/widgets/logo";
 
 interface Props {
   load: boolean;

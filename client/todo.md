@@ -1,14 +1,7 @@
 ### Prioridad alta
 
 - [] Desactivar tabs de arriba
-
-- [] Traer items en collection
-
-  - [] Items comprados
-  - [] Items tuyos
-  - [] Items vendidos
-
-- [] Crear pagina de como funcionan los rarity
+- [] Responsive web - mobil and tablet
 
 ### Prioridad media
 
@@ -52,3 +45,9 @@
 - [x] No poder cerrar el modal
 - [x] Mejorar special combos
 - [x] Tooltip del precio de porque esoes precio tambien en el custmoize
+- [x] Traer items en collection
+  - [x] Items comprados
+  - [x] Items tuyos
+  - [x] Items vendidos
+- [x] Crear pagina de como funcionan los rarity
+- [x] Ordernar pxl assets

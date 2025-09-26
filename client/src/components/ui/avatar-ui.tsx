@@ -1,22 +1,17 @@
 import { Frown } from "lucide-react";
 import Avatar from "boring-avatars";
 import { cn } from "@/lib/cn";
+import useMarketplace from "@/hooks/useMarketplace";
 
 interface Props {
   username: string | undefined;
-  size?: number;
   className?: string;
-  loading: boolean;
-  error: boolean;
+  size?: number;
 }
 
-export default function AvatarUI({
-  username,
-  size = 32,
-  className,
-  loading,
-  error,
-}: Props) {
+export default function AvatarUI({ username, size = 32, className }: Props) {
+  const { loading, error } = useMarketplace();
+
   if (error)
     return (
       <div className="bg-card-super-light rounded-full opacity-40">
@@ -27,7 +22,7 @@ export default function AvatarUI({
   return loading ? (
     <div className=" bg-card-super-light rounded-full opacity-40">
       <img
-        src="/pxl-examples/8.svg"
+        src="/assets/art-loading-avatar.svg"
         style={{ width: size, height: size }}
         className="animate-pulse"
       />
