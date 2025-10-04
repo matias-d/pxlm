@@ -6,6 +6,8 @@ import Logo from "../widgets/logo";
 import { shortenAddress } from "@/utils/shorten-address";
 import AvatarUI from "./avatar-ui";
 import { Tooltip } from "./tooltip";
+import Card from "./card";
+import Button from "./button";
 
 export default function PxlDetails() {
   const { items, account } = useMarketplace();
@@ -51,7 +53,7 @@ export default function PxlDetails() {
               <h2 className="text-3xl font-semibold font-accent text-white mb-4">
                 {selected?.name}
               </h2>
-              <div className="flex items-center w-full justify-between">
+              <div className="flex items-center w-full justify-between mb-8">
                 <div className="flex items-center gap-x-4">
                   <Logo />
                   <span className="text-text-secondary">|</span>
@@ -101,6 +103,39 @@ export default function PxlDetails() {
                   </Tooltip>
                 </div>
               </div>
+
+              <Card className="space-y-3">
+                <header className="flex items-center w-full justify-between">
+                  <div>
+                    <p className="text-xs text-text-secondary">RARITY</p>
+                    <p className="font-semibold font-display capitalize">
+                      {selected.rarity_tier}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-text-secondary">SCORE</p>
+                    <p className="font-semibold font-display">
+                      #{selected.rarity_score}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-text-secondary">LAST SALE</p>
+                    <p className="font-semibold font-display">
+                      {selected.price}
+                    </p>
+                  </div>
+                </header>
+                <div className="h-[1px] bg-border my-5" />
+                <div className="mb-4">
+                  <span className="text-xs text-text-secondary block mb-1">
+                    BUY FOR
+                  </span>
+                  <p className="text-2xl font-semibold font-display">
+                    {selected.price} TBNB
+                  </p>
+                </div>
+                <Button className="w-full h-12">Buy now</Button>
+              </Card>
             </section>
           </article>
         </section>
