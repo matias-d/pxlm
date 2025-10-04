@@ -14,7 +14,7 @@ export default function Home() {
 
   return (
     <>
-      <PxlDetails />
+      {/* <PxlDetails /> */}
       <section className="pb-12">
         <LoadingTop loading={loading} />
 
