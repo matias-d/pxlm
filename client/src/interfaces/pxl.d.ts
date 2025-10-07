@@ -35,6 +35,8 @@ export interface IPxl {
     seller: string;
     sold: boolean;
     itemId?: number;
+    buyer: string;
+    boughtAt: number;
   }[];
 }
 

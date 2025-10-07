@@ -98,7 +98,9 @@ contract Marketplace is ReentrancyGuard {
         uint tokenId,
         uint price,
         address seller,
+        address buyer,
         bool sold,
+        uint boughtAt,
         string memory tokenURI
     )
     {
@@ -111,7 +113,9 @@ contract Marketplace is ReentrancyGuard {
             item.tokenId,
             item.price,
             item.seller,
+            item.buyer,
             item.sold,
+            item.boughtAt,
             ERC721URIStorage(address(item.nft)).tokenURI(item.tokenId)
         );
     }
@@ -120,9 +124,10 @@ contract Marketplace is ReentrancyGuard {
     /// @dev Transfers funds to the seller and feeAccount, then transfers the NFT to the buyer
     /// @param _itemId The marketplace ID of the item to purchase
     function purchaseItem(uint _itemId) external payable nonReentrant {
-        uint _totalPrice = getTotalPrice(_itemId);
-        Item storage item = items[_itemId];
         require(_itemId > 0 && _itemId <= itemCount, "Item doesn't exist");
+        Item storage item = items[_itemId];
+        
+        uint _totalPrice = getTotalPrice(_itemId);
         require(msg.value >= _totalPrice, "Not enough ether");
         require(!item.sold, "Item already sold");
 
