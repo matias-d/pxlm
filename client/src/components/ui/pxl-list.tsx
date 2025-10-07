@@ -1,25 +1,28 @@
 import Drawer from "../marketplace/home/purchase/drawer";
 import PXLCard from "@/components/ui/pxl-card";
 import type { IPxl } from "@/interfaces/pxl";
-import PXLImage from "../ui/pxl-image";
-import Button from "../ui/button";
-import PxlCard from "../ui/pxl-card";
+import PxlListTable from "./pxl-list-table/pxl-list-table";
+import PXLImage from "./pxl-image";
+import PxlCard from "./pxl-card";
 import { useState } from "react";
-import Error from "../ui/error";
+import Button from "./button";
 import { cn } from "@/lib/cn";
+import Error from "./error";
 
 interface Props {
   renderLoading: () => React.ReactNode;
   renderNotItems: () => React.ReactNode;
+  layout?: "grid" | "table";
   className?: string;
   loading: boolean;
-  items: IPxl[];
   error: boolean;
+  items: IPxl[];
 }
 
 export default function PxlList({
   items,
   error,
+  layout,
   loading,
   className,
   renderLoading,
@@ -52,6 +55,9 @@ export default function PxlList({
     );
 
   if (!items.length) return renderNotItems();
+
+  if (layout && layout === "table") return <PxlListTable items={items} />;
+
   return (
     <>
       <section className={cn("grid grid-cols-4 gap-4", className)}>

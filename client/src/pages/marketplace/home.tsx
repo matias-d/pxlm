@@ -3,14 +3,28 @@ import FiltersUI from "@/components/marketplace/home/filters-ui";
 import Statics from "@/components/marketplace/home/statics";
 import LoadingTop from "@/components/ui/loading-top";
 import useMarketplace from "@/hooks/useMarketplace";
-import PxlList from "@/components/widgets/pxl-list";
+import PxlList from "@/components/ui/pxl-list";
 import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
 import { Link } from "react-router";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { loading, error, marketplaceItems } = useMarketplace();
+
+  const [layout, setLayout] = useState<"grid" | "table">(() => {
+    const savedLayout = localStorage.getItem("marketplace-layout");
+    return savedLayout === "grid" || savedLayout === "table"
+      ? savedLayout
+      : "grid";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("marketplace-layout", layout);
+  }, [layout]);
+
+  const onLayout = (layout: "grid" | "table") => setLayout(layout);
 
   return (
     <section className="pb-12">
@@ -19,8 +33,13 @@ export default function Home() {
       <CreateCallToAction />
 
       <Statics />
-      <FiltersUI />
+      <FiltersUI layout={layout} onLayout={onLayout} />
+
       <PxlList
+        error={error}
+        layout={layout}
+        loading={loading}
+        items={marketplaceItems}
         renderLoading={() => (
           <Loading src="/assets/art-loading.svg" label="Obtaining collection" />
         )}
@@ -31,9 +50,6 @@ export default function Home() {
             </Button>
           </NotItems>
         )}
-        loading={loading}
-        error={error}
-        items={marketplaceItems}
       />
     </section>
   );

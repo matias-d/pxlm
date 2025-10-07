@@ -1,7 +1,8 @@
+import { LayoutGrid, TableProperties } from "lucide-react";
 import useMarketplace from "@/hooks/useMarketplace";
 import { Tooltip } from "../../ui/tooltip";
 import SelectUI from "../../ui/select-ui";
-import ButtonGrid from "./button-grid";
+import { cn } from "@/lib/cn";
 
 const fields = [
   { id: 1, label: "Price: Low to High", value: "low-to-high" },
@@ -16,7 +17,12 @@ const fields2 = [
   { id: 4, label: "Legendary", value: "legendary" },
 ];
 
-export default function FiltersUI() {
+interface Props {
+  onLayout: (layout: "grid" | "table") => void;
+  layout: "grid" | "table";
+}
+
+export default function FiltersUI({ layout, onLayout }: Props) {
   const { marketplaceItems, updateItemsOrder, onFilterByRarity } =
     useMarketplace();
 
@@ -25,7 +31,7 @@ export default function FiltersUI() {
   };
 
   return (
-    <section className="flex items-start w-full justify-between mb-12">
+    <section className="flex items-start w-full justify-between mb-8">
       <div className="flex items-start gap-x-2">
         <SelectUI fields={fields} onSelect={onTogglePrice} />
         <SelectUI
@@ -34,9 +40,32 @@ export default function FiltersUI() {
           fields={fields2}
         />
       </div>
-      <Tooltip position="top" content="Grid">
-        <ButtonGrid />
-      </Tooltip>
+      <div className="flex items-center gap-x-1">
+        <Tooltip position="top" content="Grid">
+          <button
+            onClick={() => onLayout("grid")}
+            className={cn(
+              " h-14 px-4 rounded-md outline-none  hover:text-text-primary transition-colors cursor-pointer border-2 border-transparent text-text-secondary",
+              layout === "grid" &&
+                "bg-card-light border-2  border-border text-text-primary"
+            )}
+          >
+            <LayoutGrid />
+          </button>
+        </Tooltip>
+        <Tooltip position="top" content="Table">
+          <button
+            onClick={() => onLayout("table")}
+            className={cn(
+              " h-14 px-4 rounded-md outline-none  hover:text-text-primary transition-colors cursor-pointer border-2 border-transparent text-text-secondary",
+              layout === "table" &&
+                "bg-card-light border-2  border-border text-text-primary"
+            )}
+          >
+            <TableProperties />
+          </button>
+        </Tooltip>
+      </div>
     </section>
   );
 }

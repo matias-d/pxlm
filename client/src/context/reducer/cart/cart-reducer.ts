@@ -47,6 +47,18 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
 
   // Handle set cart
   SET_CART: (state, action) => {
+    const tokenId = action.payload.tokenId;
+
+    const inCart = state.cart.some((pxl) => pxl.tokenId === tokenId);
+
+    if (inCart) {
+      const updatedState = UPDATE_STATE_BY_ACTION.REMOVE_CART(state, {
+        payload: tokenId,
+        type: "REMOVE_CART",
+      });
+      return updatedState;
+    }
+
     const cartUpdated = [...state.cart, action.payload];
     return { ...state, cart: cartUpdated, baseCart: cartUpdated, active: true };
   },
