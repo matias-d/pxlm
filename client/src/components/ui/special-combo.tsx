@@ -13,21 +13,21 @@ const COMBO_CONFIG = [
     label: "Golden Set",
     classTooltip: "bg-[#716527]/80 text-[#ffd700]",
     classCard: "bg-[#7F6800] border-[#BBA015] glow-once-infinite",
-    imgSrc: "/pxl-examples/set_golden.svg",
+    imgSrc: "/assets/set_golden.svg",
   },
   {
     key: "SILVER_SET",
     label: "Silver Set",
     classTooltip: "bg-[#555555]/80  text-[#c0c0c0]",
     classCard: "bg-[#666666] border-[#7B7B7B]",
-    imgSrc: "/pxl-examples/set_silver.svg",
+    imgSrc: "/assets/set_silver.svg",
   },
   {
     key: "GENTLEMAN",
     label: "Gentleman",
     classCard: "",
     classTooltip: "",
-    imgSrc: "/pxl-examples/gentleman.svg",
+    imgSrc: "/assets/gentleman.svg",
   },
 ];
 

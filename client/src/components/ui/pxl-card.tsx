@@ -102,7 +102,7 @@ export function PriceDetails({ pxl }: { pxl: IPxl }) {
           <p className="font-display">{pxl.price}</p>
           <p className="text-text-secondary">TBNB</p>
         </div>
-        {pxl.previousListings && (
+        {pxl.previousListings && pxl.previousListings.length > 0 && (
           <div className="flex items-center gap-x-1 text-xs font-semibold">
             <p className=" text-text-secondary">Last sale</p>
             <p className="font-display ">

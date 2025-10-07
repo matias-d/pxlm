@@ -3,7 +3,7 @@ import useMarketplace from "@/hooks/useMarketplace";
 import NotItems from "@/components/ui/not-items";
 import PxlList from "../../widgets/pxl-list";
 import Button from "@/components/ui/button";
-import RelistItem from "./relist-item";
+import RelistItem from "./relist-item/relist-item";
 import Loading from "../../ui/loading";
 import { Link } from "react-router";
 import { useEffect } from "react";
@@ -21,8 +21,6 @@ export default function TabsPanelUI() {
   }, [account?.signer]);
 
   const load = loading || (!account?.signer && !error);
-
-  console.log(userItems);
 
   return (
     <div className="w-full">

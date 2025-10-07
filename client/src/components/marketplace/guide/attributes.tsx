@@ -21,7 +21,7 @@ export default function Attributes() {
       <section className="space-y-2">
         <section className="grid grid-cols-4 gap-2">
           {attributes.map((attr) => (
-            <Card className="w-full space-y-2">
+            <Card className="w-full space-y-2" key={attr.type}>
               <div className="flex items-center justify-between">
                 <h4 className="text-xl font-semibold text-accent font-accent">
                   {attr.type}
@@ -46,7 +46,10 @@ export default function Attributes() {
 
         <div className="grid grid-cols-2 w-full gap-2">
           {Object.entries(PREMIUM_COLORS).map(([color, item]) => (
-            <Card className=" flex items-center justify-between">
+            <Card
+              className=" flex items-center justify-between"
+              key={item.name}
+            >
               <div>
                 <h3
                   className="text-2xl font-semibold uppercase font-display"

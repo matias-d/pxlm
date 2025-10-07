@@ -1,6 +1,7 @@
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
+import DetailCard from "@/components/ui/detail-card";
 import ErrorComponent from "@/components/ui/error";
 import ModalSave from "@/components/ui/modal-save";
 import { Tooltip } from "@/components/ui/tooltip";
@@ -10,7 +11,6 @@ import Button from "@/components/ui/button";
 import Rarity from "@/components/ui/rarity";
 import { ChevronLeft } from "lucide-react";
 import TraitCard from "../../trait-card";
-import Card from "@/components/ui/card";
 import { Link } from "react-router";
 import { useState } from "react";
 
@@ -94,28 +94,9 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
           <div>
             <h4 className="font-display mb-2 font-semibold text-sm">DETAILS</h4>
             <div className="grid grid-cols-2 gap-2 mb-2">
-              <Card className="bg-card-dark  relative ">
-                <p className="text-xs uppercase text-text-secondary font-display font-semibold">
-                  NAME
-                </p>
-
-                <p className="text-sm">PXL ART #0000</p>
-              </Card>
-              <Card className="bg-card-dark  relative ">
-                <p className="text-xs uppercase text-text-secondary font-display font-semibold">
-                  PRICE
-                </p>
-
-                <p className="text-sm">{pxl.price} TBNB</p>
-              </Card>
-
-              <Card className="bg-card-dark  relative ">
-                <p className="text-xs uppercase text-text-secondary font-display font-semibold">
-                  OWNER
-                </p>
-
-                <p className="text-sm">{owner}</p>
-              </Card>
+              <DetailCard title="name" value="PXL ART #0000" />
+              <DetailCard title="price" value={`${pxl.price} TBNB`} />
+              <DetailCard title="owner" value={owner} />
             </div>
           </div>
           <div className="w-full flex  items-center justify-between">

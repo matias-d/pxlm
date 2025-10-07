@@ -1,8 +1,8 @@
 import TabArtworkSkeleton from "../../../skeletons/tab-artwork-skeleton";
+import PxlHeaderInfo from "@/components/ui/pxl-header-info";
 import type { IPxlCreate } from "@/interfaces/pxl";
 import ContainerPanel from "../container-panel";
 import Button from "@/components/ui/button";
-import Rarity from "@/components/ui/rarity";
 import TraitCard from "../../../trait-card";
 import Error from "@/components/ui/error";
 import AddedPrices from "../added-prices";
@@ -60,21 +60,10 @@ export default function Artwork({
 
         <section>
           <div>
-            <div className="flex items-center justify-between  mb-2 ">
-              <h4 className="font-display font-semibold text-sm">
-                TRAITS{" "}
-                <span className="text-text-secondary">
-                  {pxl.attributes.length}
-                </span>
-              </h4>
-              <div className="flex items-center gap-x-2">
-                <p className="text-sm font-display font-semibold">
-                  RARITY{" "}
-                  <span className="text-accent">#{pxl.rarity_score}</span>
-                </p>
-                <Rarity rarity={pxl.rarity_score} />
-              </div>
-            </div>
+            <PxlHeaderInfo
+              rarityScore={pxl.rarity_score}
+              totalAttr={pxl.attributes.length}
+            />
             <div className="grid grid-cols-2 gap-2 mb-2">
               {pxl.attributes.map((trait) => (
                 <TraitCard trait={trait} key={trait.trait_type} />

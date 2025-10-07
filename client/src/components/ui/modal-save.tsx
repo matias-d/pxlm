@@ -97,7 +97,7 @@ export default function ModalSave({
                   rarity_score={pxl.rarity_score}
                   tokenId={pxl.tokenId}
                 />
-                <PXLCard.PriceDetails price={pxl.price} isSold={pxl.sold} />
+                <PXLCard.PriceDetails pxl={pxl} />
                 <PXLCard.FooterContent>
                   <Button
                     asChild

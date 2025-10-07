@@ -1,14 +1,11 @@
+import TraitsDisclousure from "@/components/ui/traits-disclousure";
 import { ChevronLeft, CircleAlert } from "lucide-react";
-import DisclousureUI from "@/components/ui/disclousure-ui";
 import type { IPxlCreate } from "@/interfaces/pxl";
 import { Tooltip } from "@/components/ui/tooltip";
 import ContainerPanel from "./container-panel";
 import Button from "@/components/ui/button";
 import Rarity from "@/components/ui/rarity";
-import TraitCard from "../../trait-card";
 import Input from "@/components/ui/input";
-import Card from "@/components/ui/card";
-import { cn } from "@/lib/cn";
 
 interface Props {
   onNextStep: () => void;
@@ -37,33 +34,7 @@ export default function Customize({
           <Rarity rarity={pxl.rarity_score} />
         </div>
         {/* TRAITS */}
-        <DisclousureUI
-          title="TRAITS"
-          classNamePanel={cn(
-            "absolute w-full -bottom-[10rem] left-0 z-20",
-            pxl.attributes.length > 2 ? "-bottom-[10rem]" : "-bottom-[6rem]"
-          )}
-        >
-          {pxl.attributes.length > 0 ? (
-            <Card>
-              <div className="grid grid-cols-2 gap-2 ">
-                {pxl.attributes.map((trait) => (
-                  <TraitCard
-                    trait={trait}
-                    key={trait.trait_type}
-                    className="p-2 w-auto"
-                  />
-                ))}
-              </div>
-            </Card>
-          ) : (
-            <Card className="">
-              <div className="h-[3.563rem] flex items-center justify-center">
-                <p className="text-text-secondary">This PXL has no traits.</p>
-              </div>
-            </Card>
-          )}
-        </DisclousureUI>
+        <TraitsDisclousure attributes={pxl.attributes} />
 
         <hr className="my-4 border border-border" />
 

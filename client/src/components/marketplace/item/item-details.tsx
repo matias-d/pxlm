@@ -4,12 +4,12 @@ import { copyItemUrl } from "@/utils/copy-item-url";
 import useMarketplace from "@/hooks/useMarketplace";
 import { Tooltip } from "@/components/ui/tooltip";
 import AvatarUI from "@/components/ui/avatar-ui";
+import ItemButtonCart from "./item-button-cart";
 import Logo from "@/components/widgets/logo";
 import type { IPxl } from "@/interfaces/pxl";
-import { Copy, Plus } from "lucide-react";
-import Card from "@/components/ui/card";
 import ItemTabs from "./tabs/item-tabs";
-import useCart from "@/hooks/useCart";
+import Card from "@/components/ui/card";
+import { Copy } from "lucide-react";
 
 interface Props {
   selected: IPxl;
@@ -17,7 +17,6 @@ interface Props {
 
 export default function ItemDetails({ selected }: Props) {
   const { account } = useMarketplace();
-  const { addCart } = useCart();
 
   return (
     <section className="flex-1 pt-8 px-8  bg-card-dark h-full  overflow-auto pb-6">
@@ -50,14 +49,7 @@ export default function ItemDetails({ selected }: Props) {
               </button>
             </Tooltip>
 
-            <Tooltip content="Add to cart" className="whitespace-nowrap">
-              <button
-                onClick={() => addCart(selected)}
-                className="cursor-pointer  rounded-full hover:bg-card transition-colors size-8 flex items-center justify-center "
-              >
-                <Plus size={20} />
-              </button>
-            </Tooltip>
+            <ItemButtonCart selected={selected} />
           </div>
           <span className="text-text-secondary mr-2">|</span>
 
