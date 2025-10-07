@@ -1,7 +1,7 @@
 import { TabPanel, TabPanels } from "@headlessui/react";
 import useMarketplace from "@/hooks/useMarketplace";
 import NotItems from "@/components/ui/not-items";
-import PxlList from "../../widgets/pxl-list";
+import PxlList from "../../ui/pxl-list";
 import Button from "@/components/ui/button";
 import RelistItem from "./relist-item/relist-item";
 import Loading from "../../ui/loading";

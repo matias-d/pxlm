@@ -1,8 +1,8 @@
 import ItemCarrousel from "@/components/marketplace/item/item-carrousel";
 import ItemDetails from "@/components/marketplace/item/item-details";
+import { useLocation, useNavigate, useParams } from "react-router";
 import ItemImage from "@/components/marketplace/item/item-image";
 import { useDisableScroll } from "@/hooks/useDisabelScroll";
-import { Link, useNavigate, useParams } from "react-router";
 import useMarketplace from "@/hooks/useMarketplace";
 import Loading from "@/components/ui/loading";
 import type { IPxl } from "@/interfaces/pxl";
@@ -16,6 +16,11 @@ export default function Item() {
 
   const { tokenId } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const prevPath = location.state?.from || "/marketplace";
+
+  const onClose = () => navigate(prevPath);
 
   const [selected, setSelected] = useState<IPxl | null>(null);
 
@@ -35,8 +40,6 @@ export default function Item() {
     setSelected(item);
   }, [navigate, tokenId]);
 
-  const onClose = () => navigate("/marketplace");
-
   if (selected === null)
     return (
       <section className="fixed h-[calc(100vh-4rem)] top-1/2 -translate-y-1/2 w-full my-4 max-w-[1440px] rounded-lg bg-card z-40 mx-auto overflow-hidden">
@@ -50,12 +53,12 @@ export default function Item() {
         <section className="h-full">
           <header className="flex w-full items-center justify-between border-b border-border py-4 pl-14 pr-4">
             <ItemCarrousel selected={selected} />
-            <Link
-              to="/marketplace"
-              className="hover:bg-card-super-light p-2 rounded-full border border-border transition-colors"
+            <button
+              onClick={onClose}
+              className="hover:bg-card-super-light p-2 rounded-full border border-border transition-colors cursor-pointer"
             >
               <X />
-            </Link>
+            </button>
           </header>
           <article className="flex items-start w-full h-[calc(100%-3rem)]  overflow-y-auto">
             <ItemImage selected={selected} />

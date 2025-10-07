@@ -151,9 +151,12 @@ export default function MarketplaceProvider({
 
       updateItems({ type: "SET_USER_ITEMS", items: updated });
       updateItems({ items: updated });
+
+      return true;
     } catch (error) {
       console.error("❌ Error while purchasing NFT:", error);
       messageError(error as Error, "purchase NFT");
+      return false;
     }
   };
 
@@ -234,13 +237,17 @@ export default function MarketplaceProvider({
   const onError = (value: boolean) =>
     dispatch({ type: "SET_ERROR", payload: value });
 
-  const messageError = (error: Error, functionAction: string) => {
-    const message =
-      error instanceof Error && error.message
-        ? `Failed to ${functionAction}: ${error.message}`
-        : `An unexpected error occurred while ${functionAction}.`;
+  const messageError = (error: any, functionAction: string) => {
+    const rawMessage = error?.reason || error?.message || "Unknown error";
 
-    toast.error(message);
+    const formattedMessage = rawMessage.split("(")[0].trim();
+
+    const shortMessage =
+      formattedMessage.length > 80
+        ? formattedMessage.slice(0, 80) + "..."
+        : formattedMessage;
+
+    toast.error(`Failed to ${functionAction}: ${shortMessage}`);
   };
 
   return (

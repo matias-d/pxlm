@@ -45,7 +45,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
       ...state,
       items: action.payload,
       marketplaceItems: filtered,
-      baseItems: sorted,
+      baseItems: filtered,
       order,
     };
   },
@@ -80,7 +80,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
 
   // Sort items by low and hight price
   SORT_BY_PRICE: (state, action) => {
-    const sorted = applyPriceOrder(state.items, action.payload);
+    const sorted = applyPriceOrder(state.baseItems, action.payload);
     return { ...state, marketplaceItems: sorted, order: action.payload };
   },
 

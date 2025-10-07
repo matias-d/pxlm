@@ -20,10 +20,10 @@ interface Props {
 }
 
 export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
-  const [currentItems, setCurrentItems] = useState<IPxl[]>(items);
   const { purchaseNFT } = useMarketplace();
   const { removeCart, inCart, baseCart, clearCart } = useCart();
 
+  const [currentItems, setCurrentItems] = useState<IPxl[]>(items);
   const [status, setStatus] = useState({
     load: false,
     error: false,
@@ -45,24 +45,36 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
   }, [items, open]);
 
   const onPurchase = async () => {
-    if (!currentItems) return;
+    if (!currentItems || currentItems.length === 0) return;
+
     setStatus({ load: true, error: false, success: false });
+
+    const toastId = toast.loading("Starting purchase...");
+
     try {
       for (let i = 0; i < currentItems.length; i++) {
         const item = currentItems[i];
 
-        if (currentItems.length > 0)
-          toast.info(
-            `Purchasing NFT ${i + 1} of ${currentItems.length}...`,
-            {}
-          );
-        else toast.info(`Purchasing NFT ...`, {});
+        toast.loading(
+          currentItems.length > 1
+            ? `Purchasing NFT ${i + 1} of ${currentItems.length}...`
+            : `Purchasing NFT ...`,
+          { id: toastId }
+        );
 
-        await purchaseNFT(item.tokenId);
+        const success = await purchaseNFT(item.tokenId);
+
+        if (!success) {
+          toast.error(`Failed to purchase NFT #${item.tokenId}`, {
+            id: toastId,
+            duration: 1200,
+          });
+          throw new Error(`Failed to purchase NFT #${item.tokenId}`);
+        }
       }
 
+      toast.success("All NFTs purchased successfully! 🎉", { id: toastId });
       Confetti();
-      toast.success("Purchase completed successfully! 🎉");
       setStatus((prev) => ({ ...prev, success: true }));
       onEnd();
     } catch {

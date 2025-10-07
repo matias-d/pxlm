@@ -21,15 +21,17 @@ export function Card({
 
   const navigate = useNavigate();
 
-  const handleClick = (e: React.MouseEvent) => {
+  const onNavigate = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest("a, button")) return;
-    navigate(`/marketplace/item/${tokenId}`);
+    navigate(`/marketplace/item/${tokenId}`, {
+      state: { from: window.location.pathname },
+    });
   };
 
   return (
     <CardUI
-      onClick={handleClick}
+      onClick={onNavigate}
       className={cn(
         "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
         found && "border-accent border-2"

@@ -16,7 +16,7 @@ interface Props {
 }
 
 export default function ItemDetails({ selected }: Props) {
-  const { account } = useMarketplace();
+  const { account, addressMP } = useMarketplace();
 
   return (
     <section className="flex-1 pt-8 px-8  bg-card-dark h-full  overflow-auto pb-6">
@@ -30,10 +30,14 @@ export default function ItemDetails({ selected }: Props) {
           <div className="flex items-center gap-x-1">
             <p className="text-text-secondary text-sm">Owned by </p>
             <div className="flex items-center gap-x-1">
-              <p className="text-text-primary">
-                {shortenAddress(selected?.owner)}
+              <p className="text-text-primary font-display">
+                {selected.owner === addressMP
+                  ? "Marketplace"
+                  : shortenAddress(selected?.owner)}
               </p>
-              <AvatarUI username={account?.address} size={20} />
+              {selected.owner !== addressMP && (
+                <AvatarUI username={account?.address} size={20} />
+              )}
             </div>
           </div>
         </div>

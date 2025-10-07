@@ -11,7 +11,7 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   progress: 0,
   onFilterByStatusUserItems: () => {},
   getAllUserNfts: async () => {},
-  purchaseNFT: async () => {},
+  purchaseNFT: async () => false,
   relistNFT: async () => {},
   createNFT: async () => null,
   getAccount: async () => {},
