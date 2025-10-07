@@ -13,7 +13,10 @@ export default function AddedPrices({ addedPrices }: Props) {
     <div className="flex  gap-x-1.5 items-center">
       {addedPrices.map((item, index) => (
         <>
-          <div className="flex flex-col text-[10px]  items-end gap-x-1">
+          <div
+            className="flex flex-col text-[10px]  items-end gap-x-1"
+            key={`${item.name} ${item.bonus + index}`}
+          >
             <p className="text-green-300 font-semibold font-display">
               +{item.bonus.toFixed(3)}
             </p>

@@ -1,8 +1,8 @@
-import { cn } from "@/lib/cn";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
-import DetailsTab from "./details-tab";
 import type { IPxl } from "@/interfaces/pxl";
 import ActivityTab from "./activity-tab";
+import DetailsTab from "./details-tab";
+import { cn } from "@/lib/cn";
 const tabs: {
   id: number;
   label: string;
