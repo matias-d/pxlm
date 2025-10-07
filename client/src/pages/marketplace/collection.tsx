@@ -32,9 +32,7 @@ export default function Collection() {
           </h3>
         </div>
 
-        <section>
-          <Tabs />
-        </section>
+        <Tabs />
       </section>
     </section>
   );

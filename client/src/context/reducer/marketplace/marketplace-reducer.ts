@@ -116,7 +116,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     const filtered = filterRelistNFTs(
       state.baseUserItems,
       state.account.address,
-      state.baseItems
+      state.marketplaceItems
     );
     const sorted = applyPriceOrder(filtered, state.order);
 

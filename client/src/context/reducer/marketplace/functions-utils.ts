@@ -53,7 +53,7 @@ export function filterRelistNFTs(
 ): IPxl[] {
   return items.filter(
     (item) =>
-      item.owner === userAddress &&
+      item.owner.toLowerCase() === userAddress.toLowerCase() &&
       !marketplaceItems.some((i) => i.tokenId === item.tokenId)
   );
 }
