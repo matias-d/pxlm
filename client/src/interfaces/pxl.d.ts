@@ -15,6 +15,8 @@ export interface IPxl {
   nftAddress: string;
   tokenId: number;
   seller: string;
+  buyer: string;
+  boughtAt: number;
   price: string;
   sold: boolean;
   owner: string;
@@ -44,6 +46,8 @@ export interface IPxlContract {
   seller: string;
   sold: boolean;
   tokenURI: string;
+  buyer: string;
+  boughtAt: number;
 }
 
 export interface PinataPXLResponse {

@@ -26,7 +26,9 @@ contract Marketplace is ReentrancyGuard {
         uint tokenId;              
         uint price;                
         address payable seller;    
-        bool sold;                
+        address payable buyer;
+        bool sold;
+        uint boughtAt;                
     }
 
     /// @notice Mapping that stores all listed items by their ID
@@ -72,7 +74,9 @@ contract Marketplace is ReentrancyGuard {
             _tokenId,
             _price,
             payable(msg.sender),
-            false
+            payable(address(0)), 
+            false,               
+            0                    
         );
         emit Offered(
             itemCount, 
@@ -126,6 +130,9 @@ contract Marketplace is ReentrancyGuard {
         feeAccount.transfer(_totalPrice - item.price);
 
         item.sold = true;
+        item.buyer = payable(msg.sender);
+        item.boughtAt = block.timestamp;
+
         item.nft.transferFrom(address(this), msg.sender, item.tokenId);
 
         emit Bought(
