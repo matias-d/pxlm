@@ -5,14 +5,13 @@ import {
 } from "./reducer/marketplace/marketplace-reducer";
 
 import {
-  getMarketplaceNFTs,
   _getAllUserNfts,
   _purchaseNFT,
   _createNFT,
   _getAccount,
-  _getNFT,
   _relistNFT,
   getMarketplaceAddress,
+  getAllNFTS,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
 import { filterRelistNFTs } from "./reducer/marketplace/functions-utils";
@@ -39,7 +38,7 @@ export default function MarketplaceProvider({
 
       onLoading(true);
       try {
-        const result = await getMarketplaceNFTs(state.account?.signer);
+        const result = await getAllNFTS(state.account?.signer);
         updateItems({ items: result });
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
@@ -113,7 +112,7 @@ export default function MarketplaceProvider({
       });
       toast.success("🎉 NFT relisted successfully!");
 
-      const marketplaceItems = await getMarketplaceNFTs(state.account.signer);
+      const marketplaceItems = await getAllNFTS(state.account.signer);
       updateItems({ type: "SET_ITEMS", items: marketplaceItems });
 
       const userItems = await _getAllUserNfts(
@@ -194,15 +193,12 @@ export default function MarketplaceProvider({
     }
   };
 
-  const getNFT = async (tokenId: number): Promise<IPxl | null> => {
-    try {
-      const result = await _getNFT(tokenId, state.account!.signer);
-      return result;
-    } catch (error) {
-      console.error("❌ Error while getting NFT:", error);
-      messageError(error as Error, "get NFT");
-      return null;
-    }
+  const getNFT = (tokenId: number): IPxl | null => {
+    const found = state.items.find((item) => item.tokenId === tokenId);
+
+    if (!found) return null;
+
+    return found;
   };
 
   // === Handle filters & sorting ===
@@ -250,13 +246,13 @@ export default function MarketplaceProvider({
   return (
     <MarketplaceContext.Provider
       value={{
+        marketplaceItems: state.marketplaceItems,
         loading: state.status.loading,
         addressMP: state.addressMP,
         userItems: state.userItems,
         error: state.status.error,
         onFilterByStatusUserItems,
         account: state.account,
-        items: state.items,
         updateItemsOrder,
         onFilterByRarity,
         getAllUserNfts,

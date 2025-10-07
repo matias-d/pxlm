@@ -2,10 +2,10 @@ import useMarketplace from "@/hooks/useMarketplace";
 import useStatistics from "@/hooks/useStatistics";
 
 export default function Statics() {
-  const { items, error } = useMarketplace();
+  const { marketplaceItems, error } = useMarketplace();
 
   const { totalItems, totalOwners, totalVolume, lastMintedTimeAgo } =
-    useStatistics({ items });
+    useStatistics({ items: marketplaceItems });
 
   return (
     <section className="flex items-center justify-between mb-4">

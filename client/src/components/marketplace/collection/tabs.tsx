@@ -40,15 +40,15 @@ export default function Tabs() {
           <Tab as={Fragment} key={tab.id}>
             {({ selected }) => (
               <div className="relative outline-none">
-                <button
+                <span
                   onClick={() => onFilterByStatusUserItems(tab.value)}
                   className={cn(
-                    " text-text-secondary outline-none cursor-pointer",
+                    " text-text-secondary outline-none cursor-pointer block",
                     selected && "text-text-primary"
                   )}
                 >
                   {tab.label}
-                </button>
+                </span>
                 <div
                   className={cn(
                     "data-selected:block w-12 h-[2px] bg-accent absolute left-1/2 -translate-x-1/2 -bottom-4.5 opacity-0 transition-opacity ease-in-out duration-200",

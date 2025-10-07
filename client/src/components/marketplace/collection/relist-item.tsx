@@ -29,7 +29,7 @@ export default function RelistItem({ items, loading }: Props) {
     load: false,
     error: false,
   });
-  const [price, setPrice] = useState(items[0].price);
+  const [price, setPrice] = useState(selected.price);
 
   const onPrice = (newPrice: string) => setPrice(newPrice);
   const onSelected = (pxl: IPxl) => setSelected(pxl);
@@ -96,7 +96,7 @@ export default function RelistItem({ items, loading }: Props) {
           </button>
         ))}
       </div>
-      <hr className="my-6 border border-border w-full" />
+      <div className="my-6 h-[1px] w-full bg-border" />
 
       <section>
         <Card className=" grid grid-cols-2 p-6  gap-x-6 ">

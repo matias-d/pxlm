@@ -1,7 +1,7 @@
 import { getRarityTier } from "@/helpers/functions/pxl-get-rarity";
-import { Sparkle, SquareLibrary, TicketCheck } from "lucide-react";
 import useMarketplace from "@/hooks/useMarketplace";
 import type { IPxl } from "@/interfaces/pxl";
+import { Sparkle } from "lucide-react";
 import useCart from "@/hooks/useCart";
 import { Link } from "react-router";
 import Button from "./button";
@@ -20,14 +20,16 @@ export function Card({
   const found = inCart(tokenId);
 
   return (
-    <CardUI
-      className={cn(
-        "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
-        found && "border-accent border-2"
-      )}
-    >
-      {children}
-    </CardUI>
+    <Link to={`/marketplace/item/${tokenId}`}>
+      <CardUI
+        className={cn(
+          "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
+          found && "border-accent border-2"
+        )}
+      >
+        {children}
+      </CardUI>
+    </Link>
   );
 }
 

@@ -17,10 +17,11 @@ const fields2 = [
 ];
 
 export default function FiltersUI() {
-  const { items, updateItemsOrder, onFilterByRarity } = useMarketplace();
+  const { marketplaceItems, updateItemsOrder, onFilterByRarity } =
+    useMarketplace();
 
   const onTogglePrice = (order: string) => {
-    updateItemsOrder(order as "low-to-high" | "high-to-low", items);
+    updateItemsOrder(order as "low-to-high" | "high-to-low", marketplaceItems);
   };
 
   return (

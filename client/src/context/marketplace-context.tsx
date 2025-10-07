@@ -2,10 +2,10 @@ import type { IMarketplaceContext } from "@/interfaces/context";
 import { createContext } from "react";
 
 export const MarketplaceContext = createContext<IMarketplaceContext>({
+  marketplaceItems: [],
   addressMP: null,
   account: null,
   userItems: [],
-  items: [],
   loading: false,
   error: false,
   progress: 0,
@@ -17,5 +17,5 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   getAccount: async () => {},
   updateItemsOrder: () => {},
   onFilterByRarity: () => {},
-  getNFT: async () => null,
+  getNFT: () => null,
 });

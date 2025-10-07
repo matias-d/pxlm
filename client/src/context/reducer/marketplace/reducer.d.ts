@@ -4,6 +4,7 @@ import type { IPxl } from "@/interfaces/pxl";
 interface IMarketplaceState {
   status: { loading: boolean; error: boolean };
   order: "low-to-high" | "high-to-low";
+  marketplaceItems: IPxl[];
   account: IUser | null;
   baseItems: IPxl[];
   addressMP: string;

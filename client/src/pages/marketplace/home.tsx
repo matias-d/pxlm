@@ -7,39 +7,31 @@ import PxlList from "@/components/widgets/pxl-list";
 import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
-import PxlDetails from "@/components/ui/pxl-detail";
 
 export default function Home() {
-  const { loading, error, items } = useMarketplace();
+  const { loading, error, marketplaceItems } = useMarketplace();
 
   return (
-    <>
-      {/* <PxlDetails /> */}
-      <section className="pb-12">
-        <LoadingTop loading={loading} />
+    <section className="pb-12">
+      <LoadingTop loading={loading} />
 
-        <CreateCallToAction />
-        {/* <PXLDetail /> */}
+      <CreateCallToAction />
 
-        <Statics />
-        <FiltersUI />
-        <PxlList
-          renderLoading={() => (
-            <Loading
-              src="/assets/art-loading.svg"
-              label="Obtaining collection"
-            />
-          )}
-          renderNotItems={() => (
-            <NotItems message="No items available in the marketplace right now.">
-              <Button className="h-4 text-xs px-4">Create your PXL</Button>
-            </NotItems>
-          )}
-          loading={loading}
-          error={error}
-          items={items}
-        />
-      </section>
-    </>
+      <Statics />
+      <FiltersUI />
+      <PxlList
+        renderLoading={() => (
+          <Loading src="/assets/art-loading.svg" label="Obtaining collection" />
+        )}
+        renderNotItems={() => (
+          <NotItems message="No items available in the marketplace right now.">
+            <Button className="h-4 text-xs px-4">Create your PXL</Button>
+          </NotItems>
+        )}
+        loading={loading}
+        error={error}
+        items={marketplaceItems}
+      />
+    </section>
   );
 }

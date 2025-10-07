@@ -1,10 +1,10 @@
 import { COLORS_VALUE_HEX } from "@/helpers/consts/pxl-config";
-import type { IAttributes } from "@/interfaces/attributes";
+import type { IAttribute } from "@/interfaces/attributes";
 import { cn } from "../../../lib/cn";
 import Card from "../../ui/card";
 
 interface Props {
-  trait: IAttributes;
+  trait: IAttribute;
 
   className?: string;
   classNameValue?: string;

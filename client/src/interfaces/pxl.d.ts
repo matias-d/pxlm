@@ -27,6 +27,13 @@ export interface IPxl {
   rarity_tier: string;
   generatedFrom: string;
   minted_at: number;
+
+  previousListings?: {
+    price: string;
+    seller: string;
+    sold: boolean;
+    itemId?: number;
+  }[];
 }
 
 export interface IPxlContract {

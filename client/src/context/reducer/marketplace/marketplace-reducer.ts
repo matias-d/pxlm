@@ -8,11 +8,12 @@ import {
 
 export const initialState: IMarketplaceState = {
   status: { loading: false, error: false },
+  marketplaceItems: [],
   order: "low-to-high",
   account: null,
   baseItems: [],
-  items: [],
   addressMP: "",
+  items: [],
 
   userItems: [],
   baseUserItems: [],
@@ -37,7 +38,16 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   SET_ITEMS: (state, action) => {
     const order = "low-to-high";
     const sorted = applyPriceOrder(action.payload, order);
-    return { ...state, items: sorted, baseItems: sorted, order };
+
+    const filtered = sorted.filter((item) => !item.sold);
+
+    return {
+      ...state,
+      items: action.payload,
+      marketplaceItems: filtered,
+      baseItems: sorted,
+      order,
+    };
   },
 
   // Set addres of Marketplace
@@ -56,7 +66,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   FILTER_BY_RARITY: (state, action) => {
     if (action.payload === "all") {
       const sorted = applyPriceOrder(state.baseItems, state.order);
-      return { ...state, items: sorted };
+      return { ...state, marketplaceItems: sorted };
     }
 
     const filtered = state.baseItems.filter(
@@ -65,13 +75,13 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
 
     const sorted = applyPriceOrder(filtered, state.order);
 
-    return { ...state, items: sorted };
+    return { ...state, marketplaceItems: sorted };
   },
 
   // Sort items by low and hight price
   SORT_BY_PRICE: (state, action) => {
     const sorted = applyPriceOrder(state.items, action.payload);
-    return { ...state, items: sorted, order: action.payload };
+    return { ...state, marketplaceItems: sorted, order: action.payload };
   },
 
   // Filter user items by status (sold, purchased or all)
