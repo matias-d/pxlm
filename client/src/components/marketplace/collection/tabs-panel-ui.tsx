@@ -5,6 +5,7 @@ import PxlList from "../../widgets/pxl-list";
 import Button from "@/components/ui/button";
 import RelistItem from "./relist-item";
 import Loading from "../../ui/loading";
+import { Link } from "react-router";
 import { useEffect } from "react";
 import Statics from "./statics";
 
@@ -21,6 +22,8 @@ export default function TabsPanelUI() {
 
   const load = loading || (!account?.signer && !error);
 
+  console.log(userItems);
+
   return (
     <div className="w-full">
       <Statics />
@@ -34,9 +37,11 @@ export default function TabsPanelUI() {
             renderNotItems={() => (
               <NotItems message="You don’t own any PXLs yet. Create or buy to build your collection.">
                 <div className="flex items-center gap-x-2">
-                  <Button className="h-4 text-xs px-4">Marketplace</Button>
-                  <Button className="h-4 text-xs px-4 btn-secondary">
-                    Create
+                  <Button className="h-4 text-xs px-4" asChild>
+                    <Link to="/marketplace">Marketplace</Link>
+                  </Button>
+                  <Button className="h-4 text-xs px-4 btn-secondary" asChild>
+                    <Link to="/marketplace/create">Create</Link>
                   </Button>
                 </div>
               </NotItems>
@@ -70,7 +75,9 @@ export default function TabsPanelUI() {
             )}
             renderNotItems={() => (
               <NotItems message="You haven’t purchased any PXLs yet. Explore the marketplace and get your first one.">
-                <Button className="h-4 text-xs px-4">Marketplace</Button>
+                <Button className="h-4 text-xs px-4" asChild>
+                  <Link to="/marketplace">Marketplace</Link>
+                </Button>
               </NotItems>
             )}
             loading={load}

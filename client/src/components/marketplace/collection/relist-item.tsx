@@ -13,6 +13,8 @@ import Card from "@/components/ui/card";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import Error from "@/components/ui/error";
+import NotItems from "@/components/ui/not-items";
+import { Link } from "react-router";
 
 interface Props {
   items: IPxl[];
@@ -24,12 +26,12 @@ const traitsType = ["Hat", "Beard", "Accesory", "Glasses"];
 export default function RelistItem({ items, loading }: Props) {
   const { relistNFT, account } = useMarketplace();
 
-  const [selected, setSelected] = useState<IPxl>(items[0]);
+  const [selected, setSelected] = useState<IPxl | null>(items[0] || null);
   const [status, setStatus] = useState({
     load: false,
     error: false,
   });
-  const [price, setPrice] = useState(selected.price);
+  const [price, setPrice] = useState(selected?.price || "");
 
   const onPrice = (newPrice: string) => setPrice(newPrice);
   const onSelected = (pxl: IPxl) => setSelected(pxl);
@@ -37,14 +39,16 @@ export default function RelistItem({ items, loading }: Props) {
   const owner =
     (account?.address && shortenAddress(account?.address)) || "Uknowed user";
 
-  const traits = selected.attributes.filter((attr) =>
-    traitsType.includes(attr.trait_type)
-  );
+  const traits = !selected
+    ? []
+    : selected?.attributes.filter((attr) =>
+        traitsType.includes(attr.trait_type)
+      );
 
   const onRelist = async () => {
     setStatus((prev) => ({ ...prev, load: true }));
     try {
-      await relistNFT(selected.tokenId, price);
+      await relistNFT(selected!.tokenId, price);
       onClear();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
@@ -54,13 +58,25 @@ export default function RelistItem({ items, loading }: Props) {
   };
 
   const onClear = () => {
-    const nextNFT = items.find((pxl) => pxl.tokenId !== selected.tokenId);
+    const nextNFT = items.find((pxl) => pxl.tokenId !== selected?.tokenId);
     setSelected(nextNFT!);
     setPrice(nextNFT?.price || "");
   };
 
   if (loading)
     return <Loading label="Obtaining purchased collection" withIcon />;
+
+  if (!selected) {
+    return (
+      <section className="flex justify-center items-center p-8">
+        <NotItems message="You don't have any pxl to relist yet. Explore the marketplace and get your first one.">
+          <Button className="h-4 text-xs px-4" asChild>
+            <Link to="/marketplace">Marketplace</Link>
+          </Button>
+        </NotItems>
+      </section>
+    );
+  }
 
   if (status.error)
     return (

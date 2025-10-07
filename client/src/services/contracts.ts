@@ -140,7 +140,7 @@ export async function _relistNFT({
   const { marketplaceContract } = await getMarketplaceContract(signer);
   const { nftAddress } = await getNFTContract(signer);
 
-  const priceParse = ethers.parseUnits(price, 18);
+  const priceParse = ethers.parseEther(price);
 
   const listTx = await marketplaceContract.makeItem(
     nftAddress,
@@ -225,6 +225,8 @@ export async function getAllNFTS(signer: ethers.Signer): Promise<IPxl[]> {
           seller: prev.seller,
           sold: prev.sold,
           itemId: prev.itemId,
+          buyer: prev.buyer,
+          boughtAt: prev.boughtAt,
         }))
         .reverse();
     }
