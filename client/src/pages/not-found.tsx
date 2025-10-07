@@ -12,7 +12,7 @@ export default function NotFound() {
       </h1>
       <div>
         <Button className="px-6" asChild>
-          <Link to="/dashboard">Go to dashboard</Link>
+          <Link to="/marketplace">Go to marketplace</Link>
         </Button>
       </div>
     </main>

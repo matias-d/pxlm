@@ -12,7 +12,7 @@ export default function OwnersImage({ pxl }: Props) {
   const { addressMP } = useMarketplace();
 
   return (
-    <div className="absolute right-1 -bottom-2.5 flex items-center">
+    <div className="absolute right-1 -bottom-1 flex items-center">
       {pxl.seller !== pxl.owner && (
         <Tooltip content="Seller" contentClassName="text-[10px]">
           <AvatarUI

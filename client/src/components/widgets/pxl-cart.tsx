@@ -15,7 +15,7 @@ export default function PxlCart() {
     <>
       <div
         className={cn(
-          "fixed bottom-0  left-0 w-full h-[56px] bg-card z-30 border-t border-border transition-all duration-400 ease-in-out",
+          "fixed bottom-0  left-0 w-full h-[56px] bg-card z-40 border-t border-border transition-all duration-400 ease-in-out",
           active ? "bottom-0" : "-bottom-full"
         )}
       >

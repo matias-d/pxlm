@@ -7,6 +7,7 @@ import PxlList from "@/components/widgets/pxl-list";
 import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
+import { Link } from "react-router";
 
 export default function Home() {
   const { loading, error, marketplaceItems } = useMarketplace();
@@ -25,7 +26,9 @@ export default function Home() {
         )}
         renderNotItems={() => (
           <NotItems message="No items available in the marketplace right now.">
-            <Button className="h-4 text-xs px-4">Create your PXL</Button>
+            <Button className="h-4 text-xs px-4" asChild>
+              <Link to="/marketplace/create">Create your PXL</Link>
+            </Button>
           </NotItems>
         )}
         loading={loading}

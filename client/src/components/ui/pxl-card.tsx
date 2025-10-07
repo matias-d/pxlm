@@ -1,9 +1,9 @@
 import { getRarityTier } from "@/helpers/functions/pxl-get-rarity";
 import useMarketplace from "@/hooks/useMarketplace";
 import type { IPxl } from "@/interfaces/pxl";
+import { useNavigate } from "react-router";
 import { Sparkle } from "lucide-react";
 import useCart from "@/hooks/useCart";
-import { Link } from "react-router";
 import Button from "./button";
 import { cn } from "@/lib/cn";
 import CardUI from "./card";
@@ -19,17 +19,24 @@ export function Card({
   const { inCart } = useCart();
   const found = inCart(tokenId);
 
+  const navigate = useNavigate();
+
+  const handleClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("a, button")) return;
+    navigate(`/marketplace/item/${tokenId}`);
+  };
+
   return (
-    <Link to={`/marketplace/item/${tokenId}`}>
-      <CardUI
-        className={cn(
-          "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
-          found && "border-accent border-2"
-        )}
-      >
-        {children}
-      </CardUI>
-    </Link>
+    <CardUI
+      onClick={handleClick}
+      className={cn(
+        "group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 ease-in-out",
+        found && "border-accent border-2"
+      )}
+    >
+      {children}
+    </CardUI>
   );
 }
 
@@ -87,28 +94,25 @@ export function Info({
 }
 
 // Price of NFT and owner
-export function PriceDetails({
-  price,
-  isSold,
-}: {
-  price: string;
-  isSold: boolean;
-}) {
+export function PriceDetails({ pxl }: { pxl: IPxl }) {
   return (
     <div className="flex items-center justify-between">
       <div>
         <div className="flex items-center gap-x-2 font-semibold mb-0.5">
-          <p className="font-display">{price}</p>
+          <p className="font-display">{pxl.price}</p>
           <p className="text-text-secondary">TBNB</p>
         </div>
-        <div className="flex items-center gap-x-1 text-xs font-semibold">
-          <p className=" text-text-secondary">Last sale</p>
-          <p className="font-display ">
-            1.40 <span className="text-text-secondary font-primary">TBNB</span>
-          </p>
-        </div>
+        {pxl.previousListings && (
+          <div className="flex items-center gap-x-1 text-xs font-semibold">
+            <p className=" text-text-secondary">Last sale</p>
+            <p className="font-display ">
+              {pxl.previousListings[pxl.previousListings.length - 1].price}{" "}
+              <span className="text-text-secondary font-primary">TBNB</span>
+            </p>
+          </div>
+        )}
       </div>
-      {isSold && (
+      {pxl.sold && (
         <div>
           <span className="text-xs bg-accent-firthy/15 font-display p-1 rounded-sm text-accent-firthy font-semibold">
             Sold out
@@ -143,13 +147,8 @@ export function ButtonCard({
           Purchased
         </Button>
       ) : isSeller ? (
-        <Button asChild className="rounded-none text-base h-14 w-full">
-          <Link
-            to="/marketplace/collection"
-            className="flex items-center gap-x-2"
-          >
-            Collection
-          </Link>
+        <Button disabled className="rounded-none text-base h-14 w-full">
+          My collection
         </Button>
       ) : !isSold ? (
         <Button
@@ -166,7 +165,6 @@ export function ButtonCard({
         </Button>
       ) : (
         <Button
-          onClick={onClick}
           className={cn("w-full h-14 text-base flex items-center rounded-none")}
           classNameContainer={cn(
             "flex items-center justify-between w-full font-semibold"

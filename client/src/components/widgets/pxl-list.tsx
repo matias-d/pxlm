@@ -62,7 +62,7 @@ export default function PxlList({
               rarity_score={pxl.rarity_score}
               tokenId={pxl.tokenId}
             />
-            <PxlCard.PriceDetails price={pxl.price} isSold={pxl.sold} />
+            <PxlCard.PriceDetails pxl={pxl} />
             <PxlCard.FooterContent>
               <PxlCard.ButtonCard onClick={() => onBuy(pxl)} pxl={pxl} />
             </PxlCard.FooterContent>
