@@ -1,6 +1,8 @@
 {
   "name": "client",
   "private": true,
+  "author": "Matias Ezequiel Cabrera",
+  "description": "Mint, buy, and sell PXL NFTs with unique traits and rarity on a decentralized marketplace. Includes cart management and full NFT history tracking.",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
