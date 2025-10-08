@@ -14,9 +14,14 @@ interface Props {
 export default function ContainerPanel({ children, className, pxl }: Props) {
   return (
     <section>
-      <Card className={cn(" grid grid-cols-2 p-6  gap-x-6 ", className)}>
+      <Card
+        className={cn(
+          " grid grid-cols-1 lg:grid-cols-2 p-6  gap-6 ",
+          className
+        )}
+      >
         <div className="relative">
-          <div className="group relative inline-flex overflow-hidden rounded-md w-[25rem] h-[27.5rem] ">
+          <div className="group relative inline-flex overflow-hidden rounded-md w-auto h-auto lg:w-[25rem] lg:h-[27.5rem] ">
             <img
               src={pxl.url}
               alt={"PXL GENERATE BY DICEBEAR"}

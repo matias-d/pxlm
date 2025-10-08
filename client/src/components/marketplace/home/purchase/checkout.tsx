@@ -9,7 +9,7 @@ export default function Checkout({ items }: { items: IPxl[] }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-accent text-accent font-semibold mb-6">
+      <h2 className="text-xl lg:text-2xl font-accent text-accent font-semibold mb-6">
         Checkout
       </h2>
       <section className="flex flex-col gap-y-6">
@@ -19,9 +19,12 @@ export default function Checkout({ items }: { items: IPxl[] }) {
           return (
             <Card className="bg-transparent border-none flex items-center p-0 justify-between">
               <div className="flex items-center gap-x-3">
-                <img src={pxl.image} className="size-12 rounded-md" />
+                <img
+                  src={pxl.image}
+                  className="size-10 lg:size-12 rounded-md"
+                />
                 <div className="flex flex-col items-start gap-x-2">
-                  <h4 className="font-semibold font-display flex items-center gap-x-2">
+                  <h4 className="text-sm lg:text-base font-semibold font-display flex items-center gap-x-2">
                     {pxl.name} <BadgeCheck className="text-accent" size={18} />
                   </h4>
                   <div className="flex items-center gap-x-1">
@@ -43,23 +46,25 @@ export default function Checkout({ items }: { items: IPxl[] }) {
                 </div>
               </div>
               <div className="flex flex-col items-end">
-                <p className="font-semibold font-display">{pxl.price} TBNB</p>
-                <p className="text-sm text-text-primary/60">$1.2</p>
+                <p className="font-semibold font-display text-sm lg:text-base">
+                  {pxl.price} TBNB
+                </p>
+                <p className="lg:text-sm text-text-primary/60 text-xs">$1.2</p>
               </div>
             </Card>
           );
         })}
       </section>
 
-      <hr className="w-full line-border my-4" />
+      <div className="w-full h-[1px] bg-border my-4" />
 
       <div className="flex items-center justify-between">
         <p className="font-semibold font-display text-sm">TOTAL</p>
         <div className="flex flex-col items-end">
-          <p className="font-semibold font-display">
+          <p className="font-semibold font-display lg:text-base text-sm">
             {totalPrice.toFixed(4)} TBNB
           </p>
-          <p className="text-sm text-text-primary/60">$1.2</p>
+          <p className="text-xs lg:text-sm text-text-primary/60">$1.2</p>
         </div>
       </div>
     </div>

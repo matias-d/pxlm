@@ -7,8 +7,8 @@ import PxlList from "@/components/ui/pxl-list";
 import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
-import { Link } from "react-router";
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 export default function Home() {
   const { loading, error, marketplaceItems } = useMarketplace();

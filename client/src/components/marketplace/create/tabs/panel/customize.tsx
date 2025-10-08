@@ -79,8 +79,8 @@ export default function Customize({
                 <div className="absolute bottom-2 right-4">
                   <Tooltip
                     className="text-[10px]"
-                    contentClassName="w-48"
-                    content="Automatically calculated price — recommended for this item."
+                    contentClassName="w-auto lg:w-48"
+                    content="Price recommended."
                   >
                     {" "}
                     <CircleAlert className="text-text-secondary" />

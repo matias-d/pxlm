@@ -1,9 +1,10 @@
 import ButtonConnect from "@/components/auth/button-connect";
+import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
 import Footer from "@/components/widgets/footer";
+import Logo from "@/components/widgets/logo";
 import Button from "@/components/ui/button";
 import Card from "@/components/ui/card";
-import Logo from "@/components/widgets/logo";
 
 import { LoaderCircle } from "lucide-react";
 import { useNavigate } from "react-router";
@@ -34,7 +35,7 @@ export default function Auth() {
 
   return (
     <>
-      <main className="max-container overflow-hidden flex flex-col items-center justify-center h-screen space-y-4 relative">
+      <main className="max-container overflow-hidden flex flex-col items-center justify-center h-screen space-y-4 relative ">
         <Logo />
 
         {!account && !error && (
@@ -50,7 +51,7 @@ export default function Auth() {
         )}
 
         {loading && account && (
-          <Card className="h-[4.875rem] w-[24.375rem] flex items-center justify-center">
+          <Card className="h-[4.875rem] w-[14.813rem] lg:w-[24.375rem] flex items-center justify-center">
             <p className="font-display text-text-secondary after:content-[''] after:absolute after:ml-1 after:animate-dots">
               Obtaining a user wallet
             </p>
@@ -58,12 +59,17 @@ export default function Auth() {
         )}
 
         {!loading && account && (
-          <section>
-            <Card className="mb-6">
+          <section className="">
+            <Card className="mb-6 flex flex-col items-center lg:block px-12 lg:px-0">
               <h3 className="font-display font-semibold">
                 Connected wallet<span className="font-normal">:</span>
               </h3>
-              <p className="text-sm text-accent">{account.address}</p>
+              <p className="block lg:hidden text-sm text-accent">
+                {shortenAddress(account.address)}
+              </p>
+              <p className="text-sm text-accent hidden lg:block">
+                {account.address}
+              </p>
             </Card>
             <div className="text-text-secondary flex items-center justify-center text-sm gap-x-1">
               <p>Redirecting to PXLM {count}</p>
@@ -78,7 +84,7 @@ export default function Auth() {
               <h3 className="font-display font-semibold text-accent-tertiary">
                 Error<span className="font-normal">:</span>
               </h3>
-              <p className=" text-text-secondary">
+              <p className=" text-text-secondary text-sm lg:text-base">
                 There was an error connecting your wallet.
               </p>
             </Card>
@@ -94,10 +100,16 @@ export default function Auth() {
         </div>
 
         <div className="absolute -bottom-4 left-0">
-          <img src="/assets/art-auth.svg" className="size-48 opacity-10 " />
+          <img
+            src="/assets/art-auth.svg"
+            className="size-28 lg:size-48 opacity-10 "
+          />
         </div>
         <div className="absolute bottom-0 right-0">
-          <img src="/assets/art-auth-2.svg" className="size-48 opacity-10" />
+          <img
+            src="/assets/art-auth-2.svg"
+            className="size-28 lg:size-48 opacity-10"
+          />
         </div>
       </main>
 

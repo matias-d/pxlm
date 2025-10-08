@@ -12,7 +12,7 @@ export default function NotItems({ message, classNameText, children }: Props) {
       <img src="/assets/art-error.svg" className="size-20 opacity-50" />
       <h2
         className={cn(
-          "text-text-secondary text-lg max-w-xs text-center my-2 font-display",
+          "text-text-secondary lg:text-lg max-w-xs text-center my-2 font-display",
           classNameText
         )}
       >

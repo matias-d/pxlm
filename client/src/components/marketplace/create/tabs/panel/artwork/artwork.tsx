@@ -40,8 +40,8 @@ export default function Artwork({
 
   return (
     <ContainerPanel pxl={pxl}>
-      <div className=" flex flex-col justify-between ">
-        <section className="flex items-center justify-between ">
+      <div className=" flex flex-col justify-between gap-y-4 lg:gap-y-0">
+        <section className="flex flex-col lg:flex-row lg:items-center justify-between gap-2 lg:gap-0 ">
           <h2 className=" font-accent tracking-wide text-2xl font-bold">
             PXL ART <span className="text-text-secondary text-xl">#0000</span>
           </h2>
@@ -72,9 +72,9 @@ export default function Artwork({
           </div>
           <Card className="p-3 bg-card-dark">
             <div className="h-">
-              <h3 className="text-sm text-text-secondary">PRICE</h3>
+              <h3 className="text-xs lg:text-sm text-text-secondary">PRICE</h3>
               <div className="flex items-center justify-between">
-                <p className="font-display font-semibold text-xl">
+                <p className="font-display font-semibold text-base lg:text-xl">
                   {pxl.price} TBNB
                 </p>
                 <AddedPrices addedPrices={pxl.addedPrices} />

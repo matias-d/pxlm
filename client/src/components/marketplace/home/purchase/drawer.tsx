@@ -103,7 +103,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
     <>
       <div
         className={cn(
-          "w-full bg-card h-[500px] fixed left-0 z-30 rounded-tr-xl rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
+          "w-full bg-card h-[calc(100vh-5rem)] lg:h-[500px] fixed left-0 z-30 rounded-tr-lg rounded-tl-lg lg:rounded-tr-xl lg:rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
           !open ? "-bottom-full" : "bottom-0"
         )}
       >
@@ -113,11 +113,11 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
         >
           <X />
         </button>
-        <section className="max-container pt-6 h-full relative">
-          {currentItems?.length && (
-            <section className="grid grid-cols-2 w-full gap-x-20 relative h-full">
+        <section className="max-container pt-4 lg:pt-6 h-full relative">
+          {currentItems?.length > 0 && (
+            <section className="grid grid-cols-1 lg:grid-cols-2 w-full lg:gap-20  relative lg:h-full">
               <Checkout items={currentItems} />
-              <span className="h-[calc(100%-2rem)] w-[2px] bg-border absolute left-1/2 -translate-x-1/2 top-2"></span>
+              <span className="lg:block hidden h-[calc(100%-2rem)] w-[2px] bg-border absolute left-1/2 -translate-x-1/2 top-2"></span>
 
               <Payment load={status.load} onPurchase={onPurchase} />
             </section>

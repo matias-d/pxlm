@@ -62,7 +62,7 @@ export default function ItemCarrousel({ selected }: Props) {
     : false;
 
   return (
-    <div className="flex items-center gap-x-12 px-12">
+    <div className="flex items-center gap-x-2 lg:gap-x-12 lg:px-12">
       <button
         onClick={handlePrevious}
         disabled={!canGoPrevious}

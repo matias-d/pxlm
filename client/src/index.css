@@ -287,7 +287,7 @@
 
 @layer components {
   .btn {
-    @apply flex items-center justify-center font-semibold hover:ring-2 w-auto p-4 h-12 lg:h-16 overflow-hidden transition-all duration-300 disabled:cursor-default  cursor-pointer ease-in-out  rounded-md  text-lg relative hover:ring-offset-2;
+    @apply flex items-center justify-center font-semibold hover:ring-2 w-auto p-4 h-12 lg:h-16 overflow-hidden transition-all duration-300 disabled:cursor-default  cursor-pointer ease-in-out rounded-md text-base lg:text-lg relative hover:ring-offset-2;
   }
 
   .btn-primary {

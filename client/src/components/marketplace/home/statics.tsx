@@ -8,22 +8,28 @@ export default function Statics() {
     useStatistics({ items: marketplaceItems });
 
   return (
-    <section className="flex items-center justify-between mb-4">
-      <div className="flex items-center gap-x-12">
+    <section className="flex lg:items-center gap-2 lg:gap-0 justify-between mb-4 flex-col lg:flex-row">
+      <div className="flex items-center lg:gap-x-12 gap-x-2 justify-between lg:justify-normal">
         <div className="flex items-center gap-x-2">
-          <h2 className="font-display text-lg">Results</h2>
-          <p className="text-text-secondary">{error ? 0 : totalItems}</p>
+          <h2 className="font-display lg:text-lg">Results</h2>
+          <p className="text-text-secondary text-sm lg:text-base">
+            {error ? 0 : totalItems}
+          </p>
         </div>
         <div className="flex items-center gap-x-2">
-          <h2 className="font-display text-lg">Volume</h2>
-          <p className="text-text-secondary">{error ? 0 : totalVolume} TBNB</p>
+          <h2 className="font-display lg:text-lg">Volume</h2>
+          <p className="text-text-secondary text-sm lg:text-base">
+            {error ? 0 : totalVolume} TBNB
+          </p>
         </div>
         <div className="flex items-center gap-x-2">
-          <h2 className="font-display text-lg">Owners</h2>
-          <p className="text-text-secondary">{error ? 0 : totalOwners}</p>
+          <h2 className="font-display lg:text-lg">Owners</h2>
+          <p className="text-text-secondary text-sm lg:text-base">
+            {error ? 0 : totalOwners}
+          </p>
         </div>
       </div>
-      <p className="text-accent-firthy font-display ">
+      <p className="text-accent-firthy font-display text-sm lg:text-base">
         last minted {lastMintedTimeAgo}
       </p>
     </section>

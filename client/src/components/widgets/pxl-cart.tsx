@@ -15,40 +15,45 @@ export default function PxlCart() {
     <>
       <div
         className={cn(
-          "fixed bottom-0  left-0 w-full h-[56px] bg-card z-40 border-t border-border transition-all duration-400 ease-in-out",
+          "fixed bottom-0  left-0 w-full h-[100px] lg:h-[56px] bg-card z-40 border-t border-border transition-all duration-400 ease-in-out",
           active ? "bottom-0" : "-bottom-full"
         )}
       >
-        <section className="max-container p-2 flex items-center gap-x-4">
+        <section className="max-container p-2 flex lg:flex-row flex-col lg:items-center gap-2 lg:gap-4">
           <div className="flex items-center">
             {cart.map((item, i) => (
               <img
                 key={item.tokenId}
                 src={item.image}
                 className={cn(
-                  "size-10 rounded-sm border border-border",
+                  "size-9 lg:size-10 rounded-sm border border-border",
                   i > 0 && "-ml-2"
                 )}
                 alt={`PXL Media #${item.tokenId}`}
               />
             ))}
           </div>
-          <span className="w-[1px] h-8 bg-border"></span>
-          <div className="flex items-center gap-x-4">
-            <Button onClick={onOpen} className="text-xs h-4 font-bold">
-              Buy {cart.length} now
+          <span className="w-[1px] h-8 bg-border hidden lg:block"></span>
+          <div className="flex items-center justify-between lg:gap-4 ">
+            <div className="flex items-center gap-x-4">
+              <Button onClick={onOpen} className="text-xs h-4 font-bold">
+                Buy {cart.length} now
+              </Button>
+              <p className="text-text-primary/90 text-sm">
+                {totalPrice.toFixed(4)} TBNB
+              </p>
+            </div>
+            <span className="w-[1px] h-8 bg-border hidden lg:block"></span>
+            <Button
+              onClick={() => {
+                setOpen(false);
+                clearCart();
+              }}
+              className="text-xs h-4 font-bold btn-secondary px-2"
+            >
+              Clear
             </Button>
-            <p className="text-text-primary/90 text-sm">
-              {totalPrice.toFixed(4)} TBNB
-            </p>
           </div>
-          <span className="w-[1px] h-8 bg-border"></span>
-          <Button
-            onClick={clearCart}
-            className="text-xs h-4 font-bold btn-secondary px-2"
-          >
-            Clear
-          </Button>
         </section>
       </div>
       <Drawer items={cart} onOpen={onOpen} open={open} />

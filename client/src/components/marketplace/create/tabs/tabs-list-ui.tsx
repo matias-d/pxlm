@@ -37,14 +37,14 @@ export default function TabsListUI({
   selectedIndex: number;
 }) {
   return (
-    <TabList className="flex items-center gap-x-20 font-display font-semibold relative">
+    <TabList className="flex items-center justify-between w-full lg:justify-normal lg:w-auto lg:gap-x-20 font-display font-semibold relative">
       {tabs.map((tab, index) => (
         <Tab key={tab.id}>
           {({ selected }) => (
             <div className="relative outline-none">
               <span
                 className={cn(
-                  "text-text-secondary outline-none cursor-pointer",
+                  "text-text-secondary outline-none cursor-pointer text-xs lg:text-base",
                   selected && "text-text-primary"
                 )}
               >

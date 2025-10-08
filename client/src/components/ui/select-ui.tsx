@@ -42,7 +42,7 @@ export default function SelectUI({
       >
         {({ open }) => (
           <>
-            <ListboxButton className="cursor-pointer font-display flex items-center justify-between min-w-56 w-full text-text-secondary hover:text-text-primary px-4 h-14 gap-x-12 bg-card-light rounded-md border-2 border-border outline-none hover:border-accent-primary/50 transition-colors">
+            <ListboxButton className="cursor-pointer font-display flex items-center justify-between  lg:min-w-56 w-full text-text-secondary hover:text-text-primary lg:px-4 px-2 h-14 lg:gap-x-12 bg-card-light rounded-md border-2 border-border outline-none hover:border-accent-primary/50 transition-colors text-sm lg:text-base">
               {selected?.label || placeholder}
               <ChevronRight
                 className={cn(

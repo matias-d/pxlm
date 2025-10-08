@@ -1,4 +1,5 @@
 import Logo from "@/components/widgets/logo";
+import SidebarMenu from "./sidebar-menu";
 import { Dot } from "lucide-react";
 import MenuUser from "./menu-user";
 import Nav from "./nav";
@@ -6,10 +7,13 @@ import Nav from "./nav";
 export default function Header() {
   return (
     <header className="rounded-md p-5 flex items-center justify-between bg-card shadow">
-      <Logo />
+      <div className="flex items-center gap-x-2">
+        <SidebarMenu />
+        <Logo />
+      </div>
       <Nav />
       <div className="flex items-center gap-x-6">
-        <div className=" flex items-center gap-x-1 ">
+        <div className="hidden lg:flex items-center gap-x-1 ">
           <p className="text-[10px] lg:text-xs text-text-secondary flex items-center">
             <Dot
               className="glow-animate -mr-2 animate-pulse drop-shadow-[0_0_5px_rgba(249,229,163,1)] "

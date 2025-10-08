@@ -8,20 +8,23 @@ export default function SpecialCombos() {
   return (
     <section>
       <div className="mb-6">
-        <h3 className="text-accent font-bold font-accent text-4xl flex items-center gap-x-2 ">
-          <Dot size={56} className="-mr-4" />
+        <h3 className="text-accent font-bold font-accent text-2xl lg:text-4xl flex items-center gap-x-2 ">
+          <Dot size={56} className="-mr-4 lg:block hidden" />
           Special Combos
         </h3>
-        <p className="text-sm max-w-2xl text-text-secondary ml-12">
+        <p className="text-sm lg:text-base lg:max-w-3xl text-text-secondary lg:ml-12 font-display">
           Certain attribute combinations unlock special bonuses that increase
           your NFT’s overall value. Below, you’ll find the three unique combo
           types and the advantages they provide.
         </p>
       </div>
-      <section className="flex items-center justify-center gap-x-2">
+      <section className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-2">
         {combos.map((combo) => (
           <div key={combo.id} className="flex flex-col gap-y-2">
-            <img src={combo.image} className="size-56 rounded-md shadow" />
+            <img
+              src={combo.image}
+              className="size-48 lg:size-56 rounded-md shadow"
+            />
             <div className="flex flex-col items-center">
               <div
                 className={cn("px-2 py-1 rounded-md flex items-center gap-x-2")}

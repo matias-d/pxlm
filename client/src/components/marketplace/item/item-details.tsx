@@ -19,11 +19,11 @@ export default function ItemDetails({ selected }: Props) {
   const { account, addressMP } = useMarketplace();
 
   return (
-    <section className="flex-1 pt-8 px-8  bg-card-dark h-full  overflow-auto pb-6">
-      <h2 className="text-3xl font-semibold font-accent text-white mb-4">
+    <section className="flex-1 p-4 lg:pt-8 lg:px-8  bg-card-dark h-full w-full overflow-auto pb-6 border-t border-border lg:border-t-0">
+      <h2 className="text-2xl lg:text-3xl font-semibold font-accent text-white mb-4">
         {selected?.name}
       </h2>
-      <header className="flex items-center w-full justify-between mb-8">
+      <header className="flex flex-col lg:flex-row gap-2 lg:gap-0 lg:items-center w-full justify-between mb-8">
         <div className="flex items-center gap-x-4">
           <Logo />
           <span className="text-text-secondary">|</span>

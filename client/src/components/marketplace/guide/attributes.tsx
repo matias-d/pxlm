@@ -7,11 +7,11 @@ export default function Attributes() {
   return (
     <section>
       <div className="mb-6">
-        <h3 className="text-accent font-bold font-accent text-4xl flex items-center gap-x-2 ">
-          <Dot size={56} className="-mr-4" />
+        <h3 className="text-accent font-bold font-accent text-2xl lg:text-4xl flex items-center gap-x-2 ">
+          <Dot size={56} className="-mr-4 hidden lg:block" />
           Attributes
         </h3>
-        <p className="text-sm max-w-2xl text-text-secondary ml-12">
+        <p className="text-sm lg:text-base max-w-2xl text-text-secondary font-display lg:ml-12">
           PXLs feature a wide range of attributes such as hats, accessories,
           glasses, and beards, each with its own variations and probabilities.
           Some items, like Gold and Silver, are premium traits that add
@@ -19,7 +19,7 @@ export default function Attributes() {
         </p>
       </div>
       <section className="space-y-2">
-        <section className="grid grid-cols-4 gap-2">
+        <section className="grid grid-cols-1 lg:grid-cols-4 gap-2">
           {attributes.map((attr) => (
             <Card className="w-full space-y-2" key={attr.type}>
               <div className="flex items-center justify-between">
@@ -52,7 +52,7 @@ export default function Attributes() {
             >
               <div>
                 <h3
-                  className="text-2xl font-semibold uppercase font-display"
+                  className="text-lg lg:text-2xl font-semibold uppercase font-display"
                   style={{ color: `#${color}` }}
                 >
                   {item.name} item

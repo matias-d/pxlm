@@ -50,11 +50,11 @@ export default function CartProvider({
     return found;
   };
 
-  const onLoading = (value: boolean) =>
-    dispatch({ type: "SET_LOADING", payload: value });
+  // const onLoading = (value: boolean) =>
+  //   dispatch({ type: "SET_LOADING", payload: value });
 
-  const onError = (value: boolean) =>
-    dispatch({ type: "SET_ERROR", payload: value });
+  // const onError = (value: boolean) =>
+  //   dispatch({ type: "SET_ERROR", payload: value });
 
   return (
     <CartContext.Provider

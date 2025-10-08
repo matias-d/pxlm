@@ -9,18 +9,18 @@ export default function Rarities() {
   return (
     <section>
       <div className="mb-6">
-        <h3 className="text-accent font-bold font-accent text-4xl flex items-center gap-x-2 ">
-          <Dot size={56} className="-mr-4" />
+        <h3 className="text-accent font-bold font-accent text-2xl lg:text-4xl flex items-center gap-x-2 ">
+          <Dot size={56} className="hidden lg:block lg:size-14" />
           Rarities
         </h3>
-        <p className="text-sm max-w-2xl text-text-secondary ml-12">
+        <p className="text-sm lg:text-base lg:max-w-2xl text-text-secondary lg:ml-12 font-display">
           Each PXL comes with a rarity level that defines not only its
           exclusivity but also its chances within the market. Below, you’ll find
           the different rarity tiers and the probabilities of obtaining each
           one.
         </p>
       </div>
-      <section className="flex items-center gap-x-2 justify-center">
+      <section className="flex flex-col lg:flex-row items-center gap-6 lg:gap-2 justify-center">
         {rarities.map((rarity) => {
           const config = getRarityMapper(rarity.score);
 
@@ -29,7 +29,7 @@ export default function Rarities() {
               <img
                 src={rarity.image}
                 alt={config.label}
-                className="size-56 rounded-md  shadow"
+                className="size-48 lg:size-56 rounded-md  shadow"
               />
               <div className="flex flex-col items-center">
                 <div

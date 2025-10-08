@@ -42,7 +42,7 @@ export default function MarketplaceProvider({
         updateItems({ items: result });
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
-        messageError(error as Error, "get all nfts");
+        messageError("get all nfts");
         onError(true);
       } finally {
         onLoading(false);
@@ -91,7 +91,7 @@ export default function MarketplaceProvider({
       return result;
     } catch (error) {
       console.error("❌ Error while creating NFT:", error);
-      messageError(error as Error, "create NFT");
+      messageError("create NFT");
       return null;
     } finally {
       setProgress(0);
@@ -129,7 +129,7 @@ export default function MarketplaceProvider({
       updateItems({ type: "SET_USER_ITEMS", items: filteredUserItems });
     } catch (error) {
       console.error("❌ Error while relist NFT:", error);
-      messageError(error as Error, "relist NFT");
+      messageError("relist NFT");
     }
   };
 
@@ -155,7 +155,7 @@ export default function MarketplaceProvider({
       return true;
     } catch (error) {
       console.error("❌ Error while purchasing NFT:", error);
-      messageError(error as Error, "purchase NFT");
+      messageError("purchase NFT");
       return false;
     }
   };
@@ -171,7 +171,7 @@ export default function MarketplaceProvider({
       });
     } catch (error: any) {
       console.error("❌ Error while getting account:", error);
-      messageError(error as Error, "get account");
+      messageError("get account");
       onError(true);
     } finally {
       onLoading(false);
@@ -189,7 +189,7 @@ export default function MarketplaceProvider({
       updateItems({ type: "SET_USER_ITEMS", items: result });
     } catch (error: any) {
       console.error("❌ Error while getting all user nfts:", error);
-      messageError(error as Error, "get all user nfts");
+      messageError("get all user nfts");
       onError(true);
     } finally {
       onLoading(false);
@@ -237,17 +237,8 @@ export default function MarketplaceProvider({
   const onError = (value: boolean) =>
     dispatch({ type: "SET_ERROR", payload: value });
 
-  const messageError = (error: any, functionAction: string) => {
-    const rawMessage = error?.reason || error?.message || "Unknown error";
-
-    const formattedMessage = rawMessage.split("(")[0].trim();
-
-    const shortMessage =
-      formattedMessage.length > 80
-        ? formattedMessage.slice(0, 80) + "..."
-        : formattedMessage;
-
-    toast.error(`Failed to ${functionAction}: ${shortMessage}`);
+  const messageError = (functionAction: string) => {
+    toast.error(`Failed to ${functionAction}`);
   };
 
   return (

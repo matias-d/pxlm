@@ -6,8 +6,8 @@ interface Props {
 
 export default function ItemImage({ selected }: Props) {
   return (
-    <section className="flex-1 px-14 pt-8 border-r border-border h-full relative">
-      <div className="h-[calc(100%-4rem)] p-6 border border-border bg-card-dark rounded-md">
+    <section className="flex-1 p-4 lg:px-14 lg:pt-8 border-r border-border h-full relative bg-card w-full">
+      <div className="lg:h-[calc(100%-4rem)] lg:p-6 lg:border border-border bg-card-dark rounded-md">
         <img
           key={selected?.tokenId}
           alt={`PXL Media #${selected?.tokenId}`}

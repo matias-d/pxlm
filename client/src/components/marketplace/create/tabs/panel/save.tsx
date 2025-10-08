@@ -69,7 +69,7 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
     <>
       <ContainerPanel pxl={pxl}>
         <section className="flex flex-col justify-between h-full ">
-          <div>
+          <div className="mb-4 lg:mb-0">
             <div className="flex items-center justify-between mb-2">
               <h4 className="font-display  font-semibold text-sm">
                 TRAITS{" "}

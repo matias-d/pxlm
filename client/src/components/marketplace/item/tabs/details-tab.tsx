@@ -98,7 +98,7 @@ export default function DetailsTab({ selected }: Props) {
             <p className="font-medium text-gray-400">Contract Address</p>{" "}
             <a
               target="_blank"
-              rel="noref"
+              rel="noreferrer"
               href={`https://etherscan.io/address/${selected.nftAddress}`}
               className="text-blue-400 font-medium font-display flex items-center gap-x-2 hover:text-blue-500 transition-colors"
             >

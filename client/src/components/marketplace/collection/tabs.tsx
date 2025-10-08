@@ -35,7 +35,7 @@ export default function Tabs() {
 
   return (
     <TabGroup className="w-full flex flex-col items-center justify-center gap-x-4">
-      <TabList className="flex items-center gap-x-12 font-display font-semibold">
+      <TabList className="flex items-center justify-between lg:justify-center w-full px-4 lg:px-0 lg:gap-x-12 font-display font-semibold">
         {tabs.map((tab) => (
           <Tab as={Fragment} key={tab.id}>
             {({ selected }) => (
@@ -43,7 +43,7 @@ export default function Tabs() {
                 <span
                   onClick={() => onFilterByStatusUserItems(tab.value)}
                   className={cn(
-                    " text-text-secondary outline-none cursor-pointer block",
+                    " text-text-secondary outline-none cursor-pointer block lg:text-base text-sm",
                     selected && "text-text-primary"
                   )}
                 >

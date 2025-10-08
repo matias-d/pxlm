@@ -26,7 +26,7 @@ const links = [
 
 export default function Nav() {
   return (
-    <nav className="flex gap-x-12">
+    <nav className="hidden lg:flex gap-x-12">
       {links.map((link) => (
         <NavLink
           to={link.to}
