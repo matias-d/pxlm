@@ -61,7 +61,10 @@ export default function PxlList({
   return (
     <>
       <section
-        className={cn("grid grid-cols-1 lg:grid-cols-4 gap-4", className)}
+        className={cn(
+          "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4",
+          className
+        )}
       >
         {items.map((pxl) => (
           <PXLCard.Card key={pxl.tokenId} tokenId={pxl.tokenId}>

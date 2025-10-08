@@ -10,7 +10,7 @@ interface Props {
 export default function ButtonLayout({ layout, onLayout }: Props) {
   return (
     <>
-      <div className="hidden lg:flex items-center gap-x-1">
+      <div className="hidden md:flex items-center gap-x-1">
         <Tooltip position="top" content="Grid">
           <button
             onClick={() => onLayout("grid")}
@@ -38,7 +38,7 @@ export default function ButtonLayout({ layout, onLayout }: Props) {
       </div>
 
       {/* Mobile button layout */}
-      <div className="block lg:hidden">
+      <div className="block md:hidden">
         {layout === "grid" ? (
           <Tooltip position="top" content="Grid">
             <button

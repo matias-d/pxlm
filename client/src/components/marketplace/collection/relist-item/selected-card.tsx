@@ -10,6 +10,7 @@ import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Card from "@/components/ui/card";
 import { useState } from "react";
+import { cn } from "@/lib/cn";
 
 interface Props {
   selected: IPxl;
@@ -55,9 +56,9 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
       );
 
   return (
-    <Card className=" grid grid-cols-2 p-6  gap-x-6 ">
+    <Card className=" grid grid-cols-1 md:grid-cols-2 p-6  gap-6 ">
       <div className="relative">
-        <div className="group relative inline-flex overflow-hidden rounded-md w-[25rem] h-[27.5rem] ">
+        <div className="group relative inline-flex overflow-hidden rounded-md lg:w-[25rem] lg:h-[27.5rem] md:h-full ">
           <img
             key={selected.tokenId}
             alt={`PXL Media #${selected.tokenId}`}
@@ -71,13 +72,16 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
         <SpecialCombo bonuses={selected.attributes.map((attr) => attr.value)} />
       </div>
       <div>
-        <section className="flex flex-col justify-between h-full ">
+        <section className="flex flex-col justify-between h-full mb-6 lg:mb-0">
           <div>
             <PxlHeaderInfo
               rarityScore={selected.rarity_score}
               totalAttr={traits.length}
             />
-            <TraitsDisclousure attributes={traits} />
+            <TraitsDisclousure
+              attributes={traits}
+              classNamePanel={cn(traits.length > 2 && "-bottom-[12rem]")}
+            />
           </div>
           <div>
             <h4 className="font-display mb-2 font-semibold text-sm">DETAILS</h4>

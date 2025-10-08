@@ -18,7 +18,7 @@ export default function SpecialCombos() {
           types and the advantages they provide.
         </p>
       </div>
-      <section className="flex flex-col lg:flex-row items-center justify-center gap-6 lg:gap-2">
+      <section className="flex flex-col md:flex-row items-center justify-center gap-6 lg:gap-2">
         {combos.map((combo) => (
           <div key={combo.id} className="flex flex-col gap-y-2">
             <img

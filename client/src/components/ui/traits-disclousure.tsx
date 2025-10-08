@@ -6,15 +6,20 @@ import Card from "./card";
 
 interface Props {
   attributes: IAttribute[];
+  classNamePanel?: string;
 }
 
-export default function TraitsDisclousure({ attributes }: Props) {
+export default function TraitsDisclousure({
+  attributes,
+  classNamePanel,
+}: Props) {
   return (
     <DisclousureUI
       title="TRAITS"
       classNamePanel={cn(
         "absolute w-full -bottom-[10rem] left-0 z-20",
-        attributes.length > 2 ? "-bottom-[10rem]" : "-bottom-[6rem]"
+        attributes.length > 2 ? "-bottom-[10rem]" : "-bottom-[6rem]",
+        classNamePanel
       )}
     >
       {attributes.length > 0 ? (

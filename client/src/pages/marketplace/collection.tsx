@@ -4,8 +4,11 @@ import { shortenAddress } from "@/utils/shorten-address";
 import LoadingTop from "@/components/ui/loading-top";
 import useMarketplace from "@/hooks/useMarketplace";
 import AvatarUI from "@/components/ui/avatar-ui";
+import { useTitle } from "@/hooks/useTitle";
 
 export default function Collection() {
+  useTitle("Collection - PXLM");
+
   const { account, error, loading } = useMarketplace();
 
   return (

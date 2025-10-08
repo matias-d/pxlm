@@ -20,7 +20,7 @@ export default function Rarities() {
           one.
         </p>
       </div>
-      <section className="flex flex-col lg:flex-row items-center gap-6 lg:gap-2 justify-center">
+      <section className="flex flex-col md:flex-row items-center gap-6 lg:gap-2 justify-center">
         {rarities.map((rarity) => {
           const config = getRarityMapper(rarity.score);
 

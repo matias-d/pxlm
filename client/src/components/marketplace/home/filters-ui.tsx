@@ -30,7 +30,7 @@ export default function FiltersUI({ layout, onLayout }: Props) {
 
   return (
     <section className="flex items-start w-full justify-between mb-8">
-      <div className="flex items-start gap-2 flex-col lg:flex-row">
+      <div className="flex items-start gap-2 flex-col md:flex-row">
         <SelectUI fields={fields} onSelect={onTogglePrice} />
         <SelectUI
           placeholder="Select attributes to filter"

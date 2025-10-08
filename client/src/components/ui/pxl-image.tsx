@@ -47,7 +47,7 @@ export default function PXLImage({
         {!isSeller && !isOwner && !isSold && (
           <div
             className={cn(
-              "absolute right-2 top-2 z-10 translate-y-1 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all",
+              "absolute right-2 top-2 z-10 translate-y-1 opacity-100 lg:opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all",
               found && "opacity-100 translate-y-0"
             )}
           >

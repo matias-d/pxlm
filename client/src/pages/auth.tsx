@@ -60,7 +60,7 @@ export default function Auth() {
 
         {!loading && account && (
           <section className="">
-            <Card className="mb-6 flex flex-col items-center lg:block px-12 lg:px-0">
+            <Card className="mb-6 flex flex-col items-center lg:block px-12 lg:px-4">
               <h3 className="font-display font-semibold">
                 Connected wallet<span className="font-normal">:</span>
               </h3>

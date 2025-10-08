@@ -8,8 +8,8 @@ export default function Statics() {
     useStatistics({ items: marketplaceItems });
 
   return (
-    <section className="flex lg:items-center gap-2 lg:gap-0 justify-between mb-4 flex-col lg:flex-row">
-      <div className="flex items-center lg:gap-x-12 gap-x-2 justify-between lg:justify-normal">
+    <section className="flex lg:items-center gap-2 lg:gap-0 justify-between mb-4 flex-col md:flex-row">
+      <div className="flex items-center md:gap-x-12 gap-x-2 justify-between md:justify-normal">
         <div className="flex items-center gap-x-2">
           <h2 className="font-display lg:text-lg">Results</h2>
           <p className="text-text-secondary text-sm lg:text-base">

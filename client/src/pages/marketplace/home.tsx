@@ -9,8 +9,11 @@ import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import { useTitle } from "@/hooks/useTitle";
 
 export default function Home() {
+  useTitle("Marketplace - PXLM");
+
   const { loading, error, marketplaceItems } = useMarketplace();
 
   const [layout, setLayout] = useState<"grid" | "table">(() => {

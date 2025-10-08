@@ -56,7 +56,7 @@ export default function ModalSave({
       isOpen={open}
       onOpen={handleClose}
       disableOutsideClick={disableOutsideClick}
-      classNameCard="bg-card-light flex flex-col justify-between w-[20.8rem] lg:w-[24rem]"
+      classNameCard="bg-card-light flex flex-col justify-between w-[20.8rem] md:w-[24rem]"
     >
       {title && (
         <div className="flex items-center justify-between mb-4">
@@ -69,7 +69,7 @@ export default function ModalSave({
         </div>
       )}
 
-      <div className="relative flex justify-center  -mt-4 lg:mt-0 mb-6 h-80">
+      <div className="relative flex justify-center  -mt-4 md:mt-0 mb-6 h-80">
         {items.map((pxl, index) => {
           const isActive = index === currentIndex;
           const isBehind = index < currentIndex;
@@ -114,7 +114,7 @@ export default function ModalSave({
       <Card className="z-50 mt-24 ">
         <div
           className={cn(
-            "flex justify-between b",
+            "flex justify-between",
 
             isLastItem && "justify-end",
             className

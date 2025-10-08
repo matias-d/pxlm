@@ -35,7 +35,7 @@ export default function RelistItem({ items, loading }: Props) {
 
   return (
     <section className="flex flex-col items-center justify-center">
-      <header className="flex items-center gap-x-4 mb-12 bg-card min-w-1/2 p-4 rounded-md border border-border">
+      <header className="flex items-center gap-x-4 mb-12 bg-card lg:min-w-1/2 p-4 rounded-md border border-border">
         {items.map((pxl) => (
           <button
             onClick={() => onSelect(pxl)}

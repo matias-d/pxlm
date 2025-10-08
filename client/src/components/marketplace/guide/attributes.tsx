@@ -19,7 +19,7 @@ export default function Attributes() {
         </p>
       </div>
       <section className="space-y-2">
-        <section className="grid grid-cols-1 lg:grid-cols-4 gap-2">
+        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
           {attributes.map((attr) => (
             <Card className="w-full space-y-2" key={attr.type}>
               <div className="flex items-center justify-between">
