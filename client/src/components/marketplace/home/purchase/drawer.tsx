@@ -62,7 +62,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
           { id: toastId }
         );
 
-        const success = await purchaseNFT(item.tokenId);
+        const success = await purchaseNFT(item.itemId);
 
         if (!success) {
           toast.error(`Failed to purchase NFT #${item.tokenId}`, {
@@ -103,7 +103,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
     <>
       <div
         className={cn(
-          "w-full bg-card h-[calc(100vh-5rem)] lg:h-[500px] fixed left-0 z-30 rounded-tr-lg rounded-tl-lg lg:rounded-tr-xl lg:rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
+          "w-full bg-card h-[calc(100vh-5rem)] md:h-[550px] lg:h-[500px] fixed left-0 z-30 rounded-tr-lg rounded-tl-lg lg:rounded-tr-xl lg:rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
           !open ? "-bottom-full" : "bottom-0"
         )}
       >

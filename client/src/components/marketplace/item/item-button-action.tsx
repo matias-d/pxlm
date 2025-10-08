@@ -30,7 +30,7 @@ export default function ItemButtonAction({ selected }: Props) {
       ) : !isSold ? (
         <Button
           className="w-full h-12"
-          onClick={() => purchaseNFT(selected.tokenId)}
+          onClick={() => purchaseNFT(selected.itemId)}
         >
           Buy now
         </Button>

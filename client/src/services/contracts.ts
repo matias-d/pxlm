@@ -128,6 +128,7 @@ export async function _createNFT({
   return nft;
 }
 
+// Relist an existing NFT on the marketplace.
 export async function _relistNFT({
   signer,
   tokenId,
@@ -156,17 +157,17 @@ export async function _relistNFT({
 
 // Handles purchasing an NFT from the marketplace.
 export async function _purchaseNFT({
-  tokenId,
+  itemId,
   signer,
 }: {
-  tokenId: number;
+  itemId: number;
   signer: ethers.Signer;
 }) {
   const { marketplaceContract } = await getMarketplaceContract(signer);
 
-  const totalPrice = await marketplaceContract.getTotalPrice(tokenId);
+  const totalPrice = await marketplaceContract.getTotalPrice(itemId);
 
-  const tx = await marketplaceContract.purchaseItem(tokenId, {
+  const tx = await marketplaceContract.purchaseItem(itemId, {
     value: totalPrice,
   });
 
@@ -186,10 +187,10 @@ export async function _purchaseNFT({
 
   const { buyer } = event.args;
 
-  return { tokenId, buyer };
+  return { itemId, buyer };
 }
 
-// Get all NFTs listed in the marketplace by fetching each item from the contract.
+// Get all NFTs listed in the marketplace and organize their listing history.
 export async function getAllNFTS(signer: ethers.Signer): Promise<IPxl[]> {
   const { marketplaceContract } = await getMarketplaceContract(signer);
   const itemCountBN: bigint = await marketplaceContract.itemCount();

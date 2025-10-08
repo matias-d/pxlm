@@ -17,7 +17,10 @@ export default function Checkout({ items }: { items: IPxl[] }) {
           const options = pxl ? getRarityTier(pxl.rarity_score) : null;
 
           return (
-            <Card className="bg-transparent border-none flex items-center p-0 justify-between">
+            <Card
+              key={pxl.tokenId}
+              className="bg-transparent border-none flex items-center p-0 justify-between"
+            >
               <div className="flex items-center gap-x-3">
                 <img
                   src={pxl.image}

@@ -133,7 +133,7 @@ export default function MarketplaceProvider({
     }
   };
 
-  const purchaseNFT = async (tokenId: number) => {
+  const purchaseNFT = async (itemId: number) => {
     if (!state.account)
       throw new Error(
         "Wallet not connected. Please connect your wallet to continue."
@@ -141,12 +141,12 @@ export default function MarketplaceProvider({
 
     try {
       const { buyer } = await _purchaseNFT({
-        tokenId,
+        itemId,
         signer: state.account.signer,
       });
 
       const updated = state.baseItems.map((item) =>
-        item.tokenId === tokenId ? { ...item, sold: true, owner: buyer } : item
+        item.itemId === itemId ? { ...item, sold: true, owner: buyer } : item
       );
 
       updateItems({ type: "SET_USER_ITEMS", items: updated });
