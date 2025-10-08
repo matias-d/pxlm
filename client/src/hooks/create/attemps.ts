@@ -5,7 +5,7 @@ export interface IAttempts {
 }
 
 export const MAX_TRIES = 3;
-export const COOLDOWN = 2 * 60 * 1000;
+export const COOLDOWN = 15 * 60 * 1000;
 export const STORAGE_KEY = "pxl_attempts";
 
 export const getAttempts = (): IAttempts => {

@@ -4,6 +4,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
+import { useDisableScroll } from "@/hooks/useDisabelScroll";
 import { ChevronRight, Dot } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
@@ -27,6 +28,8 @@ export default function SelectUI({
   className,
   onSelect,
 }: Props) {
+  useDisableScroll(false);
+
   const [selected, setSelected] = useState<Fields | undefined>(
     placeholder ? undefined : fields[0]
   );
@@ -42,7 +45,7 @@ export default function SelectUI({
       >
         {({ open }) => (
           <>
-            <ListboxButton className="cursor-pointer font-display flex items-center justify-between  lg:min-w-56 w-full text-text-secondary hover:text-text-primary lg:px-4 px-2 h-14 lg:gap-x-12 bg-card-light rounded-md border-2 border-border outline-none hover:border-accent-primary/50 transition-colors text-sm lg:text-base">
+            <ListboxButton className="cursor-pointer font-display flex items-center justify-between  lg:min-w-56 min-w-auto w-72 md:w-auto text-text-secondary hover:text-text-primary lg:px-4 px-3 h-14 lg:gap-x-12 bg-card-light rounded-md border-2 border-border outline-none hover:border-accent-primary/50 transition-colors text-sm lg:text-base">
               {selected?.label || placeholder}
               <ChevronRight
                 className={cn(
@@ -53,7 +56,7 @@ export default function SelectUI({
               />
             </ListboxButton>
 
-            <ListboxOptions className="outline-none absolute top-full left-0 right-0 bg-card-light overflow-hidden rounded-md mt-1 border border-border shadow-lg z-50">
+            <ListboxOptions className="outline-none absolute top-full left-0 right-0 bg-card-light overflow-hidden rounded-md lg:mt-1 border border-border shadow-lg z-50">
               {fields.map((option) => (
                 <ListboxOption
                   key={option.id}
@@ -63,7 +66,7 @@ export default function SelectUI({
                   {({ selected }) => (
                     <div
                       className={cn(
-                        "h-12 px-4 flex items-center justify-between group-hover:bg-card-super-light transition-colors",
+                        "h-10 lg:h-12 px-2 lg:px-4 text-xs lg:text-base flex items-center justify-between group-hover:bg-card-super-light transition-colors",
                         selected && "bg-card-super-light text-accent-primary"
                       )}
                     >

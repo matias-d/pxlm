@@ -40,7 +40,7 @@ export default function PXLImage({
       )}
       <div
         className={cn(
-          "group relative inline-flex overflow-hidden rounded-md ",
+          "group relative inline-flex overflow-hidden rounded-md w-full",
           classNameContainer
         )}
       >
@@ -54,7 +54,7 @@ export default function PXLImage({
             <button
               onClick={onCart}
               className={cn(
-                " rounded-full p-1  cursor-pointer transition-colors",
+                " rounded-full p-1 cursor-pointer transition-colors",
                 found ? "bg-accent" : "bg-black/50 hover:bg-black/60 "
               )}
             >
