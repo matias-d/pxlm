@@ -37,10 +37,20 @@ export interface PreviousListings {
   price: string;
   seller: string;
   sold: boolean;
-  itemId?: number;
+  itemId: number;
   buyer: string;
   boughtAt: number;
+  type: "sale" | "listing";
 }
+
+type RawListing = [
+  bigint, // itemId
+  string, // seller
+  string, // buyer
+  bigint, // price
+  bigint, // boughtAt
+  boolean // sold
+];
 
 export interface IPxlContract {
   nft: string;
@@ -52,6 +62,7 @@ export interface IPxlContract {
   tokenURI: string;
   buyer: string;
   boughtAt: number;
+  history: RawListing[];
 }
 
 export interface PinataPXLResponse {

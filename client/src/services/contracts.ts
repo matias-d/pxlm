@@ -7,7 +7,6 @@ import type {
   IPxlCreate,
   PinataPXLResponse,
 } from "@/interfaces/pxl";
-import { processAndFormatNFTs } from "@/helpers/functions/process-and-format-nft";
 import type { MarketplaceNFTs } from "@/interfaces/contracts";
 import { generateNFTMetadata } from "./generate-pxl";
 import { downloadSVG } from "@/utils/download-svg";
@@ -213,13 +212,11 @@ export async function loadAllNFTs(
     Array.from({ length: itemCount }, (_, i) => _getNFT(i + 1, signer))
   );
 
-  const formattedAllNFTs = processAndFormatNFTs(allNFTs);
-
-  const processedListedNFTS = formattedAllNFTs.filter(
+  const processedListedNFTS = allNFTs.filter(
     (nft) => !nft.sold && BigInt(nft.boughtAt) === 0n
   );
 
-  const processedUserNFTS = formattedAllNFTs.filter(
+  const processedUserNFTS = allNFTs.filter(
     (nft) => nft.owner === address || nft.seller === address
   );
 
@@ -238,6 +235,7 @@ export async function _getNFT(
   const { marketplaceContract } = await getMarketplaceContract(signer);
   const { nftContract } = await getNFTContract(signer);
   const item: IPxlContract = await marketplaceContract.getItem(itemId);
+
   const owner = await nftContract.ownerOf(item.tokenId);
 
   // Get metadata from IPFS

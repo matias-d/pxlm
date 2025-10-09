@@ -31,6 +31,19 @@ contract Marketplace is ReentrancyGuard {
         uint boughtAt;                
     }
 
+   /// @notice Represents a historical listing of a NFT for tracking its sales and relists
+    struct Listing {
+        uint itemId;       
+        address seller;   
+        address buyer;    
+        uint256 price;   
+        uint256 boughtAt; 
+        bool sold;         
+    }
+
+    /// @notice Mapping storing the full history of all listings for each NFT tokenId
+    mapping(uint256 => Listing[]) public tokenHistory;
+
     /// @notice Mapping that stores all listed items by their ID
     mapping(uint => Item) public items;
 
@@ -78,6 +91,16 @@ contract Marketplace is ReentrancyGuard {
             false,               
             0                    
         );
+
+        tokenHistory[_tokenId].push(Listing({
+            itemId: itemCount,
+            seller: msg.sender,
+            buyer: address(0),
+            price: _price,
+            boughtAt: block.timestamp,
+            sold: false
+        }));
+
         emit Offered(
             itemCount, 
             address(_nft),
@@ -90,22 +113,37 @@ contract Marketplace is ReentrancyGuard {
     /// @notice Retrieve information about a listed NFT
     /// @param _itemId The marketplace ID of the item
     function getItem(uint _itemId)
-    external
-    view
-    returns (
-        uint itemId,
-        address nft,
-        uint tokenId,
-        uint price,
-        address seller,
-        address buyer,
-        bool sold,
-        uint boughtAt,
-        string memory tokenURI
-    )
-    {
+        external
+        view
+        returns (
+            uint itemId,
+            address nft,
+            uint tokenId,
+            uint price,
+            address seller,
+            address buyer,
+            bool sold,
+            uint boughtAt,
+            string memory tokenURI,
+            Listing[] memory history
+    ){
         Item storage item = items[_itemId];
         require(item.itemId != 0, "Item doesn't exist");
+
+        tokenId = item.tokenId;
+
+        Listing[] memory hist = new Listing[](tokenHistory[tokenId].length);
+        for (uint i = 0; i < tokenHistory[tokenId].length; i++) {
+            Listing storage lst = tokenHistory[tokenId][i];
+            hist[i] = Listing({
+                itemId: lst.itemId,
+                price: lst.price,
+                seller: lst.seller,
+                buyer: lst.buyer,
+                sold: lst.sold,
+                boughtAt: lst.boughtAt
+            });
+        }
 
         return (
             item.itemId,
@@ -116,7 +154,8 @@ contract Marketplace is ReentrancyGuard {
             item.buyer,
             item.sold,
             item.boughtAt,
-            ERC721URIStorage(address(item.nft)).tokenURI(item.tokenId)
+            ERC721URIStorage(address(item.nft)).tokenURI(item.tokenId),
+            hist
         );
     }
 
@@ -140,6 +179,11 @@ contract Marketplace is ReentrancyGuard {
 
         item.nft.transferFrom(address(this), msg.sender, item.tokenId);
 
+        uint tokenId = item.tokenId;
+        Listing storage lst = tokenHistory[tokenId][tokenHistory[tokenId].length - 1];
+        lst.buyer = msg.sender;
+        lst.sold = true;
+        lst.boughtAt = block.timestamp;
         emit Bought(
             _itemId,
             address(item.nft),

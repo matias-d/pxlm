@@ -13,7 +13,6 @@ import {
   loadAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
-import { processAndFormatNFTs } from "@/helpers/functions/process-and-format-nft";
 import { MarketplaceContext } from "./marketplace-context";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { useEffect, useReducer, useState } from "react";
@@ -205,9 +204,21 @@ export default function MarketplaceProvider({
     const raw = state.items.find((item) => item.itemId === itemId);
     if (!raw) return null;
 
-    const formatted = processAndFormatNFTs(state.items);
-    const found = formatted.find((item) => item.tokenId === raw.tokenId);
-    return found ?? null;
+    const sameTokenItems = state.items.filter(
+      (item) => item.tokenId === raw.tokenId
+    );
+
+    if (!sameTokenItems.length) return null;
+
+    const mostRecent = sameTokenItems.reduce((prev, curr) => {
+      const timePrev =
+        BigInt(prev.boughtAt) !== 0n ? prev.boughtAt : prev.minted_at;
+      const timeCurr =
+        BigInt(curr.boughtAt) !== 0n ? curr.boughtAt : curr.minted_at;
+      return timeCurr > timePrev ? curr : prev;
+    });
+
+    return mostRecent;
   };
 
   // === Handle filters & sorting ===

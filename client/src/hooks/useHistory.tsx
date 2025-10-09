@@ -14,11 +14,13 @@ export default function useHistory({ item }: Props) {
   const hasPreviousListings =
     Array.isArray(item.previousListings) && item.previousListings.length > 0;
 
+  const lastListing =
+    item.previousListings?.[item.previousListings.length - 1] ?? null;
+
   const lastSale =
-    hasValidBuyer && hasValidBoughtAt
-      ? { price: item.price, buyer: item.buyer, boughtAt: item.boughtAt }
-      : hasPreviousListings
-      ? item.previousListings?.[item.previousListings.length - 1] ?? null
+    lastListing &&
+    !(lastListing.buyer === ethers.ZeroAddress && lastListing.type === "sale")
+      ? lastListing
       : null;
 
   const hasActivity =
