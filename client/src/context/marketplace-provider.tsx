@@ -18,6 +18,7 @@ import { useEffect, useReducer, useState } from "react";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { steps } from "@/helpers/consts/steps-progress";
 import { toast } from "sonner";
+import { processNFTGroups } from "@/helpers/functions/process-nft-groups";
 
 const toastController = createNFTToastController();
 
@@ -171,6 +172,12 @@ export default function MarketplaceProvider({
     updateItems({ type: "SET_ITEMS", items: allNFTs });
     updateItems({ type: "SET_USER_ITEMS", items: userNFTs });
     updateItems({ type: "SET_ITEMS_MARKETPLACE", items: marketplaceNFTs });
+
+    // User items filter
+    const searchParams = new URLSearchParams(window.location.search);
+    const filter = searchParams.get("filter") || "all";
+
+    onFilterByStatusUserItems(filter as "all" | "sold" | "purchase" | "relist");
   };
 
   const getAccount = async (): Promise<void> => {
@@ -191,6 +198,10 @@ export default function MarketplaceProvider({
   };
 
   const getNFT = (itemId: number): IPxl | null => {
+    const processed = processNFTGroups(state.items);
+
+    console.log("processed", processed);
+
     const found = state.items.find((item) => item.itemId === itemId);
 
     if (!found) return null;

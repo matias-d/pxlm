@@ -8,8 +8,6 @@ interface Props {
 }
 
 export default function ActivityTab({ selected }: Props) {
-  console.log("SELECTED ITEM", selected);
-
   const activity: PreviousListings = {
     seller: selected.seller,
     buyer: selected.buyer,

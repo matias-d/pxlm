@@ -11,6 +11,7 @@ import Input from "@/components/ui/input";
 import Card from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
+import Modal from "@/components/ui/modal";
 
 interface Props {
   selected: IPxl;
@@ -22,9 +23,9 @@ const traitsType = ["Hat", "Beard", "Accesory", "Glasses"];
 
 export default function SelectedCard({ selected, items, onSelect }: Props) {
   const { relistNFT, account } = useMarketplace();
+  const [open, setOpen] = useState(false);
 
   const [price, setPrice] = useState(selected?.price || "");
-
   const [status, setStatus] = useState({
     load: false,
     error: false,
@@ -35,6 +36,7 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
   }, [selected]);
 
   const onRelist = async () => {
+    onOpen();
     setStatus((prev) => ({ ...prev, load: true }));
     try {
       const isSuccess = await relistNFT(selected!.tokenId, price);
@@ -45,7 +47,9 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
       setStatus((prev) => ({ ...prev, load: false }));
     }
   };
+
   const onPrice = (newPrice: string) => setPrice(newPrice);
+  const onOpen = () => setOpen(!open);
 
   const onClear = () => {
     const nextNFT = items.find((pxl) => pxl.tokenId !== selected?.tokenId);
@@ -62,72 +66,95 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
       );
 
   return (
-    <Card className=" grid grid-cols-1 md:grid-cols-2 p-6  gap-6 ">
-      <div className="relative">
-        <div className="group relative inline-flex overflow-hidden rounded-md lg:w-[25rem] lg:h-[27.5rem] md:h-full ">
-          <img
-            key={selected.tokenId}
-            alt={`PXL Media #${selected.tokenId}`}
-            src={selected.image}
-            className=" w-full shadow object-cover"
+    <>
+      <Card className=" grid grid-cols-1 md:grid-cols-2 p-6  gap-6 ">
+        <div className="relative">
+          <div className="group relative inline-flex overflow-hidden rounded-md lg:w-[25rem] lg:h-[27.5rem] md:h-full ">
+            <img
+              key={selected.tokenId}
+              alt={`PXL Media #${selected.tokenId}`}
+              src={selected.image}
+              className=" w-full shadow object-cover"
+            />
+            <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
+              <div className="relative h-full w-8 bg-white/20"></div>
+            </div>
+          </div>
+          <SpecialCombo
+            bonuses={selected.attributes.map((attr) => attr.value)}
           />
-          <div className="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]">
-            <div className="relative h-full w-8 bg-white/20"></div>
-          </div>
         </div>
-        <SpecialCombo bonuses={selected.attributes.map((attr) => attr.value)} />
-      </div>
-      <div>
-        <section className="flex flex-col justify-between h-full mb-6 lg:mb-0">
-          <div>
-            <PxlHeaderInfo
-              rarityScore={selected.rarity_score}
-              totalAttr={traits.length}
-            />
-            <TraitsDisclousure
-              attributes={traits}
-              classNamePanel={cn(
-                traits.length > 2 &&
-                  "-bottom-[10.5rem] md:-bottom-[10rem] lg:-bottom-[12rem]"
-              )}
-            />
-          </div>
-          <div>
-            <h4 className="font-display mb-2 font-semibold text-sm">DETAILS</h4>
-            <div className="grid grid-cols-2 gap-2 mb-4">
-              <DetailCard title="name" value={selected.name} />
-              <DetailCard title="price" value={`${selected.price} TBNB`} />
-              <DetailCard title="owner" value={owner} />
-              <DetailCard
-                title="minted at"
-                value={formatTimestamp(selected.minted_at)}
+        <div>
+          <section className="flex flex-col justify-between h-full mb-6 lg:mb-0">
+            <div>
+              <PxlHeaderInfo
+                rarityScore={selected.rarity_score}
+                totalAttr={traits.length}
+              />
+              <TraitsDisclousure
+                attributes={traits}
+                classNamePanel={cn(
+                  traits.length > 2 &&
+                    "-bottom-[10.5rem] md:-bottom-[10rem] lg:-bottom-[12rem]"
+                )}
               />
             </div>
             <div>
-              <div className="relative">
-                <Input
-                  onChange={(e) => onPrice(e.target.value)}
-                  label="Marketplace Price"
-                  placeholder="0.001"
-                  value={price}
-                  type="number"
-                  required
+              <h4 className="font-display mb-2 font-semibold text-sm">
+                DETAILS
+              </h4>
+              <div className="grid grid-cols-2 gap-2 mb-4">
+                <DetailCard title="name" value={selected.name} />
+                <DetailCard title="price" value={`${selected.price} TBNB`} />
+                <DetailCard title="owner" value={owner} />
+                <DetailCard
+                  title="minted at"
+                  value={formatTimestamp(selected.minted_at)}
                 />
               </div>
+              <div>
+                <div className="relative">
+                  <Input
+                    onChange={(e) => onPrice(e.target.value)}
+                    label="Marketplace Price"
+                    placeholder="0.001"
+                    value={price}
+                    type="number"
+                    required
+                  />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="w-full flex  items-center justify-end">
-            <Button
-              loading={status.load}
-              disabled={status.load}
-              onClick={onRelist}
-              className="h-12 disabled:bg-accent/95"
-            >
-              🎉 Relist PXL
-            </Button>
-          </div>
-        </section>
-      </div>
-    </Card>
+            <div className="w-full flex  items-center justify-end">
+              <Button
+                loading={status.load}
+                disabled={status.load}
+                onClick={onOpen}
+                className="h-12 disabled:bg-accent/95"
+              >
+                🎉 Relist PXL
+              </Button>
+            </div>
+          </section>
+        </div>
+      </Card>
+      <Modal
+        isOpen={open}
+        onOpen={onOpen}
+        title="Relist NFT"
+        description="Enter a new price to relist your NFT and give other users the chance to buy it again."
+        className=""
+        classNameCard="max-w-lg p-6"
+      >
+        <div className="w-full flex items-center justify-between mt-12">
+          <Button className="h-12 px-12 btn-secondary" onClick={onOpen}>
+            Cancel
+          </Button>
+          <Button className="h-12 px-12" onClick={onRelist}>
+            Accept
+          </Button>
+        </div>
+      </Modal>
+    </>
   );
 }

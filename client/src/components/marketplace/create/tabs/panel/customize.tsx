@@ -100,13 +100,18 @@ export default function Customize({
           <div className="w-full flex justify-between items-center">
             <Tooltip content="Back" contentClassName="bg-card-super-light">
               <Button
+                type="button"
                 onClick={onPrevStep}
                 className="h-2 btn-display flex items-center justify-center px-2 text-base "
               >
                 <ChevronLeft />
               </Button>
             </Tooltip>
-            <Button className="h-12 text-base" onClick={onNextStep}>
+            <Button
+              type="button"
+              className="h-12 text-base"
+              onClick={onNextStep}
+            >
               Next
             </Button>
           </div>

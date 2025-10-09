@@ -40,7 +40,7 @@ export default function Modal({
       className="relative z-50"
     >
       <div
-        className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/10 backdrop-blur-[2px] transition-opacity "
+        className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/30  transition-opacity "
         onClick={() => {
           if (!disableOutsideClick) onOpen();
         }}
@@ -55,9 +55,15 @@ export default function Modal({
           >
             <Card className={cn("max-w-xl ", classNameCard)}>
               {title && (
-                <DialogTitle className="font-bold">{title}</DialogTitle>
+                <DialogTitle className="font-bold font-accent">
+                  {title}
+                </DialogTitle>
               )}
-              {description && <Description>{description}</Description>}
+              {description && (
+                <Description className="text-text-secondary my-2 font-display">
+                  {description}
+                </Description>
+              )}
               {children}
             </Card>
           </DialogPanel>

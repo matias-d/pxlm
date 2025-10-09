@@ -11,8 +11,14 @@ export function processNFTGroups(nfts: IPxl[]): IPxl[] {
 
   for (const tokenId in groupedByToken) {
     const group = groupedByToken[tokenId].sort((a, b) => {
-      const timeA = Number(a.boughtAt ?? a.minted_at);
-      const timeB = Number(b.boughtAt ?? b.minted_at);
+      const timeA =
+        a.boughtAt && BigInt(a.boughtAt) !== 0n
+          ? Number(a.boughtAt)
+          : Number.MAX_SAFE_INTEGER;
+      const timeB =
+        b.boughtAt && BigInt(a.boughtAt) !== 0n
+          ? Number(b.boughtAt)
+          : Number.MAX_SAFE_INTEGER;
       return timeA - timeB;
     });
 
