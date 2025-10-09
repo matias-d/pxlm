@@ -7,7 +7,7 @@ import type {
   IPxlCreate,
   PinataPXLResponse,
 } from "@/interfaces/pxl";
-import { processNFTGroups } from "@/helpers/functions/process-nft-groups";
+import { processAndFormatNFTs } from "@/helpers/functions/process-and-format-nft";
 import type { MarketplaceNFTs } from "@/interfaces/contracts";
 import { generateNFTMetadata } from "./generate-pxl";
 import { downloadSVG } from "@/utils/download-svg";
@@ -213,16 +213,15 @@ export async function loadAllNFTs(
     Array.from({ length: itemCount }, (_, i) => _getNFT(i + 1, signer))
   );
 
-  const listedNFTs = allNFTs.filter(
+  const formattedAllNFTs = processAndFormatNFTs(allNFTs);
+
+  const processedListedNFTS = formattedAllNFTs.filter(
     (nft) => !nft.sold && BigInt(nft.boughtAt) === 0n
   );
 
-  const userNFTs = allNFTs.filter(
+  const processedUserNFTS = formattedAllNFTs.filter(
     (nft) => nft.owner === address || nft.seller === address
   );
-
-  const processedListedNFTS = processNFTGroups(listedNFTs);
-  const processedUserNFTS = processNFTGroups(userNFTs);
 
   return {
     allNFTs,

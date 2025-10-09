@@ -5,6 +5,7 @@ export interface IMarketplaceContext {
   addressMP: string | null;
   userItems: IPxl[];
   marketplaceItems: IPxl[];
+  items: IPxl[];
 
   loading: boolean;
   progress: number;

@@ -6,6 +6,7 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   addressMP: null,
   account: null,
   userItems: [],
+  items: [],
   loading: false,
   error: false,
   progress: 0,

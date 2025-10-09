@@ -38,6 +38,7 @@ export default function PXLImage({
           </p>
         </div>
       )}
+
       <div
         className={cn(
           "group relative inline-flex overflow-hidden rounded-md w-full",

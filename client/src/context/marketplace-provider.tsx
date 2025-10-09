@@ -13,10 +13,10 @@ import {
   loadAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
-import { processNFTGroups } from "@/helpers/functions/process-nft-groups";
+import { processAndFormatNFTs } from "@/helpers/functions/process-and-format-nft";
 import { MarketplaceContext } from "./marketplace-context";
-import { useEffect, useReducer, useState } from "react";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
+import { useEffect, useReducer, useState } from "react";
 import { steps } from "@/helpers/consts/steps-progress";
 import { toast } from "sonner";
 
@@ -169,6 +169,8 @@ export default function MarketplaceProvider({
       state.account.address
     );
 
+    console.log("MARKETPLACE ITEMS CONTEXT", marketplaceNFTs);
+
     updateItems({ type: "SET_ITEMS", items: allNFTs });
     updateItems({ type: "SET_USER_ITEMS", items: userNFTs });
     updateItems({ type: "SET_ITEMS_MARKETPLACE", items: marketplaceNFTs });
@@ -200,13 +202,12 @@ export default function MarketplaceProvider({
   };
 
   const getNFT = (itemId: number): IPxl | null => {
-    const processed = processNFTGroups(state.items);
+    const raw = state.items.find((item) => item.itemId === itemId);
+    if (!raw) return null;
 
-    const found = processed.find((item) => item.itemId === itemId);
-
-    if (!found) return null;
-
-    return found;
+    const formatted = processAndFormatNFTs(state.items);
+    const found = formatted.find((item) => item.tokenId === raw.tokenId);
+    return found ?? null;
   };
 
   // === Handle filters & sorting ===
@@ -257,6 +258,7 @@ export default function MarketplaceProvider({
         error: state.status.error,
         onFilterByStatusUserItems,
         account: state.account,
+        items: state.items,
         updateItemsOrder,
         onFilterByRarity,
         purchaseNFT,
