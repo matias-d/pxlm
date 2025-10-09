@@ -1,13 +1,36 @@
-import type { IPxl } from "@/interfaces/pxl";
-import { getTimeAgo } from "@/utils/get-time-ago";
-import { shortenAddress } from "@/utils/shorten-address";
+import type { IPxl, PreviousListings } from "@/interfaces/pxl";
 import { Handbag } from "lucide-react";
+import ActivityCard from "./activity-card";
+import { ethers } from "ethers";
 
 interface Props {
   selected: IPxl;
 }
 
 export default function ActivityTab({ selected }: Props) {
+  console.log("SELECTED ITEM", selected);
+
+  const activity: PreviousListings = {
+    seller: selected.seller,
+    buyer: selected.buyer,
+    price: selected.price,
+    sold: selected.sold,
+    itemId: selected.itemId,
+    boughtAt: selected.boughtAt,
+  };
+
+  const hasValidBuyer =
+    ethers.isAddress(selected.buyer) && selected.buyer !== ethers.ZeroAddress;
+
+  const hasValidBoughtAt = BigInt(selected.boughtAt) !== 0n;
+
+  const hasPreviousListings =
+    Array.isArray(selected.previousListings) &&
+    selected.previousListings.length > 0;
+
+  const hasActivity =
+    (hasValidBuyer && hasValidBoughtAt) || hasPreviousListings;
+
   return (
     <section className="">
       <div className="bg-card border-t border-x border-border rounded-t-sm p-4">
@@ -31,31 +54,15 @@ export default function ActivityTab({ selected }: Props) {
             <p className="text-xs text-text-secondary">TIME</p>
           </div>
 
-          {selected.previousListings ? (
+          {hasActivity ? (
             <>
-              {selected.previousListings.map((item) => (
-                <div
-                  className="grid grid-cols-5 w-full px-4 gap-x-4 py-3 bg-card border-x border-b border-border"
-                  key={item.itemId}
-                >
-                  <p className="text-sm font-display font-medium flex items-center gap-x-2">
-                    <Handbag size={14} /> Sale
-                  </p>
-                  <p className="text-sm font-display font-medium">
-                    {item.price}{" "}
-                    <span className="text-xs text-text-secondary">TBNB</span>
-                  </p>
-                  <p className="text-sm font-display font-medium">
-                    {shortenAddress(item.seller)}
-                  </p>
-                  <p className="text-sm font-display font-medium">
-                    {shortenAddress(item.buyer)}
-                  </p>
-                  <p className="text-sm font-display font-medium">
-                    {getTimeAgo(Number(item.boughtAt) * 1000)}
-                  </p>
-                </div>
-              ))}
+              {hasValidBuyer && hasValidBoughtAt && (
+                <ActivityCard item={activity} />
+              )}
+              {hasPreviousListings &&
+                (selected.previousListings ?? []).map((item) => (
+                  <ActivityCard key={item.itemId} item={item} />
+                ))}
             </>
           ) : (
             <section className="w-full px-4 py-3 bg-card border-x border-b border-border">

@@ -1,8 +1,9 @@
 import { Tab, TabGroup, TabList } from "@headlessui/react";
-import { Fragment } from "react/jsx-runtime";
+import { Fragment, useEffect, useCallback } from "react";
 import TabsPanelUI from "./tabs-panel-ui";
 import { cn } from "@/lib/cn";
 import useMarketplace from "@/hooks/useMarketplace";
+import { useSearchParams } from "react-router";
 
 const tabs: {
   id: number;
@@ -30,20 +31,43 @@ const tabs: {
     value: "relist",
   },
 ];
+
 export default function Tabs() {
   const { onFilterByStatusUserItems } = useMarketplace();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const currentFilter =
+    (searchParams.get("filter") as "all" | "sold" | "purchase" | "relist") ||
+    "all";
+
+  const selectedIndex = tabs.findIndex((tab) => tab.value === currentFilter);
+
+  useEffect(() => {
+    onFilterByStatusUserItems(currentFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentFilter]);
+
+  const handleFilterChange = useCallback(
+    (value: "all" | "sold" | "purchase" | "relist") => {
+      setSearchParams({ filter: value });
+    },
+    [setSearchParams]
+  );
 
   return (
-    <TabGroup className="w-full flex flex-col items-center justify-center gap-x-4">
+    <TabGroup
+      selectedIndex={selectedIndex === -1 ? 0 : selectedIndex}
+      onChange={(index) => handleFilterChange(tabs[index].value)}
+      className="w-full flex flex-col items-center justify-center gap-x-4"
+    >
       <TabList className="flex items-center justify-between md:justify-center w-full px-4 lg:px-0 md:gap-x-12 font-display font-semibold">
         {tabs.map((tab) => (
           <Tab as={Fragment} key={tab.id}>
             {({ selected }) => (
               <div className="relative outline-none">
                 <span
-                  onClick={() => onFilterByStatusUserItems(tab.value)}
                   className={cn(
-                    " text-text-secondary outline-none cursor-pointer block lg:text-base text-sm",
+                    "text-text-secondary outline-none cursor-pointer block lg:text-base text-sm",
                     selected && "text-text-primary"
                   )}
                 >
@@ -51,7 +75,7 @@ export default function Tabs() {
                 </span>
                 <div
                   className={cn(
-                    "data-selected:block w-12 h-[2px] bg-accent absolute left-1/2 -translate-x-1/2 -bottom-4.5 opacity-0 transition-opacity ease-in-out duration-200",
+                    "w-12 h-[2px] bg-accent absolute left-1/2 -translate-x-1/2 -bottom-4.5 opacity-0 transition-opacity ease-in-out duration-200",
                     selected && "opacity-100"
                   )}
                 ></div>

@@ -93,8 +93,8 @@ export default function Drawer({
   };
 
   const onClearCart = () => {
-    const itemsFound = items.filter((pxl) => inCart(pxl.tokenId));
-    itemsFound.forEach((pxl) => removeCart(pxl.tokenId));
+    const itemsFound = items.filter((pxl) => inCart(pxl.itemId));
+    itemsFound.forEach((pxl) => removeCart(pxl.itemId));
   };
 
   const onEnd = () => {

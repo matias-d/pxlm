@@ -38,6 +38,7 @@ export default function RelistItem({ items, loading }: Props) {
       <header className="flex items-center justify-center flex-wrap gap-4 mb-12 bg-card  p-4 rounded-md border border-border">
         {items.map((pxl) => (
           <button
+            key={pxl.itemId}
             onClick={() => onSelect(pxl)}
             className={cn(
               "rounded-lg overflow-hidden cursor-pointer",

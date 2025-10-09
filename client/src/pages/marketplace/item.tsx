@@ -60,7 +60,9 @@ export default function Item() {
         items={[selected]}
         onOpen={onOpenDrawer}
         open={isOpen}
-        afterPurchase={() => navigate("/marketplace/collection")}
+        afterPurchase={() =>
+          navigate("/marketplace/collection?filter=purchase")
+        }
       />
     </>
   );

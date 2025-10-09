@@ -37,8 +37,8 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
   const onRelist = async () => {
     setStatus((prev) => ({ ...prev, load: true }));
     try {
-      await relistNFT(selected!.tokenId, price);
-      onClear();
+      const isSuccess = await relistNFT(selected!.tokenId, price);
+      if (isSuccess) onClear();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {

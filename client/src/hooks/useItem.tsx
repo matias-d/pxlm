@@ -5,25 +5,30 @@ import type { IPxl } from "@/interfaces/pxl";
 
 export default function useItem() {
   const { getNFT } = useMarketplace();
-  const { tokenId } = useParams();
+  const { itemId } = useParams();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<IPxl | null>(null);
 
   useEffect(() => {
-    if (!tokenId) {
+    if (!itemId) {
+      console.log("NO HAY");
       navigate("/marketplace");
       return;
     }
 
-    const item = getNFT(Number(tokenId));
+    const item = getNFT(Number(itemId));
+    console.log("ITEM____", item);
 
     if (!item) {
+      console.log("NO HAY ITEM");
+
       navigate("/marketplace");
       return;
     }
 
     setSelected(item);
-  }, [navigate, tokenId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate, itemId]);
 
   return {
     selected,
