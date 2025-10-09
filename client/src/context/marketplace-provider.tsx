@@ -200,9 +200,7 @@ export default function MarketplaceProvider({
   const getNFT = (itemId: number): IPxl | null => {
     const processed = processNFTGroups(state.items);
 
-    console.log("processed", processed);
-
-    const found = state.items.find((item) => item.itemId === itemId);
+    const found = processed.find((item) => item.itemId === itemId);
 
     if (!found) return null;
 
