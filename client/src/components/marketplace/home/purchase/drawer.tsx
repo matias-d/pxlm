@@ -84,11 +84,11 @@ export default function Drawer({
       Confetti();
       setStatus((prev) => ({ ...prev, success: true }));
       onEnd();
+      if (afterPurchase) afterPurchase();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {
       setStatus((prev) => ({ ...prev, load: false }));
-      if (afterPurchase) afterPurchase();
     }
   };
 

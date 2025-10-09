@@ -24,7 +24,7 @@ export default function ItemButtonAction({ selected, onOpenDrawer }: Props) {
         >
           <Link to="/marketplace/collection?filter=purchased">Purchased</Link>
         </Button>
-      ) : isSeller ? (
+      ) : isSeller || isOwner ? (
         <Button className="w-full h-12" asChild>
           <Link
             to="/marketplace/collection"

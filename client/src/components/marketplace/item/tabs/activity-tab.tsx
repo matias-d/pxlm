@@ -1,36 +1,59 @@
-import type { IPxl, PreviousListings } from "@/interfaces/pxl";
+import type { IPxl } from "@/interfaces/pxl";
 import ActivityCard from "./activity-card";
 import useHistory from "@/hooks/useHistory";
-import { Handbag } from "lucide-react";
+import { Handbag, Tag } from "lucide-react";
+import { useState } from "react";
+import { cn } from "@/lib/cn";
 
 interface Props {
   selected: IPxl;
 }
 
-export default function ActivityTab({ selected }: Props) {
-  const activity: PreviousListings = {
-    seller: selected.seller,
-    buyer: selected.buyer,
-    price: selected.price,
-    sold: selected.sold,
-    itemId: selected.itemId,
-    boughtAt: selected.boughtAt,
-  };
+type FilterType = "all" | "listing" | "sale";
 
-  const { hasActivity, hasValidBuyer, hasValidBoughtAt, hasPreviousListings } =
-    useHistory({ item: selected });
+export default function ActivityTab({ selected }: Props) {
+  const { hasPreviousListings } = useHistory({ item: selected });
+  const [filter, setFilter] = useState<FilterType>("all");
+
+  const filteredListings =
+    filter === "all"
+      ? selected.previousListings ?? []
+      : (selected.previousListings ?? []).filter(
+          (item) => item.type === filter
+        );
 
   return (
     <section className="">
-      <div className="bg-card border-t border-x border-border rounded-t-sm p-4">
-        <h3 className="flex items-center gap-x-3 font-medium font-display">
-          <div className="border border-border size-8 rounded-sm flex items-center justify-center">
-            <span className="bg-card-super-light p-1.5 border border-border rounded-sm">
-              <Handbag size={18} />
-            </span>
-          </div>
-          Sale
-        </h3>
+      <div className="bg-card border-t border-x border-border rounded-t-sm p-4 flex items-center gap-x-4">
+        <button
+          onClick={() => setFilter("all")}
+          className={cn(
+            "border px-2 py-1  cursor-pointer text-xs md:text-sm rounded-sm flex items-center gap-x-2 font-medium font-display border-border",
+            filter === "all" && " bg-card-super-light border-[#332F3E]"
+          )}
+        >
+          <p>All</p>
+        </button>
+        <button
+          onClick={() => setFilter("listing")}
+          className={cn(
+            "border px-2 py-1  cursor-pointer text-xs md:text-sm rounded-sm flex items-center gap-x-2 font-medium font-display border-border",
+            filter === "listing" && " bg-card-super-light border-[#332F3E]"
+          )}
+        >
+          <Tag size={18} />
+          <p>Listing</p>
+        </button>
+        <button
+          onClick={() => setFilter("sale")}
+          className={cn(
+            "border px-2 py-1  cursor-pointer text-xs md:text-sm rounded-sm flex items-center gap-x-2 font-medium font-display border-border",
+            filter === "sale" && " bg-card-super-light border-[#332F3E]"
+          )}
+        >
+          <Handbag size={18} />
+          <p>Sale</p>
+        </button>
       </div>
 
       <div className="overflow-x-auto">
@@ -43,15 +66,11 @@ export default function ActivityTab({ selected }: Props) {
             <p className="text-xs text-text-secondary">TIME</p>
           </div>
 
-          {hasActivity ? (
+          {hasPreviousListings ? (
             <>
-              {hasValidBuyer && hasValidBoughtAt && (
-                <ActivityCard item={activity} />
-              )}
-              {hasPreviousListings &&
-                (selected.previousListings ?? []).map((item) => (
-                  <ActivityCard key={item.itemId} item={item} />
-                ))}
+              {filteredListings.map((item) => (
+                <ActivityCard key={item.itemId} item={item} />
+              ))}
             </>
           ) : (
             <section className="w-full px-4 py-3 bg-card border-x border-b border-border">

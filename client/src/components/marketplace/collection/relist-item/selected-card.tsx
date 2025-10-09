@@ -7,11 +7,11 @@ import DetailCard from "@/components/ui/detail-card";
 import useMarketplace from "@/hooks/useMarketplace";
 import type { IPxl } from "@/interfaces/pxl";
 import Button from "@/components/ui/button";
-import Input from "@/components/ui/input";
-import Card from "@/components/ui/card";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/cn";
+import Input from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
+import Card from "@/components/ui/card";
+import { cn } from "@/lib/cn";
 
 interface Props {
   selected: IPxl;
@@ -142,7 +142,7 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
         isOpen={open}
         onOpen={onOpen}
         title="Relist NFT"
-        description="Enter a new price to relist your NFT and give other users the chance to buy it again."
+        description="You are about to relist this NFT on the marketplace. Confirm so that other collectors can purchase it."
         className=""
         classNameCard="max-w-lg p-6"
       >
@@ -151,7 +151,7 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
             Cancel
           </Button>
           <Button className="h-12 px-12" onClick={onRelist}>
-            Accept
+            Confirm
           </Button>
         </div>
       </Modal>

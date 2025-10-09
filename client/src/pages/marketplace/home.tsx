@@ -29,8 +29,6 @@ export default function Home() {
 
   const onLayout = (layout: "grid" | "table") => setLayout(layout);
 
-  console.log("makrtplaceitems", marketplaceItems);
-
   return (
     <section className="pb-12">
       <LoadingTop loading={loading} />
