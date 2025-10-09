@@ -21,9 +21,9 @@ export default function PXLImage({
   const { account } = useMarketplace();
   const { addCart, inCart, removeCart } = useCart();
 
-  const found = inCart(pxl.tokenId);
+  const found = inCart(pxl.itemId);
 
-  const onCart = () => (found ? removeCart(pxl.tokenId) : addCart(pxl));
+  const onCart = () => (found ? removeCart(pxl.itemId) : addCart(pxl));
 
   const isSeller = pxl.seller === account?.address;
   const isOwner = pxl.owner === account?.address;

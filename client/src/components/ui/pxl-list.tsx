@@ -54,7 +54,7 @@ export default function PxlList({
         className={cn("grid grid-cols-1 lg:grid-cols-4 gap-4", className)}
       >
         {items.map((pxl) => (
-          <PXLCard.Card key={pxl.tokenId} tokenId={pxl.tokenId}>
+          <PXLCard.Card key={pxl.tokenId} itemId={pxl.itemId}>
             <PXLImage pxl={pxl} alt={`PXL Media #${pxl.tokenId}`} />
             <PXLCard.Info
               rarity_score={pxl.rarity_score}

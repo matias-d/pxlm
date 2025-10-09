@@ -6,21 +6,14 @@ import Button from "@/components/ui/button";
 import RelistItem from "./relist-item/relist-item";
 import Loading from "../../ui/loading";
 import { Link } from "react-router";
-import { useEffect } from "react";
 import Statics from "./statics";
 
 export default function TabsPanelUI() {
-  const { error, loading, getAllUserNfts, userItems, account } =
-    useMarketplace();
-
-  useEffect(() => {
-    if (!account?.signer) return;
-    (async () => {
-      await getAllUserNfts();
-    })();
-  }, [account?.signer]);
+  const { error, loading, userItems, account } = useMarketplace();
 
   const load = loading || (!account?.signer && !error);
+
+  console.log(userItems);
 
   return (
     <div className="w-full">

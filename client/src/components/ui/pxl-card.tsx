@@ -11,20 +11,20 @@ import CardUI from "./card";
 // Principal Card
 export function Card({
   children,
-  tokenId,
+  itemId,
 }: {
   children: React.ReactNode;
-  tokenId: number;
+  itemId: number;
 }) {
   const { inCart } = useCart();
-  const found = inCart(tokenId);
+  const found = inCart(itemId);
 
   const navigate = useNavigate();
 
   const onNavigate = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (target.closest("a, button")) return;
-    navigate(`/marketplace/item/${tokenId}`, {
+    navigate(`/marketplace/item/${itemId}`, {
       state: { from: window.location.pathname },
     });
   };

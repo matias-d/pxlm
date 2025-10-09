@@ -13,9 +13,9 @@ interface Props {
 }
 
 export default function PxlTableCard({ pxl }: Props) {
-  const { addCart, cart } = useCart();
+  const { addCart, inCart } = useCart();
 
-  const inCart = cart.some((item) => item.tokenId === pxl.tokenId);
+  const result = inCart(pxl.itemId);
   const rarityConfig = getRarityTier(pxl.rarity_score);
 
   return (
@@ -23,7 +23,7 @@ export default function PxlTableCard({ pxl }: Props) {
       className="grid grid-cols-8 py-3 border-b border-border items-center hover:bg-card-light px-2 cursor-pointer"
       onClick={() => addCart(pxl)}
     >
-      <CheckInput inCart={inCart} addCart={() => addCart(pxl)} />
+      <CheckInput inCart={result} addCart={() => addCart(pxl)} />
       <div className="flex items-center gap-x-3 -ml-28">
         <img src={pxl.image} className="size-10 rounded-sm" />
         <Link

@@ -8,8 +8,8 @@ interface ICartContext {
   baseCart: IPxl[];
   active: boolean;
   addCart: (pxl: IPxl) => void;
-  inCart: (tokenId: number) => boolean;
-  removeCart: (tokenId: number) => void;
+  inCart: (itemId: number) => boolean;
+  removeCart: (itemId: number) => void;
   clearCart: () => void;
 }
 
@@ -36,8 +36,8 @@ export default function CartProvider({
     dispatch({ type: "SET_CART", payload: pxl });
   };
 
-  const removeCart = (tokenId: number) => {
-    dispatch({ type: "REMOVE_CART", payload: tokenId });
+  const removeCart = (itemId: number) => {
+    dispatch({ type: "REMOVE_CART", payload: itemId });
   };
 
   const clearCart = () => {
@@ -45,8 +45,8 @@ export default function CartProvider({
   };
 
   // === Util reducer functions ===
-  const inCart = (tokenId: number) => {
-    const found = state.cart.some((item) => item.tokenId === tokenId);
+  const inCart = (itemId: number) => {
+    const found = state.cart.some((item) => item.itemId === itemId);
     return found;
   };
 

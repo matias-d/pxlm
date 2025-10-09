@@ -26,7 +26,7 @@ export default function App() {
             {/* Marketplace */}
             <Route path="/marketplace" element={<MarketplaceLayout />}>
               <Route index element={<Home />} />
-              <Route path="item/:tokenId" element={<Item />} />
+              <Route path="item/:itemId" element={<Item />} />
 
               <Route path="create" element={<Create />} />
               <Route path="collection" element={<Collection />} />
