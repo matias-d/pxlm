@@ -6,6 +6,7 @@ import ContainerPanel from "./container-panel";
 import Button from "@/components/ui/button";
 import Rarity from "@/components/ui/rarity";
 import Input from "@/components/ui/input";
+import { cn } from "@/lib/cn";
 
 interface Props {
   onNextStep: () => void;
@@ -34,7 +35,13 @@ export default function Customize({
           <Rarity rarity={pxl.rarity_score} />
         </div>
         {/* TRAITS */}
-        <TraitsDisclousure attributes={pxl.attributes} />
+        <TraitsDisclousure
+          attributes={pxl.attributes}
+          classNamePanel={cn(
+            "",
+            pxl.attributes.length > 2 && "lg:-bottom-[12rem]"
+          )}
+        />
 
         <hr className="my-4 border border-border" />
 

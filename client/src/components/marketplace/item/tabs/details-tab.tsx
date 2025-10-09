@@ -50,7 +50,7 @@ export default function DetailsTab({ selected }: Props) {
           </span>
         </h3>
         {traits.length > 0 ? (
-          <div className="grid grid-cols-3 gap-2 ">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2 ">
             {traits.map((trait) => (
               <TraitCard
                 trait={trait}
@@ -79,7 +79,7 @@ export default function DetailsTab({ selected }: Props) {
             </span>
           </h3>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
             {bonus.map((item) => (
               <TraitCard trait={item} key={item.value} className="p-4 w-auto" />
             ))}

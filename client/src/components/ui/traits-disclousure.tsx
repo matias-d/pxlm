@@ -18,7 +18,9 @@ export default function TraitsDisclousure({
       title="TRAITS"
       classNamePanel={cn(
         "absolute w-full -bottom-[10rem] left-0 z-20",
-        attributes.length > 2 ? "-bottom-[10rem]" : "-bottom-[6rem]",
+        attributes.length > 2
+          ? "md:-bottom-[10rem]"
+          : "-bottom-[6.5rem] md:-bottom-[6rem] lg:-bottom-[7rem]",
         classNamePanel
       )}
     >
@@ -36,7 +38,7 @@ export default function TraitsDisclousure({
         </Card>
       ) : (
         <Card className="">
-          <div className="h-[3.563rem] flex items-center justify-center">
+          <div className="h-[3.8rem] md:h-[3.4rem]  lg:h-[4.5rem] flex items-center justify-center">
             <p className="text-text-secondary">This PXL has no traits.</p>
           </div>
         </Card>

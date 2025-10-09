@@ -9,13 +9,13 @@ import type { IPxl } from "@/interfaces/pxl";
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
 import Card from "@/components/ui/card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 
 interface Props {
   selected: IPxl;
   items: IPxl[];
-  onSelect: (item: IPxl) => void;
+  onSelect: (item: IPxl | null) => void;
 }
 
 const traitsType = ["Hat", "Beard", "Accesory", "Glasses"];
@@ -24,15 +24,21 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
   const { relistNFT, account } = useMarketplace();
 
   const [price, setPrice] = useState(selected?.price || "");
+
   const [status, setStatus] = useState({
     load: false,
     error: false,
   });
+
+  useEffect(() => {
+    setPrice(selected?.price || "");
+  }, [selected]);
+
   const onRelist = async () => {
     setStatus((prev) => ({ ...prev, load: true }));
     try {
       await relistNFT(selected!.tokenId, price);
-      if (items.length > 1) onClear();
+      onClear();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {
@@ -43,7 +49,7 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
 
   const onClear = () => {
     const nextNFT = items.find((pxl) => pxl.tokenId !== selected?.tokenId);
-    onSelect(nextNFT!);
+    onSelect(nextNFT ? nextNFT : null);
     setPrice(nextNFT?.price || "");
   };
 
@@ -80,7 +86,10 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
             />
             <TraitsDisclousure
               attributes={traits}
-              classNamePanel={cn(traits.length > 2 && "-bottom-[12rem]")}
+              classNamePanel={cn(
+                traits.length > 2 &&
+                  "-bottom-[10.5rem] md:-bottom-[10rem] lg:-bottom-[12rem]"
+              )}
             />
           </div>
           <div>
