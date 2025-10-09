@@ -1,5 +1,4 @@
 import { shortenAddress } from "@/utils/shorten-address";
-import ItemButtonAction from "./item-button-action";
 import { copyItemUrl } from "@/utils/copy-item-url";
 import useMarketplace from "@/hooks/useMarketplace";
 import { Tooltip } from "@/components/ui/tooltip";
@@ -13,9 +12,10 @@ import { Copy } from "lucide-react";
 
 interface Props {
   selected: IPxl;
+  renderButtonAction: () => React.ReactNode;
 }
 
-export default function ItemDetails({ selected }: Props) {
+export default function ItemDetails({ selected, renderButtonAction }: Props) {
   const { account, addressMP } = useMarketplace();
 
   return (
@@ -104,7 +104,7 @@ export default function ItemDetails({ selected }: Props) {
             {selected.price} TBNB
           </p>
         </div>
-        <ItemButtonAction selected={selected} />
+        {renderButtonAction()}
       </Card>
       <ItemTabs selected={selected} />
     </section>

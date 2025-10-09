@@ -6,10 +6,11 @@ import { Link } from "react-router";
 
 interface Props {
   selected: IPxl;
+  onOpenDrawer: () => void;
 }
 
-export default function ItemButtonAction({ selected }: Props) {
-  const { account, purchaseNFT } = useMarketplace();
+export default function ItemButtonAction({ selected, onOpenDrawer }: Props) {
+  const { account } = useMarketplace();
 
   const isSeller = selected.seller === account?.address;
   const isOwner = selected.owner === account?.address;
@@ -28,10 +29,7 @@ export default function ItemButtonAction({ selected }: Props) {
           </Link>
         </Button>
       ) : !isSold ? (
-        <Button
-          className="w-full h-12"
-          onClick={() => purchaseNFT(selected.itemId)}
-        >
+        <Button className="w-full h-12" onClick={onOpenDrawer}>
           Buy now
         </Button>
       ) : (

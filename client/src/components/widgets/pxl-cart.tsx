@@ -1,14 +1,12 @@
+import Drawer from "../marketplace/home/purchase/drawer";
+import useDrawer from "@/hooks/useDrawer";
 import useCart from "@/hooks/useCart";
 import Button from "../ui/button";
 import { cn } from "@/lib/cn";
-import Drawer from "../marketplace/home/purchase/drawer";
-import { useState } from "react";
 
 export default function PxlCart() {
-  const [open, setOpen] = useState(false);
+  const { isOpen, onOpenDrawer, closeDrawer } = useDrawer();
   const { active, clearCart, cart } = useCart();
-
-  const onOpen = () => setOpen(!open);
 
   const totalPrice = cart.reduce((acc, item) => acc + Number(item.price), 0);
   return (
@@ -36,7 +34,7 @@ export default function PxlCart() {
           <span className="w-[1px] h-8 bg-border hidden md:block"></span>
           <div className="flex items-center justify-between md:gap-4 ">
             <div className="flex items-center gap-x-4">
-              <Button onClick={onOpen} className="text-xs h-4 font-bold">
+              <Button onClick={onOpenDrawer} className="text-xs h-4 font-bold">
                 Buy {cart.length} now
               </Button>
               <p className="text-text-primary/90 text-sm">
@@ -46,7 +44,7 @@ export default function PxlCart() {
             <span className="w-[1px] h-8 bg-border hidden md:block"></span>
             <Button
               onClick={() => {
-                setOpen(false);
+                closeDrawer();
                 clearCart();
               }}
               className="text-xs h-4 font-bold btn-secondary px-2"
@@ -56,7 +54,7 @@ export default function PxlCart() {
           </div>
         </section>
       </div>
-      <Drawer items={cart} onOpen={onOpen} open={open} />
+      <Drawer items={cart} onOpen={onOpenDrawer} open={isOpen} />
     </>
   );
 }

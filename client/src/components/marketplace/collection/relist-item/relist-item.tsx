@@ -16,7 +16,7 @@ interface Props {
 export default function RelistItem({ items, loading }: Props) {
   const [selected, setSelected] = useState<IPxl | null>(items[0] || null);
 
-  const onSelect = (pxl: IPxl) => setSelected(pxl);
+  const onSelect = (pxl: IPxl | null) => setSelected(pxl);
 
   if (loading)
     return <Loading label="Obtaining purchased collection" withIcon />;
@@ -35,7 +35,7 @@ export default function RelistItem({ items, loading }: Props) {
 
   return (
     <section className="flex flex-col items-center justify-center">
-      <header className="flex items-center gap-x-4 mb-12 bg-card lg:min-w-1/2 p-4 rounded-md border border-border">
+      <header className="flex items-center justify-center flex-wrap gap-4 mb-12 bg-card  p-4 rounded-md border border-border">
         {items.map((pxl) => (
           <button
             onClick={() => onSelect(pxl)}

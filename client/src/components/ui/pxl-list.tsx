@@ -1,10 +1,10 @@
+import PxlListTable from "./pxl-list-table/pxl-list-table";
 import Drawer from "../marketplace/home/purchase/drawer";
 import PXLCard from "@/components/ui/pxl-card";
 import type { IPxl } from "@/interfaces/pxl";
-import PxlListTable from "./pxl-list-table/pxl-list-table";
+import useDrawer from "@/hooks/useDrawer";
 import PXLImage from "./pxl-image";
 import PxlCard from "./pxl-card";
-import { useState } from "react";
 import Button from "./button";
 import { cn } from "@/lib/cn";
 import Error from "./error";
@@ -28,17 +28,7 @@ export default function PxlList({
   renderLoading,
   renderNotItems,
 }: Props) {
-  const [drawer, setDrawer] = useState<{ open: boolean; items: IPxl[] }>({
-    open: false,
-    items: [],
-  });
-
-  const onOpen = () => setDrawer((prev) => ({ ...prev, open: !drawer.open }));
-
-  const onBuy = (pxl: IPxl) => {
-    setDrawer((prev) => ({ ...prev, items: [pxl] }));
-    onOpen();
-  };
+  const { isOpen, onBuy, onOpenDrawer, pxls } = useDrawer();
 
   if (loading) return renderLoading();
 
@@ -61,10 +51,7 @@ export default function PxlList({
   return (
     <>
       <section
-        className={cn(
-          "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4",
-          className
-        )}
+        className={cn("grid grid-cols-1 lg:grid-cols-4 gap-4", className)}
       >
         {items.map((pxl) => (
           <PXLCard.Card key={pxl.tokenId} tokenId={pxl.tokenId}>
@@ -80,12 +67,7 @@ export default function PxlList({
           </PXLCard.Card>
         ))}
       </section>
-      <Drawer
-        type="single"
-        onOpen={onOpen}
-        open={drawer.open}
-        items={drawer.items}
-      />
+      <Drawer type="single" onOpen={onOpenDrawer} open={isOpen} items={pxls} />
     </>
   );
 }

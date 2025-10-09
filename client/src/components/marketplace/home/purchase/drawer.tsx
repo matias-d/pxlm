@@ -13,13 +13,22 @@ import { cn } from "@/lib/cn";
 import { toast } from "sonner";
 
 interface Props {
+  type?: "cart" | "single";
+  afterPurchase?: () => void;
   onOpen: () => void;
   open: boolean;
   items: IPxl[];
-  type?: "cart" | "single";
 }
 
-export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
+export default function Drawer({
+  onOpen,
+  open,
+  items,
+  type = "cart",
+  afterPurchase,
+}: Props) {
+  useDisableScroll(open);
+
   const { purchaseNFT } = useMarketplace();
   const { removeCart, inCart, baseCart, clearCart } = useCart();
 
@@ -29,8 +38,6 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
     error: false,
     success: false,
   });
-
-  useDisableScroll(open);
 
   useEffect(() => {
     if (items) {
@@ -81,6 +88,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {
       setStatus((prev) => ({ ...prev, load: false }));
+      if (afterPurchase) afterPurchase();
     }
   };
 
@@ -103,7 +111,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
     <>
       <div
         className={cn(
-          "w-full bg-card h-[calc(100vh-5rem)] md:h-[550px] lg:h-[500px] fixed left-0 z-30 rounded-tr-lg rounded-tl-lg lg:rounded-tr-xl lg:rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
+          "w-full bg-card h-[calc(100vh-5rem)] md:h-[550px] lg:h-[500px] fixed left-0 z-50 rounded-tr-lg rounded-tl-lg lg:rounded-tr-xl lg:rounded-tl-xl border-t border-border transition-all duration-400 ease-in-out",
           !open ? "-bottom-full" : "bottom-0"
         )}
       >
@@ -132,7 +140,7 @@ export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
         className={cn(
           "inset-0 bg-black/30 w-full h-full fixed transition-all",
           open
-            ? "bg-black/30 z-20 opacity-100"
+            ? "bg-black/30 z-40 opacity-100"
             : "-z-20 opacity-0 pointer-events-none"
         )}
       />

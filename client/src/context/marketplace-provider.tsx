@@ -104,6 +104,18 @@ export default function MarketplaceProvider({
         "Wallet not connected. Please connect your wallet to continue."
       );
 
+    const nft = state.baseUserItems.find((item) => item.tokenId === tokenId);
+
+    if (!nft)
+      throw new Error(
+        `NFT with token ID ${tokenId} not found in your items. Please make sure it exists before continuing.`
+      );
+
+    if (nft.owner !== state.account.address)
+      throw new Error(
+        "You are not the owner of this NFT. Please connect the wallet that owns this token."
+      );
+
     try {
       await _relistNFT({
         tokenId,

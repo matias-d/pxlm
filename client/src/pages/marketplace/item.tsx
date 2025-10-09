@@ -1,44 +1,25 @@
+import ItemButtonAction from "@/components/marketplace/item/item-button-action";
 import ItemCarrousel from "@/components/marketplace/item/item-carrousel";
 import ItemDetails from "@/components/marketplace/item/item-details";
-import { useLocation, useNavigate, useParams } from "react-router";
+import Drawer from "@/components/marketplace/home/purchase/drawer";
 import ItemImage from "@/components/marketplace/item/item-image";
 import { useDisableScroll } from "@/hooks/useDisabelScroll";
-import useMarketplace from "@/hooks/useMarketplace";
+import { useLocation, useNavigate } from "react-router";
 import Loading from "@/components/ui/loading";
-import type { IPxl } from "@/interfaces/pxl";
-import { useEffect, useState } from "react";
+import useDrawer from "@/hooks/useDrawer";
+import useItem from "@/hooks/useItem";
 import { X } from "lucide-react";
 
 export default function Item() {
   useDisableScroll(true);
 
-  const { getNFT } = useMarketplace();
+  const { selected } = useItem();
+  const { isOpen, onOpenDrawer } = useDrawer();
 
-  const { tokenId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-
   const prevPath = location.state?.from || "/marketplace";
-
   const onClose = () => navigate(prevPath);
-
-  const [selected, setSelected] = useState<IPxl | null>(null);
-
-  useEffect(() => {
-    if (!tokenId) {
-      navigate("/marketplace");
-      return;
-    }
-
-    const item = getNFT(Number(tokenId));
-
-    if (!item) {
-      navigate("/marketplace");
-      return;
-    }
-
-    setSelected(item);
-  }, [navigate, tokenId]);
 
   if (selected === null)
     return (
@@ -62,11 +43,25 @@ export default function Item() {
           </header>
           <article className="flex lg:flex-row flex-col items-start w-full lg:h-[calc(100%-3rem)]   ">
             <ItemImage selected={selected} />
-            <ItemDetails selected={selected} />
+            <ItemDetails
+              selected={selected}
+              renderButtonAction={() => (
+                <ItemButtonAction
+                  selected={selected}
+                  onOpenDrawer={onOpenDrawer}
+                />
+              )}
+            />
           </article>
         </section>
       </div>
       <div className="inset-0 fixed z-30 bg-black/50" onClick={onClose}></div>
+      <Drawer
+        items={[selected]}
+        onOpen={onOpenDrawer}
+        open={isOpen}
+        afterPurchase={() => navigate("/marketplace/collection")}
+      />
     </>
   );
 }
