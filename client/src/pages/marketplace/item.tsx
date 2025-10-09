@@ -61,7 +61,7 @@ export default function Item() {
         onOpen={onOpenDrawer}
         open={isOpen}
         afterPurchase={() =>
-          navigate("/marketplace/collection?filter=purchase")
+          navigate("/marketplace/collection?filter=purchased")
         }
       />
     </>

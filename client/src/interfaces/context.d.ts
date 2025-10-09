@@ -21,7 +21,7 @@ export interface IMarketplaceContext {
   ) => void;
 
   onFilterByStatusUserItems: (
-    status: "all" | "sold" | "purchase" | "relist"
+    status: "all" | "sold" | "purchased" | "relist"
   ) => void;
 
   getAccount: () => Promise<void>;

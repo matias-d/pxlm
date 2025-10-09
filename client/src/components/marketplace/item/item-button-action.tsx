@@ -18,8 +18,11 @@ export default function ItemButtonAction({ selected, onOpenDrawer }: Props) {
   return (
     <>
       {isOwner && isSold ? (
-        <Button className="w-full h-12 bg-accent-secondary ring-accent-secondary">
-          Purchased
+        <Button
+          className="w-full h-12 bg-accent-secondary ring-accent-secondary"
+          asChild
+        >
+          <Link to="/marketplace/collection?filter=purchased">Purchased</Link>
         </Button>
       ) : isSeller ? (
         <Button className="w-full h-12" asChild>

@@ -13,12 +13,12 @@ import {
   loadAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
+import { processNFTGroups } from "@/helpers/functions/process-nft-groups";
 import { MarketplaceContext } from "./marketplace-context";
 import { useEffect, useReducer, useState } from "react";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { steps } from "@/helpers/consts/steps-progress";
 import { toast } from "sonner";
-import { processNFTGroups } from "@/helpers/functions/process-nft-groups";
 
 const toastController = createNFTToastController();
 
@@ -177,7 +177,9 @@ export default function MarketplaceProvider({
     const searchParams = new URLSearchParams(window.location.search);
     const filter = searchParams.get("filter") || "all";
 
-    onFilterByStatusUserItems(filter as "all" | "sold" | "purchase" | "relist");
+    onFilterByStatusUserItems(
+      filter as "all" | "sold" | "purchased" | "relist"
+    );
   };
 
   const getAccount = async (): Promise<void> => {
@@ -217,7 +219,7 @@ export default function MarketplaceProvider({
   };
 
   const onFilterByStatusUserItems = (
-    status: "all" | "sold" | "purchase" | "relist"
+    status: "all" | "sold" | "purchased" | "relist"
   ) => {
     dispatch({ type: "FILTER_BY_STATUS_USER_ITEMS", payload: status });
   };

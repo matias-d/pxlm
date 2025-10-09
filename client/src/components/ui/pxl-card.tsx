@@ -1,7 +1,7 @@
 import { getRarityTier } from "@/helpers/functions/pxl-get-rarity";
 import useMarketplace from "@/hooks/useMarketplace";
 import type { IPxl } from "@/interfaces/pxl";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Sparkle } from "lucide-react";
 import useCart from "@/hooks/useCart";
 import Button from "./button";
@@ -143,14 +143,18 @@ export function ButtonCard({
     <>
       {isOwner && isSold ? (
         <Button
-          className="w-full h-14 text-base rounded-none font-semibold"
+          className="w-full h-14 text-base rounded-none font-semibold bg-accent-secondary ring-accent-secondary"
+          asChild
           classNameContainer="flex items-center gap-x-2"
         >
-          Purchased
+          <Link to="/marketplace/collection?filter=purchased">Purchased</Link>
         </Button>
       ) : isSeller ? (
-        <Button disabled className="rounded-none text-base h-14 w-full">
-          My collection
+        <Button
+          className="rounded-none text-base h-14 w-full bg-accent-firthy ring-accent-firthy"
+          asChild
+        >
+          <Link to="/marketplace/collection">Collection</Link>
         </Button>
       ) : !isSold ? (
         <Button

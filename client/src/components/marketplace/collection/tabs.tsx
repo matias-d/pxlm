@@ -1,14 +1,14 @@
 import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { Fragment, useEffect, useCallback } from "react";
-import TabsPanelUI from "./tabs-panel-ui";
-import { cn } from "@/lib/cn";
 import useMarketplace from "@/hooks/useMarketplace";
 import { useSearchParams } from "react-router";
+import TabsPanelUI from "./tabs-panel-ui";
+import { cn } from "@/lib/cn";
 
 const tabs: {
   id: number;
   label: string;
-  value: "all" | "sold" | "purchase" | "relist";
+  value: "all" | "sold" | "purchased" | "relist";
 }[] = [
   {
     id: 1,
@@ -22,8 +22,8 @@ const tabs: {
   },
   {
     id: 3,
-    label: "Purchase",
-    value: "purchase",
+    label: "Purchased",
+    value: "purchased",
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ export default function Tabs() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentFilter =
-    (searchParams.get("filter") as "all" | "sold" | "purchase" | "relist") ||
+    (searchParams.get("filter") as "all" | "sold" | "purchased" | "relist") ||
     "all";
 
   const selectedIndex = tabs.findIndex((tab) => tab.value === currentFilter);
@@ -48,7 +48,7 @@ export default function Tabs() {
   }, [currentFilter]);
 
   const handleFilterChange = useCallback(
-    (value: "all" | "sold" | "purchase" | "relist") => {
+    (value: "all" | "sold" | "purchased" | "relist") => {
       setSearchParams({ filter: value });
     },
     [setSearchParams]

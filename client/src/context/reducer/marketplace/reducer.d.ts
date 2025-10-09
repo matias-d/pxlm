@@ -24,7 +24,7 @@ export type Action =
   | { type: "FILTER_BY_RARITY"; payload: string }
   | {
       type: "FILTER_BY_STATUS_USER_ITEMS";
-      payload: "all" | "sold" | "purchase" | "relist";
+      payload: "all" | "sold" | "purchased" | "relist";
     }
   | { type: "SORT_BY_PRICE"; payload: "low-to-high" | "high-to-low" };
 export type functionUpdate<T extends Action> = (
