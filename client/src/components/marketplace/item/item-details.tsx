@@ -9,6 +9,7 @@ import type { IPxl } from "@/interfaces/pxl";
 import ItemTabs from "./tabs/item-tabs";
 import Card from "@/components/ui/card";
 import { Copy } from "lucide-react";
+import useHistory from "@/hooks/useHistory";
 
 interface Props {
   selected: IPxl;
@@ -17,6 +18,7 @@ interface Props {
 
 export default function ItemDetails({ selected, renderButtonAction }: Props) {
   const { account, addressMP } = useMarketplace();
+  const { lastSale } = useHistory({ item: selected });
 
   return (
     <section className="flex-1 p-4 lg:pt-8 lg:px-8  bg-card-dark h-full w-full overflow-auto pb-6 border-t border-border lg:border-t-0">
@@ -87,11 +89,7 @@ export default function ItemDetails({ selected, renderButtonAction }: Props) {
           <div>
             <p className="text-xs text-text-secondary">LAST SALE</p>
             <p className="font-semibold font-display">
-              {selected.previousListings
-                ? selected.previousListings[
-                    selected.previousListings.length - 1
-                  ].price
-                : "-"}
+              {lastSale ? lastSale.price : "-"}
             </p>
           </div>
         </header>

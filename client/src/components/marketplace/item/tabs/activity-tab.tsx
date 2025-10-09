@@ -1,7 +1,7 @@
 import type { IPxl, PreviousListings } from "@/interfaces/pxl";
-import { Handbag } from "lucide-react";
 import ActivityCard from "./activity-card";
-import { ethers } from "ethers";
+import useHistory from "@/hooks/useHistory";
+import { Handbag } from "lucide-react";
 
 interface Props {
   selected: IPxl;
@@ -17,17 +17,8 @@ export default function ActivityTab({ selected }: Props) {
     boughtAt: selected.boughtAt,
   };
 
-  const hasValidBuyer =
-    ethers.isAddress(selected.buyer) && selected.buyer !== ethers.ZeroAddress;
-
-  const hasValidBoughtAt = BigInt(selected.boughtAt) !== 0n;
-
-  const hasPreviousListings =
-    Array.isArray(selected.previousListings) &&
-    selected.previousListings.length > 0;
-
-  const hasActivity =
-    (hasValidBuyer && hasValidBoughtAt) || hasPreviousListings;
+  const { hasActivity, hasValidBuyer, hasValidBoughtAt, hasPreviousListings } =
+    useHistory({ item: selected });
 
   return (
     <section className="">

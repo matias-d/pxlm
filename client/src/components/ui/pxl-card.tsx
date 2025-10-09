@@ -1,7 +1,8 @@
 import { getRarityTier } from "@/helpers/functions/pxl-get-rarity";
 import useMarketplace from "@/hooks/useMarketplace";
-import type { IPxl } from "@/interfaces/pxl";
 import { Link, useNavigate } from "react-router";
+import type { IPxl } from "@/interfaces/pxl";
+import useHistory from "@/hooks/useHistory";
 import { Sparkle } from "lucide-react";
 import useCart from "@/hooks/useCart";
 import Button from "./button";
@@ -104,15 +105,8 @@ export function PriceDetails({ pxl }: { pxl: IPxl }) {
           <p className="font-display">{pxl.price}</p>
           <p className="text-text-secondary">TBNB</p>
         </div>
-        {pxl.previousListings && pxl.previousListings.length > 0 && (
-          <div className="flex items-center gap-x-1 text-xs font-semibold">
-            <p className=" text-text-secondary">Last sale</p>
-            <p className="font-display ">
-              {pxl.previousListings[pxl.previousListings.length - 1].price}{" "}
-              <span className="text-text-secondary font-primary">TBNB</span>
-            </p>
-          </div>
-        )}
+
+        <LastPrice pxl={pxl} />
       </div>
       {pxl.sold && (
         <div>
@@ -124,6 +118,22 @@ export function PriceDetails({ pxl }: { pxl: IPxl }) {
     </div>
   );
 }
+
+export const LastPrice = ({ pxl }: { pxl: IPxl }) => {
+  const { lastSale } = useHistory({ item: pxl });
+
+  if (!lastSale) return null;
+
+  return (
+    <div className="flex items-center gap-x-1 text-xs font-semibold">
+      <p className="text-text-secondary">Last sale</p>
+      <p className="font-display">
+        {lastSale.price}{" "}
+        <span className="text-text-secondary font-primary">TBNB</span>
+      </p>
+    </div>
+  );
+};
 
 // Type buttons card
 export function ButtonCard({

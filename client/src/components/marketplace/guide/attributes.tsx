@@ -4,8 +4,6 @@ import { Cuboid, Dot } from "lucide-react";
 import Card from "@/components/ui/card";
 
 export default function Attributes() {
-  console.log(attributes);
-
   return (
     <section>
       <div className="mb-6">
