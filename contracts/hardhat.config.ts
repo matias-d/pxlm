@@ -48,6 +48,7 @@ const config: HardhatUserConfig = {
       accounts: [
         process.env.GANACHE_PRIVATE_KEY!,
         process.env.GANACHE_PRIVATE_KEY_2!,
+        process.env.GANACHE_PRIVATE_KEY_3!,
       ],
     },
   },
