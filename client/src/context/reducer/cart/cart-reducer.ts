@@ -47,13 +47,13 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
 
   // Handle set cart
   SET_CART: (state, action) => {
-    const tokenId = action.payload.tokenId;
+    const itemId = action.payload.itemId;
 
-    const inCart = state.cart.some((pxl) => pxl.tokenId === tokenId);
+    const inCart = state.cart.some((pxl) => pxl.itemId === itemId);
 
     if (inCart) {
       const updatedState = UPDATE_STATE_BY_ACTION.REMOVE_CART(state, {
-        payload: tokenId,
+        payload: itemId,
         type: "REMOVE_CART",
       });
       return updatedState;
@@ -64,7 +64,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   },
   REMOVE_CART: (state, action) => {
     const filtered = state.cart.filter(
-      (item) => item.tokenId !== action.payload
+      (item) => item.itemId !== action.payload
     );
     const isActive = filtered.length > 0;
     return { ...state, cart: filtered, active: isActive };

@@ -30,14 +30,16 @@ export interface IPxl {
   generatedFrom: string;
   minted_at: number;
 
-  previousListings?: {
-    price: string;
-    seller: string;
-    sold: boolean;
-    itemId?: number;
-    buyer: string;
-    boughtAt: number;
-  }[];
+  previousListings?: PreviousListings[];
+}
+
+export interface PreviousListings {
+  price: string;
+  seller: string;
+  sold: boolean;
+  itemId?: number;
+  buyer: string;
+  boughtAt: number;
 }
 
 export interface IPxlContract {

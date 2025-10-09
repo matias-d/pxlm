@@ -34,18 +34,22 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     return { ...state, status: { ...state.status, error: action.payload } };
   },
 
-  // Set items and base items
+  // Set all items
   SET_ITEMS: (state, action) => {
-    const order = "low-to-high";
-    const sorted = applyPriceOrder(action.payload, order);
-
-    const filtered = sorted.filter((item) => !item.sold);
-
     return {
       ...state,
       items: action.payload,
-      marketplaceItems: filtered,
-      baseItems: filtered,
+    };
+  },
+
+  // Set only items too marketplace
+  SET_ITEMS_MARKETPLACE: (state, action) => {
+    const order = "low-to-high";
+    const sorted = applyPriceOrder(action.payload, order);
+    return {
+      ...state,
+      marketplaceItems: sorted,
+      baseItems: sorted,
       order,
     };
   },

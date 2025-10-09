@@ -18,6 +18,7 @@ export type Action =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_ERROR"; payload: boolean }
   | { type: "SET_ITEMS"; payload: IPxl[] }
+  | { type: "SET_ITEMS_MARKETPLACE"; payload: IPxl[] }
   | { type: "SET_ADDRESS_MP"; payload: string }
   | { type: "SET_USER_ITEMS"; payload: IPxl[] }
   | { type: "FILTER_BY_RARITY"; payload: string }
@@ -36,6 +37,9 @@ export interface UpdateStateI {
   SET_LOADING: functionUpdate<Extract<Action, { type: "SET_LOADING" }>>;
   SET_ERROR: functionUpdate<Extract<Action, { type: "SET_ERROR" }>>;
   SET_ITEMS: functionUpdate<Extract<Action, { type: "SET_ITEMS" }>>;
+  SET_ITEMS_MARKETPLACE: functionUpdate<
+    Extract<Action, { type: "SET_ITEMS_MARKETPLACE" }>
+  >;
   SET_ADDRESS_MP: functionUpdate<Extract<Action, { type: "SET_ADDRESS_MP" }>>;
   SET_USER_ITEMS: functionUpdate<Extract<Action, { type: "SET_USER_ITEMS" }>>;
   FILTER_BY_RARITY: functionUpdate<

@@ -5,16 +5,14 @@ import {
 } from "./reducer/marketplace/marketplace-reducer";
 
 import {
-  _getAllUserNfts,
   _purchaseNFT,
   _createNFT,
   _getAccount,
   _relistNFT,
   getMarketplaceAddress,
-  getAllNFTS,
+  loadAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
-import { filterRelistNFTs } from "./reducer/marketplace/functions-utils";
 import { MarketplaceContext } from "./marketplace-context";
 import { useEffect, useReducer, useState } from "react";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
@@ -38,8 +36,7 @@ export default function MarketplaceProvider({
 
       onLoading(true);
       try {
-        const result = await getAllNFTS(state.account?.signer);
-        updateItems({ items: result });
+        await updateMarketplace();
       } catch (error: any) {
         console.error("❌ Error while getting all nfts:", error);
         messageError("get all nfts");
@@ -48,6 +45,7 @@ export default function MarketplaceProvider({
         onLoading(false);
       }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.account?.signer]);
 
   // === Get Address Marketplace ===
@@ -86,7 +84,7 @@ export default function MarketplaceProvider({
 
       toastController.success("🎉 NFT created successfully!");
 
-      if (result) updateItems({ items: [result, ...state.items] });
+      if (result) await updateMarketplace();
 
       return result;
     } catch (error) {
@@ -98,7 +96,10 @@ export default function MarketplaceProvider({
     }
   };
 
-  const relistNFT = async (tokenId: number, price: string): Promise<void> => {
+  const relistNFT = async (
+    tokenId: number,
+    price: string
+  ): Promise<boolean> => {
     if (!state.account)
       throw new Error(
         "Wallet not connected. Please connect your wallet to continue."
@@ -124,24 +125,13 @@ export default function MarketplaceProvider({
       });
       toast.success("🎉 NFT relisted successfully!");
 
-      const marketplaceItems = await getAllNFTS(state.account.signer);
-      updateItems({ type: "SET_ITEMS", items: marketplaceItems });
+      await updateMarketplace();
 
-      const userItems = await _getAllUserNfts(
-        state.account.address,
-        state.account.signer
-      );
-
-      const filteredUserItems = filterRelistNFTs(
-        userItems,
-        state.account.address,
-        marketplaceItems
-      );
-
-      updateItems({ type: "SET_USER_ITEMS", items: filteredUserItems });
+      return true;
     } catch (error) {
       console.error("❌ Error while relist NFT:", error);
       messageError("relist NFT");
+      return false;
     }
   };
 
@@ -152,18 +142,11 @@ export default function MarketplaceProvider({
       );
 
     try {
-      const { buyer } = await _purchaseNFT({
+      await _purchaseNFT({
         itemId,
         signer: state.account.signer,
       });
-
-      const updated = state.baseItems.map((item) =>
-        item.itemId === itemId ? { ...item, sold: true, owner: buyer } : item
-      );
-
-      updateItems({ type: "SET_USER_ITEMS", items: updated });
-      updateItems({ items: updated });
-
+      await updateMarketplace();
       return true;
     } catch (error) {
       console.error("❌ Error while purchasing NFT:", error);
@@ -173,6 +156,23 @@ export default function MarketplaceProvider({
   };
 
   // === Getters ===
+
+  const updateMarketplace = async () => {
+    if (!state.account)
+      throw new Error(
+        "Wallet not connected. Please connect your wallet to continue."
+      );
+
+    const { allNFTs, marketplaceNFTs, userNFTs } = await loadAllNFTs(
+      state.account.signer,
+      state.account.address
+    );
+
+    updateItems({ type: "SET_ITEMS", items: allNFTs });
+    updateItems({ type: "SET_USER_ITEMS", items: userNFTs });
+    updateItems({ type: "SET_ITEMS_MARKETPLACE", items: marketplaceNFTs });
+  };
+
   const getAccount = async (): Promise<void> => {
     onLoading(true);
     try {
@@ -190,26 +190,8 @@ export default function MarketplaceProvider({
     }
   };
 
-  const getAllUserNfts = async () => {
-    onLoading(true);
-
-    try {
-      const result = await _getAllUserNfts(
-        state.account!.address,
-        state.account!.signer
-      );
-      updateItems({ type: "SET_USER_ITEMS", items: result });
-    } catch (error: any) {
-      console.error("❌ Error while getting all user nfts:", error);
-      messageError("get all user nfts");
-      onError(true);
-    } finally {
-      onLoading(false);
-    }
-  };
-
-  const getNFT = (tokenId: number): IPxl | null => {
-    const found = state.items.find((item) => item.tokenId === tokenId);
+  const getNFT = (itemId: number): IPxl | null => {
+    const found = state.items.find((item) => item.itemId === itemId);
 
     if (!found) return null;
 
@@ -232,11 +214,12 @@ export default function MarketplaceProvider({
   };
 
   // === Util reducer functions ===
+
   const updateItems = ({
     type = "SET_ITEMS",
     items,
   }: {
-    type?: "SET_ITEMS" | "SET_USER_ITEMS";
+    type?: "SET_ITEMS" | "SET_ITEMS_MARKETPLACE" | "SET_USER_ITEMS";
     items: IPxl[];
   }) => dispatch({ type: type, payload: items });
 
@@ -250,7 +233,7 @@ export default function MarketplaceProvider({
     dispatch({ type: "SET_ERROR", payload: value });
 
   const messageError = (functionAction: string) => {
-    toast.error(`Failed to ${functionAction}`);
+    toast.error(`Failed to ${functionAction}, please try again later.`);
   };
 
   return (
@@ -265,7 +248,6 @@ export default function MarketplaceProvider({
         account: state.account,
         updateItemsOrder,
         onFilterByRarity,
-        getAllUserNfts,
         purchaseNFT,
         getAccount,
         relistNFT,

@@ -13,7 +13,7 @@ export interface IMarketplaceContext {
   createNFT: (pxl: IPxlCreate) => Promise<IPxl | null>;
   getNFT: (tokenId: number) => IPxl | null;
   purchaseNFT: (itemId: number) => Promise<boolean>;
-  relistNFT: (tokenId: number, price: string) => Promise<void>;
+  relistNFT: (tokenId: number, price: string) => Promise<boolean>;
   onFilterByRarity: (rarity: string) => void;
   updateItemsOrder: (
     order: "low-to-high" | "high-to-low",
@@ -24,6 +24,5 @@ export interface IMarketplaceContext {
     status: "all" | "sold" | "purchase" | "relist"
   ) => void;
 
-  getAllUserNfts: () => Promise<void>;
   getAccount: () => Promise<void>;
 }
