@@ -33,7 +33,7 @@ export default function Attributes() {
 
               <div className="flex flex-col gap-y-2">
                 {attr.variants.map((variant) => (
-                  <Card className="bg-card-super-light p-3 group">
+                  <Card className="bg-card-super-light p-3 group" key={variant}>
                     <p className="text-text-secondary group-hover:text-text-primary transition-colors">
                       {variant}
                     </p>

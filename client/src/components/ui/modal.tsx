@@ -40,7 +40,7 @@ export default function Modal({
       className="relative z-50"
     >
       <div
-        className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/30  transition-opacity "
+        className="fixed inset-0 flex w-screen items-center justify-center p-4 bg-black/30  transition-opacity  "
         onClick={() => {
           if (!disableOutsideClick) onOpen();
         }}

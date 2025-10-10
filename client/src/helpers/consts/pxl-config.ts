@@ -19,7 +19,7 @@ export const CONFIG = {
     probability: 45,
   },
   beard: {
-    variants: ["variant04", "variant06", "variant01"],
+    variants: ["variant01", "variant04", "variant06"],
     probability: 35,
   },
 };

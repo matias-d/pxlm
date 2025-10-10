@@ -15,6 +15,7 @@ export default function MenuUser() {
         <AvatarUI username={account?.address} />
       </MenuButton>
       <MenuItems
+        modal={false}
         transition
         anchor="bottom end"
         className="mt-2 z-20 transition duration-100 ease-out focus:outline-none data-closed:scale-95 data-closed:opacity-0"

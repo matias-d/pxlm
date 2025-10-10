@@ -87,7 +87,7 @@ export default function ModalSave({
                 visibility: isActive ? "visible" : "hidden",
               }}
             >
-              <PXLCard.Card tokenId={pxl.tokenId}>
+              <PXLCard.Card itemId={pxl.itemId}>
                 <PXLImage
                   classNameContainer="size-[18.75rem] bg-card-super-light"
                   alt={`PXL Media #${pxl.tokenId}`}

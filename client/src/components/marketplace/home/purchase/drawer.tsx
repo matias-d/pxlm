@@ -14,19 +14,12 @@ import { toast } from "sonner";
 
 interface Props {
   type?: "cart" | "single";
-  afterPurchase?: () => void;
   onOpen: () => void;
   open: boolean;
   items: IPxl[];
 }
 
-export default function Drawer({
-  onOpen,
-  open,
-  items,
-  type = "cart",
-  afterPurchase,
-}: Props) {
+export default function Drawer({ onOpen, open, items, type = "cart" }: Props) {
   useDisableScroll(open);
 
   const { purchaseNFT } = useMarketplace();
@@ -72,10 +65,7 @@ export default function Drawer({
         const success = await purchaseNFT(item.itemId);
 
         if (!success) {
-          toast.error(`Failed to purchase NFT #${item.tokenId}`, {
-            id: toastId,
-            duration: 1200,
-          });
+          toast.dismiss(toastId);
           throw new Error(`Failed to purchase NFT #${item.tokenId}`);
         }
       }
@@ -84,7 +74,6 @@ export default function Drawer({
       Confetti();
       setStatus((prev) => ({ ...prev, success: true }));
       onEnd();
-      if (afterPurchase) afterPurchase();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
     } finally {

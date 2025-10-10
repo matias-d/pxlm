@@ -59,10 +59,8 @@ export default function Item() {
       <Drawer
         items={[selected]}
         onOpen={onOpenDrawer}
+        type="single"
         open={isOpen}
-        afterPurchase={() =>
-          navigate("/marketplace/collection?filter=purchased")
-        }
       />
     </>
   );

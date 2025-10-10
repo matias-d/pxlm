@@ -77,6 +77,7 @@ export default function Artwork({
                 <p className="font-display font-semibold text-base lg:text-xl">
                   {pxl.price} TBNB
                 </p>
+                <button></button>
                 <AddedPrices addedPrices={pxl.addedPrices} />
               </div>
             </div>

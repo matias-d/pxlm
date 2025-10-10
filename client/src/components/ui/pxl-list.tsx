@@ -30,23 +30,64 @@ export default function PxlList({
 }: Props) {
   const { isOpen, onBuy, onOpenDrawer, pxls } = useDrawer();
 
-  if (loading) return renderLoading();
+  if (loading)
+    return (
+      <>
+        {renderLoading()}
+        <Drawer
+          type="single"
+          onOpen={onOpenDrawer}
+          open={isOpen}
+          items={pxls}
+        />
+      </>
+    );
 
   if (error)
     return (
-      <Error
-        action={() => (
-          <Button asChild className="h-12 text-sm ">
-            Try again
-          </Button>
-        )}
-        title="505 | A network error has occurred"
-      />
+      <>
+        <Error
+          action={() => (
+            <Button asChild className="h-12 text-sm">
+              Try again
+            </Button>
+          )}
+          title="505 | A network error has occurred"
+        />
+        <Drawer
+          type="single"
+          onOpen={onOpenDrawer}
+          open={isOpen}
+          items={pxls}
+        />
+      </>
     );
 
-  if (!items.length) return renderNotItems();
+  if (!items.length)
+    return (
+      <>
+        {renderNotItems()}
+        <Drawer
+          type="single"
+          onOpen={onOpenDrawer}
+          open={isOpen}
+          items={pxls}
+        />
+      </>
+    );
 
-  if (layout && layout === "table") return <PxlListTable items={items} />;
+  if (layout && layout === "table")
+    return (
+      <>
+        <PxlListTable items={items} />
+        <Drawer
+          type="single"
+          onOpen={onOpenDrawer}
+          open={isOpen}
+          items={pxls}
+        />
+      </>
+    );
 
   return (
     <>

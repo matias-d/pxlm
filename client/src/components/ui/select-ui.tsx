@@ -56,7 +56,10 @@ export default function SelectUI({
               />
             </ListboxButton>
 
-            <ListboxOptions className="outline-none absolute top-full left-0 right-0 bg-card-light overflow-hidden rounded-md lg:mt-1 border border-border shadow-lg z-50">
+            <ListboxOptions
+              modal={false}
+              className="outline-none absolute top-full left-0 right-0 bg-card-light overflow-hidden rounded-md lg:mt-1 border border-border shadow-lg z-50"
+            >
               {fields.map((option) => (
                 <ListboxOption
                   key={option.id}

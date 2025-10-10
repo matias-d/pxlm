@@ -4,7 +4,7 @@ import type { IPxl } from "@/interfaces/pxl";
 import { useEffect, useState } from "react";
 
 export default function useItem() {
-  const { getNFT } = useMarketplace();
+  const { getNFT, marketplaceItems } = useMarketplace(); // ✨ Agregar marketplace para escuchar cambios
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<IPxl | null>(null);
@@ -23,9 +23,7 @@ export default function useItem() {
     }
 
     setSelected(item);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate, itemId]);
-
+  }, [navigate, itemId, getNFT, marketplaceItems]);
   return {
     selected,
   };
