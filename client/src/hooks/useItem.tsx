@@ -4,7 +4,7 @@ import type { IPxl } from "@/interfaces/pxl";
 import { useEffect, useState } from "react";
 
 export default function useItem() {
-  const { getNFT, marketplaceItems } = useMarketplace(); // ✨ Agregar marketplace para escuchar cambios
+  const { getNFT, marketplaceItems } = useMarketplace();
   const { itemId } = useParams();
   const navigate = useNavigate();
   const [selected, setSelected] = useState<IPxl | null>(null);

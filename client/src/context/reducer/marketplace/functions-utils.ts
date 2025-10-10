@@ -25,8 +25,6 @@ export function applyPriceOrder(
   });
 }
 
-// ==== Users items ====
-
 export function filterSoldItems(items: IPxl[], userAddress: string): IPxl[] {
   return items.filter(
     (item) =>
