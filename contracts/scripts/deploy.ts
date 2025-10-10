@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const { ethers } = await network.connect({
-  network: "ganache",
+  network: "bscTestnet",
   chainType: "l1",
 });
 

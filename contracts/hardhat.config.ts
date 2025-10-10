@@ -40,16 +40,19 @@ const config: HardhatUserConfig = {
       url: configVariable("SEPOLIA_RPC_URL"),
       accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
     },
-
-    ganache: {
+    // ganache: {
+    //   type: "http",
+    //   chainType: "l1",
+    //   url: "http://127.0.0.1:7545",
+    //   accounts: [
+    //       "Private ganache keys"
+    //   ],
+    // },
+    bscTestnet: {
       type: "http",
-      chainType: "l1",
-      url: "http://127.0.0.1:7545",
-      accounts: [
-        process.env.GANACHE_PRIVATE_KEY!,
-        process.env.GANACHE_PRIVATE_KEY_2!,
-        process.env.GANACHE_PRIVATE_KEY_3!,
-      ],
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      accounts: [process.env.PRIVATE_KEY!],
+      chainId: 97,
     },
   },
 };
