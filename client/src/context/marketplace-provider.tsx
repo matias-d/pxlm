@@ -89,6 +89,7 @@ export default function MarketplaceProvider({
 
       return result;
     } catch (error) {
+      toastController.dismiss();
       console.error("❌ Error while creating NFT:", error);
       if (error instanceof Error && error.message === WRONG_NETWORK)
         return null;

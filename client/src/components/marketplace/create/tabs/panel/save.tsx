@@ -37,7 +37,7 @@ export default function Save({ onPrevStep, pxl, onReset }: Props) {
       const resultNFT = await createNFT(pxl);
       setNFT(resultNFT);
       onOpen();
-      Confetti();
+      if (resultNFT) Confetti();
     } catch {
       setStatus((prev) => ({ ...prev, error: true }));
       setOpen(false);

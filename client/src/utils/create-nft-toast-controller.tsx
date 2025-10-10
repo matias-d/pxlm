@@ -34,5 +34,9 @@ export function createNFTToastController() {
     toast.error(message, { id: toastId });
   };
 
-  return { start, update, success, error };
+  const dismiss = () => {
+    toast.dismiss(toastId);
+  };
+
+  return { start, update, success, error, dismiss };
 }

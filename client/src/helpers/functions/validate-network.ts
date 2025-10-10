@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { toast } from "sonner";
 
-export const TBNB_CHAIN_ID = 1337; // BSC Testnet
+export const TBNB_CHAIN_ID = 97; // BSC Testnet
 export const WRONG_NETWORK = "Wrong network";
 
 export async function validateNetwork(signer: ethers.Signer) {
