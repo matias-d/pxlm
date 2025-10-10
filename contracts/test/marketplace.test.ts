@@ -28,8 +28,8 @@ describe("Marketplace", function () {
 
   describe("Deployment", function () {
     it("Should track name and symbol of the nft collection", async function () {
-      const nftName = "BotttsNeutralNFT";
-      const nftSymbol = "BNFT";
+      const nftName = "PXLM";
+      const nftSymbol = "PXL";
 
       expect(await nft.name()).to.equal(nftName);
       expect(await nft.symbol()).to.equal(nftSymbol);
