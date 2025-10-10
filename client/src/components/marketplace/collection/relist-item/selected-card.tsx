@@ -7,54 +7,37 @@ import DetailCard from "@/components/ui/detail-card";
 import useMarketplace from "@/hooks/useMarketplace";
 import type { IPxl } from "@/interfaces/pxl";
 import Button from "@/components/ui/button";
-import { useEffect, useState } from "react";
 import Input from "@/components/ui/input";
 import Modal from "@/components/ui/modal";
 import Card from "@/components/ui/card";
+import { useState } from "react";
 import { cn } from "@/lib/cn";
 
 interface Props {
+  onPrice: (price: string) => void;
+  onRelist: () => void;
   selected: IPxl;
-  items: IPxl[];
-  onSelect: (item: IPxl | null) => void;
+  price: string;
+  load: boolean;
 }
 
 const traitsType = ["Hat", "Beard", "Accesory", "Glasses"];
 
-export default function SelectedCard({ selected, items, onSelect }: Props) {
-  const { relistNFT, account } = useMarketplace();
+export default function SelectedCard({
+  selected,
+  onRelist,
+  onPrice,
+  price,
+  load,
+}: Props) {
+  const { account } = useMarketplace();
+
   const [open, setOpen] = useState(false);
-
-  const [price, setPrice] = useState(selected?.price || "");
-  const [status, setStatus] = useState({
-    load: false,
-    error: false,
-  });
-
-  useEffect(() => {
-    setPrice(selected?.price || "");
-  }, [selected]);
-
-  const onRelist = async () => {
-    onOpen();
-    setStatus((prev) => ({ ...prev, load: true }));
-    try {
-      const isSuccess = await relistNFT(selected!.tokenId, price);
-      if (isSuccess) onClear();
-    } catch {
-      setStatus((prev) => ({ ...prev, error: true }));
-    } finally {
-      setStatus((prev) => ({ ...prev, load: false }));
-    }
-  };
-
-  const onPrice = (newPrice: string) => setPrice(newPrice);
   const onOpen = () => setOpen(!open);
 
-  const onClear = () => {
-    const nextNFT = items.find((pxl) => pxl.tokenId !== selected?.tokenId);
-    onSelect(nextNFT ? nextNFT : null);
-    setPrice(nextNFT?.price || "");
+  const handleRelist = () => {
+    onOpen();
+    onRelist();
   };
 
   const owner =
@@ -127,8 +110,8 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
             </div>
             <div className="w-full flex  items-center justify-end">
               <Button
-                loading={status.load}
-                disabled={status.load}
+                loading={load}
+                disabled={load}
                 onClick={onOpen}
                 className="h-12 disabled:bg-accent/95"
               >
@@ -150,7 +133,7 @@ export default function SelectedCard({ selected, items, onSelect }: Props) {
           <Button className="h-12 px-12 btn-secondary" onClick={onOpen}>
             Cancel
           </Button>
-          <Button className="h-12 px-12" onClick={onRelist}>
+          <Button className="h-12 px-12" onClick={handleRelist}>
             Confirm
           </Button>
         </div>
