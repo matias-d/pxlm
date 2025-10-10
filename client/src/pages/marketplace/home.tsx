@@ -8,8 +8,8 @@ import NotItems from "@/components/ui/not-items";
 import Loading from "@/components/ui/loading";
 import Button from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
 import { useTitle } from "@/hooks/useTitle";
+import { Link } from "react-router";
 
 export default function Home() {
   useTitle("Marketplace - PXLM");

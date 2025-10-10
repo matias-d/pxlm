@@ -1,3 +1,4 @@
+import NetworkMessage from "@/components/auth/network-message";
 import ButtonConnect from "@/components/auth/button-connect";
 import { shortenAddress } from "@/utils/shorten-address";
 import useMarketplace from "@/hooks/useMarketplace";
@@ -35,6 +36,7 @@ export default function Auth() {
 
   return (
     <>
+      <NetworkMessage />
       <main className="max-container overflow-hidden flex flex-col items-center justify-center h-screen space-y-4 relative ">
         <Logo />
 
