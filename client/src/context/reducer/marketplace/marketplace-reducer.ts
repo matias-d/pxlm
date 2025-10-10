@@ -107,6 +107,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
   // Sort items by low and hight price
   SORT_BY_PRICE_USERS: (state, action) => {
     const sorted = applyPriceOrder(state.baseUserItems, action.payload);
+
     return { ...state, userItems: sorted };
   },
 
