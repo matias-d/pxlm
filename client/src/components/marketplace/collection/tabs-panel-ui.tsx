@@ -13,6 +13,7 @@ export default function TabsPanelUI() {
 
   const load = loading || (!account?.signer && !error);
 
+  console.log("USERITEMS", userItems);
   return (
     <div className="w-full">
       <Statics />

@@ -216,10 +216,21 @@ export async function loadAllNFTs(
     (nft) => !nft.sold && BigInt(nft.boughtAt) === 0n
   );
 
-  const processedUserNFTS = allNFTs.filter(
-    (nft) => nft.owner === address || nft.seller === address
-  );
+  const processedUserNFTS = allNFTs.filter((nft) => {
+    const isOwner = nft.owner.toLowerCase() === address.toLowerCase();
+    const isSeller = nft.seller.toLowerCase() === address.toLowerCase();
+    const isBuyer = nft.buyer.toLowerCase() === address.toLowerCase();
 
+    if (isOwner && (isSeller || isBuyer)) {
+      return true;
+    }
+
+    if (isSeller && !isOwner) {
+      return true;
+    }
+
+    return false;
+  });
   return {
     allNFTs,
     marketplaceNFTs: processedListedNFTS,
