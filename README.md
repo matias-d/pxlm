@@ -218,12 +218,12 @@ The platform is **pre-configured for Binance Smart Chain (BSC) Testnet** but sup
      bscTestnet: {
        url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
        chainId: 97,
-       accounts: [process.env.BSC_TESTNET_PRIVATE_KEY]
+       accounts: [process.env.PRIVATE_KEY]
      },
      sepolia: {
        url: "https://sepolia.infura.io/v3/YOUR_INFURA_KEY",
        chainId: 11155111,
-       accounts: [process.env.SEPOLIA_PRIVATE_KEY]
+       accounts: [process.env.PRIVATE_KEY]
      }
    }
    ```
@@ -231,10 +231,8 @@ The platform is **pre-configured for Binance Smart Chain (BSC) Testnet** but sup
 2. **Frontend Network Validation**:
    ```typescript
    // client/src/helpers/functions/validate-network.ts
-   export const SUPPORTED_NETWORKS = {
-     bscTestnet: { chainId: 97, name: "BSC Testnet" },
-     sepolia: { chainId: 11155111, name: "Sepolia" }
-   };
+   export const TBNB_CHAIN_ID = 97; // BSC Testnet
+   export const SEPOLIA_CHAIN_ID = 11155111;
    ```
 
 3. **Deploy to Different Networks**:
@@ -283,10 +281,12 @@ pxlm/
 │   │   ├── services/         # API and blockchain services
 │   │   ├── hooks/            # Custom React hooks
 │   │   ├── helpers/          # Utility functions
-│   │   └── interfaces/       # TypeScript interfaces
+│   │   ├── interfaces/       # TypeScript interfaces
+│   │   └── context/          # React contexts and reducers
+│   │       └── reducer/      # State management reducers
 │   ├── api/                  # Vercel serverless functions
 │   │   ├── pinata/           # Pinata API endpoints
-│   │   └── upload-image.ts   # Secure image upload
+│   │   ├── upload-image.ts   # Secure image upload
 │   │   └── upload-metadata.ts # Secure metadata upload
 │   └── public/
 │       └── abi/              # Contract ABIs and addresses
