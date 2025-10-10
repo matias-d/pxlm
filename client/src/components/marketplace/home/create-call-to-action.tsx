@@ -15,10 +15,10 @@ export default function CreateCallToAction() {
       </div>
       <div className="bg-black/30 absolute inset-0 "></div>
       <div className="h-full w-full flex flex-col lg:justify-end items-start gap-y-4 z-10">
-        <h1 className="text-3xl md:text-4xl lg:text-7xl font-accent font-black tracking-widest">
+        <h2 className="text-3xl md:text-4xl lg:text-7xl font-accent font-black tracking-widest">
           CREATE <br />
           YOUR PXL.
-        </h1>
+        </h2>
         <Button
           asChild
           className="flex items-center gap-x-1 btn-secondary lg:w-56 justify-center"
