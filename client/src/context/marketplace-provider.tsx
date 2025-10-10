@@ -13,6 +13,7 @@ import {
   loadAllNFTs,
 } from "../services/contracts";
 import { createNFTToastController } from "@/utils/create-nft-toast-controller";
+import { WRONG_NETWORK } from "@/helpers/functions/validate-network";
 import { MarketplaceContext } from "./marketplace-context";
 import type { IPxl, IPxlCreate } from "@/interfaces/pxl";
 import { useEffect, useReducer, useState } from "react";
@@ -89,6 +90,8 @@ export default function MarketplaceProvider({
       return result;
     } catch (error) {
       console.error("❌ Error while creating NFT:", error);
+      if (error instanceof Error && error.message === WRONG_NETWORK)
+        return null;
       messageError("create NFT");
       return null;
     } finally {
@@ -130,6 +133,8 @@ export default function MarketplaceProvider({
       return true;
     } catch (error) {
       console.error("❌ Error while relist NFT:", error);
+      if (error instanceof Error && error.message === WRONG_NETWORK)
+        return false;
       messageError("relist NFT");
       return false;
     }
@@ -150,6 +155,9 @@ export default function MarketplaceProvider({
       return true;
     } catch (error) {
       console.error("❌ Error while purchasing NFT:", error);
+      if (error instanceof Error && error.message === WRONG_NETWORK)
+        return false;
+
       messageError("purchase NFT");
       return false;
     }
@@ -167,8 +175,6 @@ export default function MarketplaceProvider({
       state.account.signer,
       state.account.address
     );
-
-    console.log("MARKETPLACE ITEMS CONTEXT", marketplaceNFTs);
 
     updateItems({ type: "SET_ITEMS", items: allNFTs });
     updateItems({ type: "SET_USER_ITEMS", items: userNFTs });

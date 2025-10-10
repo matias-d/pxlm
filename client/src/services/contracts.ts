@@ -11,6 +11,7 @@ import type { MarketplaceNFTs } from "@/interfaces/contracts";
 import { generateNFTMetadata } from "./generate-pxl";
 import { downloadSVG } from "@/utils/download-svg";
 import { ethers } from "ethers";
+import { validateNetwork } from "@/helpers/functions/validate-network";
 
 declare global {
   interface Window {
@@ -59,6 +60,8 @@ export async function _createNFT({
   signer,
   address,
 }: CreateNFTParams): Promise<IPxl> {
+  await validateNetwork(signer);
+
   onStepChange?.(0);
   const { attributes, bonuses, rarity_score, rarity_tier, url, price } = pxl;
 
@@ -139,6 +142,7 @@ export async function _relistNFT({
   price: string;
   signer: ethers.Signer;
 }) {
+  await validateNetwork(signer);
   const { marketplaceContract, marketplaceAddress } =
     await getMarketplaceContract(signer);
   const { nftAddress, nftContract } = await getNFTContract(signer);
@@ -172,6 +176,8 @@ export async function _purchaseNFT({
   itemId: number;
   signer: ethers.Signer;
 }) {
+  await validateNetwork(signer);
+
   const { marketplaceContract } = await getMarketplaceContract(signer);
 
   const totalPrice = await marketplaceContract.getTotalPrice(itemId);

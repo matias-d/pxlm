@@ -1,9 +1,8 @@
+import { TBNB_CHAIN_ID } from "@/helpers/functions/validate-network";
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
 import Button from "../ui/button";
 import { X } from "lucide-react";
-
-const TBNB_CHAIN_ID = 97; // BSC Testnet chainId
+import { ethers } from "ethers";
 
 export default function NetworkMessage() {
   const [open, setOpen] = useState(true);
