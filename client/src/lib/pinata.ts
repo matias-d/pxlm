@@ -8,15 +8,25 @@ export const pinata = new PinataSDK({
 });
 
 export async function uploadImageToPinata(imageFile: File, tokenId: number) {
-  const imageUpload = await pinata.upload.public.file(imageFile, {
-    metadata: {
+  const formData = new FormData();
+  formData.append("type", "image");
+  formData.append("file", imageFile);
+  formData.append(
+    "metadata",
+    JSON.stringify({
       name: `PXL ART #${tokenId} Image`,
-      keyvalues: {
-        tokenId: tokenId.toString(),
-        type: "image",
-      },
-    },
+      keyvalues: { tokenId: tokenId.toString(), type: "image" },
+    })
+  );
+
+  const imageRes = await fetch("/api/pinata-upload", {
+    method: "POST",
+    body: formData,
   });
+
+  if (!imageRes.ok) throw new Error("Image upload failed");
+
+  const imageUpload = await imageRes.json();
 
   return imageUpload;
 }
@@ -26,16 +36,25 @@ export async function uploadMetadataToPinata(
   tokenId: number,
   keyValues?: Record<string, string>
 ) {
-  const metadataUpload = await pinata.upload.public.json(metadata, {
-    metadata: {
-      name: `PXL ART #${tokenId} Metadata`,
-      keyvalues: {
-        tokenId: tokenId.toString(),
-        type: "metadata",
-        ...(keyValues ?? {}),
+  const metadataRes = await fetch("/api/pinata-upload", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      type: "json",
+      metadata: {
+        ...metadata,
+        name: `PXL ART #${tokenId} Metadata`,
+        keyvalues: {
+          tokenId: tokenId.toString(),
+          type: "metadata",
+          ...(keyValues ?? {}),
+        },
       },
-    },
+    }),
   });
+  if (!metadataRes.ok) throw new Error("Metadata upload failed");
+
+  const metadataUpload = await metadataRes.json();
 
   return metadataUpload;
 }
