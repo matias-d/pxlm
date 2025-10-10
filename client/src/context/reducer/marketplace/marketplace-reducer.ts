@@ -88,6 +88,28 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
     return { ...state, marketplaceItems: sorted, order: action.payload };
   },
 
+  // Filter items by rarity
+  FILTER_BY_RARITY_USERS: (state, action) => {
+    if (action.payload === "all") {
+      const sorted = applyPriceOrder(state.baseUserItems, state.order);
+      return { ...state, userItems: sorted };
+    }
+
+    const filtered = state.baseUserItems.filter(
+      (item) => item.rarity_tier.toLowerCase() === action.payload.toLowerCase()
+    );
+
+    const sorted = applyPriceOrder(filtered, state.order);
+
+    return { ...state, userItems: sorted };
+  },
+
+  // Sort items by low and hight price
+  SORT_BY_PRICE_USERS: (state, action) => {
+    const sorted = applyPriceOrder(state.baseUserItems, action.payload);
+    return { ...state, userItems: sorted };
+  },
+
   // Filter user items by status (sold, purchased or all)
   FILTER_BY_STATUS_USER_ITEMS: (state, action) => {
     if (!state.account?.address) return { ...state };
@@ -107,7 +129,7 @@ const UPDATE_STATE_BY_ACTION: UpdateStateI = {
       return { ...state, userItems: sorted };
     }
 
-    if (action.payload === "purchase") {
+    if (action.payload === "purchased") {
       const filtered = filterPurchasedItems(
         state.baseUserItems,
         state.account?.address

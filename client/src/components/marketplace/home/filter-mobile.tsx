@@ -4,7 +4,11 @@ import { useState } from "react";
 import Filters from "./filters";
 import { cn } from "@/lib/cn";
 
-export default function FilterMobile() {
+export default function FilterMobile({
+  to = "marketplace",
+}: {
+  to?: "marketplace" | "users";
+}) {
   const [open, setOpen] = useState(false);
 
   const onOpen = () => setOpen(!open);
@@ -35,7 +39,7 @@ export default function FilterMobile() {
               <X />
             </button>
           </div>
-          <Filters />
+          <Filters to={to} />
         </section>
       </div>
     </>

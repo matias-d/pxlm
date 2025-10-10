@@ -10,12 +10,17 @@ export const MarketplaceContext = createContext<IMarketplaceContext>({
   loading: false,
   error: false,
   progress: 0,
-  onFilterByStatusUserItems: () => {},
   purchaseNFT: async () => false,
   relistNFT: async () => false,
   createNFT: async () => null,
   getAccount: async () => {},
-  updateItemsOrder: () => {},
-  onFilterByRarity: () => {},
   getNFT: () => null,
+
+  // FILTERS & ORDERS
+  onFilterByRarity: () => {},
+  updateItemsOrder: () => {},
+
+  onFilterByStatusUserItems: () => {},
+  onFilterByRarityUsers: () => {},
+  updateItemsOrderUsers: () => {},
 });

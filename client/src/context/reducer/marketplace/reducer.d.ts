@@ -22,11 +22,13 @@ export type Action =
   | { type: "SET_ADDRESS_MP"; payload: string }
   | { type: "SET_USER_ITEMS"; payload: IPxl[] }
   | { type: "FILTER_BY_RARITY"; payload: string }
+  | { type: "FILTER_BY_RARITY_USERS"; payload: string }
   | {
       type: "FILTER_BY_STATUS_USER_ITEMS";
       payload: "all" | "sold" | "purchased" | "relist";
     }
-  | { type: "SORT_BY_PRICE"; payload: "low-to-high" | "high-to-low" };
+  | { type: "SORT_BY_PRICE"; payload: "low-to-high" | "high-to-low" }
+  | { type: "SORT_BY_PRICE_USERS"; payload: "low-to-high" | "high-to-low" };
 export type functionUpdate<T extends Action> = (
   state: IMarketplaceState,
   action: T
@@ -45,8 +47,14 @@ export interface UpdateStateI {
   FILTER_BY_RARITY: functionUpdate<
     Extract<Action, { type: "FILTER_BY_RARITY" }>
   >;
+  FILTER_BY_RARITY_USERS: functionUpdate<
+    Extract<Action, { type: "FILTER_BY_RARITY_USERS" }>
+  >;
   FILTER_BY_STATUS_USER_ITEMS: functionUpdate<
     Extract<Action, { type: "FILTER_BY_STATUS_USER_ITEMS" }>
+  >;
+  SORT_BY_PRICE_USERS: functionUpdate<
+    Extract<Action, { type: "SORT_BY_PRICE_USERS" }>
   >;
   SORT_BY_PRICE: functionUpdate<Extract<Action, { type: "SORT_BY_PRICE" }>>;
 }

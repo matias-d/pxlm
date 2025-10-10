@@ -15,15 +15,14 @@ export interface IMarketplaceContext {
   getNFT: (tokenId: number) => IPxl | null;
   purchaseNFT: (itemId: number) => Promise<boolean>;
   relistNFT: (tokenId: number, price: string) => Promise<boolean>;
-  onFilterByRarity: (rarity: string) => void;
-  updateItemsOrder: (
-    order: "low-to-high" | "high-to-low",
-    items: IPxl[]
-  ) => void;
+  getAccount: () => Promise<void>;
 
+  onFilterByRarity: (rarity: string) => void;
+  updateItemsOrder: (order: "low-to-high" | "high-to-low") => void;
+
+  onFilterByRarityUsers: (rarity: string) => void;
+  updateItemsOrderUsers: (order: "low-to-high" | "high-to-low") => void;
   onFilterByStatusUserItems: (
     status: "all" | "sold" | "purchased" | "relist"
   ) => void;
-
-  getAccount: () => Promise<void>;
 }

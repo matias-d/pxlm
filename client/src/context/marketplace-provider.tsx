@@ -229,6 +229,8 @@ export default function MarketplaceProvider({
   };
 
   // === Handle filters & sorting ===
+
+  // MARKETPLACE
   const updateItemsOrder = (order: "low-to-high" | "high-to-low") => {
     dispatch({ type: "SORT_BY_PRICE", payload: order });
   };
@@ -237,6 +239,14 @@ export default function MarketplaceProvider({
     dispatch({ type: "FILTER_BY_RARITY", payload: rarity });
   };
 
+  // USERS
+  const updateItemsOrderUsers = (order: "low-to-high" | "high-to-low") => {
+    dispatch({ type: "SORT_BY_PRICE_USERS", payload: order });
+  };
+
+  const onFilterByRarityUsers = (rarity: string) => {
+    dispatch({ type: "FILTER_BY_RARITY_USERS", payload: rarity });
+  };
   const onFilterByStatusUserItems = (
     status: "all" | "sold" | "purchased" | "relist"
   ) => {
@@ -272,9 +282,7 @@ export default function MarketplaceProvider({
         marketplaceItems: state.marketplaceItems,
         loading: state.status.loading,
         addressMP: state.addressMP,
-        userItems: state.userItems,
         error: state.status.error,
-        onFilterByStatusUserItems,
         account: state.account,
         items: state.items,
         updateItemsOrder,
@@ -285,6 +293,12 @@ export default function MarketplaceProvider({
         createNFT,
         progress,
         getNFT,
+
+        // USERS
+        userItems: state.userItems,
+        onFilterByStatusUserItems,
+        updateItemsOrderUsers,
+        onFilterByRarityUsers,
       }}
     >
       {children}

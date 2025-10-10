@@ -13,12 +13,22 @@ const fields2 = [
   { id: 5, label: "Epic", value: "epic" },
   { id: 4, label: "Legendary", value: "legendary" },
 ];
-export default function Filters() {
-  const { marketplaceItems, updateItemsOrder, onFilterByRarity } =
-    useMarketplace();
+export default function Filters({
+  to = "marketplace",
+}: {
+  to?: "marketplace" | "users";
+}) {
+  const {
+    updateItemsOrder,
+    onFilterByRarity,
+    updateItemsOrderUsers,
+    onFilterByRarityUsers,
+  } = useMarketplace();
 
   const onTogglePrice = (order: string) => {
-    updateItemsOrder(order as "low-to-high" | "high-to-low", marketplaceItems);
+    if (to === "marketplace")
+      updateItemsOrder(order as "low-to-high" | "high-to-low");
+    else updateItemsOrderUsers(order as "low-to-high" | "high-to-low");
   };
 
   return (
@@ -26,7 +36,9 @@ export default function Filters() {
       <SelectUI fields={fields} onSelect={onTogglePrice} />
       <SelectUI
         placeholder="Select attributes to filter"
-        onSelect={onFilterByRarity}
+        onSelect={
+          to === "marketplace" ? onFilterByRarity : onFilterByRarityUsers
+        }
         fields={fields2}
       />
     </div>

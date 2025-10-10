@@ -1,9 +1,11 @@
 import { TabPanel, TabPanels } from "@headlessui/react";
 import useMarketplace from "@/hooks/useMarketplace";
-import NotItems from "@/components/ui/not-items";
-import PxlList from "../../ui/pxl-list";
-import Button from "@/components/ui/button";
 import RelistItem from "./relist-item/relist-item";
+import NotItems from "@/components/ui/not-items";
+import Button from "@/components/ui/button";
+import FiltersUI from "../home/filters-ui";
+import useLayout from "@/hooks/useLayout";
+import PxlList from "../../ui/pxl-list";
 import Loading from "../../ui/loading";
 import { Link } from "react-router";
 import Statics from "./statics";
@@ -11,15 +13,19 @@ import Statics from "./statics";
 export default function TabsPanelUI() {
   const { error, loading, userItems, account } = useMarketplace();
 
+  const { layout, onLayout } = useLayout({ name: "users-layout" });
+
   const load = loading || (!account?.signer && !error);
 
   return (
     <div className="w-full">
       <Statics />
+      <FiltersUI layout="grid" onLayout={onLayout} to="users" />
       <TabPanels>
         {/* Panel All items */}
         <TabPanel>
           <PxlList
+            layout={layout}
             renderLoading={() => (
               <Loading label="Obtaining collection" withIcon />
             )}
@@ -44,6 +50,7 @@ export default function TabsPanelUI() {
         {/* Panel Items Sold */}
         <TabPanel>
           <PxlList
+            layout={layout}
             renderLoading={() => (
               <Loading label="Obtaining collection" withIcon />
             )}
@@ -59,6 +66,7 @@ export default function TabsPanelUI() {
         {/* Panel Items Purchased */}
         <TabPanel>
           <PxlList
+            layout={layout}
             renderLoading={() => (
               <Loading label="Obtaining collection" withIcon />
             )}
