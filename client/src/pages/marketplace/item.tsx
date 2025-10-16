@@ -30,7 +30,7 @@ export default function Item() {
 
   return (
     <>
-      <div className="fixed h-screen overflow-auto lg:overflow-hidden lg:h-[calc(100vh-4rem)] top-1/2 -translate-y-1/2 w-full lg:my-4 max-w-[1440px] lg:rounded-lg bg-card z-40 mx-auto left-0 lg:left-1/2 lg:-translate-x-1/2">
+      <div className="fixed h-screen overflow-auto lg:overflow-hidden lg:h-[calc(100vh-4rem)] top-1/2 -translate-y-1/2 w-full  lg:rounded-lg bg-card z-40 mx-auto left-0 lg:left-1/2 lg:-translate-x-1/2 lg:max-w-[90%] 2xl:max-w-[1440px]">
         <section className="h-full">
           <header className="sticky top-0 left-0 w-full bg-card-dark lg:static flex  items-center justify-between border-b border-border py-4 lg:pl-14 lg:pr-4 px-4 z-30">
             <ItemCarrousel selected={selected} />
@@ -42,7 +42,10 @@ export default function Item() {
             </button>
           </header>
           <article className="flex lg:flex-row flex-col items-start w-full lg:h-[calc(100%-3rem)]   ">
-            <ItemImage selected={selected} />
+            <ItemImage
+              selected={selected}
+              bonuses={selected.attributes.map((attr) => attr.value)}
+            />
             <ItemDetails
               selected={selected}
               renderButtonAction={() => (

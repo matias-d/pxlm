@@ -5,6 +5,7 @@ import Card from "./card";
 
 interface Props {
   bonuses: string[];
+  className?: string;
 }
 
 const COMBO_CONFIG = [
@@ -31,7 +32,7 @@ const COMBO_CONFIG = [
   },
 ];
 
-export default function SpecialCombo({ bonuses }: Props) {
+export default function SpecialCombo({ bonuses, className }: Props) {
   const bonusSets = bonuses.filter((bonus) => bonus !== "Fully Loaded");
 
   return (
@@ -55,11 +56,12 @@ export default function SpecialCombo({ bonuses }: Props) {
             <Card
               className={cn(
                 "rounded-full overflow-hidden p-1 size-16",
-                combo.classCard
+                combo.classCard,
+                className
               )}
             >
               <div className="rounded-full overflow-hidden">
-                <img src={combo.imgSrc} className="" />
+                <img src={combo.imgSrc} />
               </div>
             </Card>
           </Tooltip>
