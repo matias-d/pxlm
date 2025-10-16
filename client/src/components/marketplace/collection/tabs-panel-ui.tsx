@@ -20,7 +20,7 @@ export default function TabsPanelUI() {
   return (
     <div className="w-full">
       <Statics />
-      <FiltersUI layout="grid" onLayout={onLayout} to="users" />
+      <FiltersUI layout={layout} onLayout={onLayout} to="users" />
       <TabPanels>
         {/* Panel All items */}
         <TabPanel>
