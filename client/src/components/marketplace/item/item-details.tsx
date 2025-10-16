@@ -6,10 +6,10 @@ import AvatarUI from "@/components/ui/avatar-ui";
 import ItemButtonCart from "./item-button-cart";
 import Logo from "@/components/widgets/logo";
 import type { IPxl } from "@/interfaces/pxl";
+import useHistory from "@/hooks/useHistory";
 import ItemTabs from "./tabs/item-tabs";
 import Card from "@/components/ui/card";
 import { Copy } from "lucide-react";
-import useHistory from "@/hooks/useHistory";
 
 interface Props {
   selected: IPxl;

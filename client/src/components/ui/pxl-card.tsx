@@ -122,6 +122,8 @@ export function PriceDetails({ pxl }: { pxl: IPxl }) {
 export const LastPrice = ({ pxl }: { pxl: IPxl }) => {
   const { lastSale } = useHistory({ item: pxl });
 
+  console.log("LASTSALE", lastSale);
+
   if (!lastSale) return null;
 
   return (

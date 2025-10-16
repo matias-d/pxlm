@@ -19,7 +19,10 @@ export default function useHistory({ item }: Props) {
 
   const lastSale =
     lastListing &&
-    !(lastListing.buyer === ethers.ZeroAddress && lastListing.type === "sale")
+    !(
+      lastListing.buyer === ethers.ZeroAddress &&
+      (lastListing.type === "sale" || lastListing.type === "listing")
+    )
       ? lastListing
       : null;
 
