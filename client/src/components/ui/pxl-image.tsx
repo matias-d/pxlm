@@ -33,8 +33,16 @@ export default function PXLImage({
     <div className="relative">
       {isOwner && (
         <div className="absolute top-2 right-2 z-20">
-          <p className="text-xs bg-accent/95 text-[#D445AB] font-semibold border border-accent px-2 rounded-md">
-            Owned
+          <p className="text-xs bg-accent-secondary/80 text-[#c55009] font-semibold border border-accent-secondary px-2 rounded-md">
+            Purchased
+          </p>
+        </div>
+      )}
+
+      {isSeller && (
+        <div className="absolute top-2 right-2 z-20">
+          <p className="text-xs bg-accent-firthy/80 text-[#402fd3] font-semibold border border-accent-firthy px-2 rounded-md">
+            Collection
           </p>
         </div>
       )}
