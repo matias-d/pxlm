@@ -30,23 +30,26 @@ export default function ItemCarrousel({ selected }: Props) {
   }, [selected, marketplaceItems, startIndex]);
 
   const handlePrevious = () => {
-    if (marketplaceItems && startIndex > 0) {
-      const prevItem = marketplaceItems[startIndex - 1];
-      navigate(`/marketplace/item/${prevItem.tokenId}`);
-      setStartIndex((prev) => Math.max(0, prev - 1));
+    if (marketplaceItems && selected) {
+      const currentIndex = marketplaceItems.findIndex(
+        (item) => item.tokenId === selected.tokenId
+      );
+      if (currentIndex > 0) {
+        const prevItem = marketplaceItems[currentIndex - 1];
+        navigate(`/marketplace/item/${prevItem.tokenId}`);
+      }
     }
   };
 
   const handleNext = () => {
-    if (
-      marketplaceItems &&
-      startIndex < marketplaceItems.length - itemsPerPage
-    ) {
-      const nextItem = marketplaceItems[startIndex + itemsPerPage];
-      navigate(`/marketplace/item/${nextItem.tokenId}`);
-      setStartIndex((prev) =>
-        Math.min(marketplaceItems.length - itemsPerPage, prev + 1)
+    if (marketplaceItems && selected) {
+      const currentIndex = marketplaceItems.findIndex(
+        (item) => item.tokenId === selected.tokenId
       );
+      if (currentIndex < marketplaceItems.length - 1) {
+        const nextItem = marketplaceItems[currentIndex + 1];
+        navigate(`/marketplace/item/${nextItem.tokenId}`);
+      }
     }
   };
 
@@ -56,9 +59,15 @@ export default function ItemCarrousel({ selected }: Props) {
 
   const visibleItems =
     marketplaceItems?.slice(startIndex, startIndex + itemsPerPage) || [];
-  const canGoPrevious = startIndex > 0;
+
+  const currentIndex =
+    marketplaceItems && selected
+      ? marketplaceItems.findIndex((item) => item.tokenId === selected.tokenId)
+      : -1;
+
+  const canGoPrevious = currentIndex > 0;
   const canGoNext = marketplaceItems
-    ? startIndex < marketplaceItems.length - itemsPerPage
+    ? currentIndex < marketplaceItems.length - 1
     : false;
 
   return (
@@ -79,7 +88,7 @@ export default function ItemCarrousel({ selected }: Props) {
               onClick={() => handleItemClick(pxl)}
               className={`size-10 rounded-md transition-all cursor-pointer ${
                 isSelected
-                  ? "ring-2 ring-blue-500 ring-offset-2 ring-offset-background"
+                  ? "ring-2 ring-accent ring-offset-2 ring-offset-bg"
                   : "opacity-50 hover:opacity-75"
               }`}
             >
